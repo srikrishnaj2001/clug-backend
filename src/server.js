@@ -17,6 +17,15 @@ const PORT = process.env.PORT || 8008;
 
 // Start server
 const startServer = () => {
+  // In production, skip database connection if no DATABASE_URL is provided
+  if (process.env.NODE_ENV === 'production' && !process.env.DATABASE_URL) {
+    console.log('No DATABASE_URL provided - running without database');
+    app.listen(PORT, () => {
+      console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT} (no database)`);
+    });
+    return;
+  }
+
   // Try to connect to database but continue if it fails
   dbConnection.testConnection()
     .then(connected => {
@@ -42,8 +51,19 @@ const startServer = () => {
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (err) => {
-  console.log('UNHANDLED REJECTION! 💥 Shutting down...');
+  console.log('UNHANDLED REJECTION! 💥');
   console.error(err);
+  
+  // Don't exit if it's a database connection error in production
+  if (process.env.NODE_ENV === 'production' && 
+      (err.message?.includes('ENETUNREACH') || 
+       err.message?.includes('SequelizeConnectionError') ||
+       err.code === 'ENETUNREACH')) {
+    console.log('Database connection error in production - continuing without database');
+    return;
+  }
+  
+  console.log('Shutting down...');
   process.exit(1);
 });
 
