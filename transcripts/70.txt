@@ -1,0 +1,1112 @@
+
+00:00:00
+hey guys welcome to my 2024 react crash course so this is something I do every two to three years not just with react but all the big Frameworks just to kind of keep up to date so this course is designed to get you up and running with react as quickly as possible and this is geared toward beginners so if you've never used react before you're in the right place and we're going to build a front end for a joob listing website and you'll be introduced to Concepts like components props state hooks data
+
+
+00:00:31
+fetching and much more and we'll also be using the react router to create a mult uh multi-page application also in the real world you you're going to be working with backend data and apis so we're going to use the Json server library to create a mock rest API as our back end now one thing I want to mention real quick is that react 19 is right around the corner and it does add some new features many of those features are under the hood meaning that the concepts of react when it comes to writing the
+
+
+00:01:03
+code and the fundamentals those aren't going to change as far as what we're doing here so the biggest change to react 19 is that they're adding a compiler which will convert react code into regular JavaScript potentially doubling performance so it'll work in a similar way to uh Frameworks like spelt now we're going to be using version 18 in this video as 19 isn't released yet but all the Core Concepts that we're going to talk about are the same so it doesn't matter if you're using 18 or 19
+
+
+00:01:33
+and I did do a video on react 19 a couple weeks ago and we used the experimental version of react to test out some of the new features so that might be something that you want to watch after this if you're interested all right so we're going to take a look at some slides and then we'll get right into learning react okay so like I said we're going to spend a little bit of time with some slides just to kind of give you an overview of what react is and what it entails and I'm going to warn you that
+
+
+00:02:05
+it may be overwhelming if this is your first introduction to the library and that's why I like to to be more Hands-On and jump right in but it can be helpful to have an overview just so you understand what react actually is in some of the terms that we'll be using so what is react it's a JavaScript library for building user interfaces and it allows us to build user interfaces and front ends of websites and applications using components which I'll talk about soon and it's maintained it was created
+
+
+00:02:36
+and maintained by Facebook and a community of individual developers and companies you probably have heard react referred to as a framework I refer it to it as a framework all the time but it's actually uh a UI library to be specific and the difference is that a framework is a complete solution so angular for instance is a full-featured framework because it includes a router an http client aate management library and much more and the reason that react is often referred to as a framework is because it
+
+
+00:03:08
+operates like one and it's in direct competition with Frameworks like angular so and in fact it's actually the most popular out of the major front-end Frameworks which are react vue.js angular and spelt and it's often used with other librar such as react router to create a full featured solution and also the ecosystem of react is huge so it can be used for a wide variety of applications such as single page apps serers side rendered applications and static websites which I'll talk I'll
+
+
+00:03:40
+talk more about those in a few minutes as well all right so why react now back in the day the web was very static you would click on a link and it would take you to another page the entire page would refresh this was the state of the web for a long time then came along Ajax and this allowed us to make requests to the server and get data without having to refresh the page and this was kind of a game Cher in terms of of the user interfaces so it allowed us to build single page applications where we can
+
+
+00:04:12
+have a very Dynamic user experience but as this type of application and interface grows it can become very hard to maintain and this is where react and front-end Frameworks come in um we can build dynamic uis in a way that's easy to maintain and scale and if you've ever tried to build a large scale UI with vanilla JavaScript you know that it's quite a task and the code gets very unorganized and messy unless you you build your own framework or something like that so react and and these other
+
+
+00:04:44
+Frameworks make this much easier now traditionally just to talk about how it works kind of under the hood react used something called the virtual Dom the Dom meaning the document object model which you should be familiar with if you're not I would definitely recommend learning more vanilla JavaScript first but the virtual Dom is a lightweight copy of the actual Dom and when the state of a component changes the virtual Dom changes first and then react will compare the two the virtual Dom and the
+
+
+00:05:14
+actual Dom and it will update the parts that need to be updated so this is traditionally how react works that's how version 18 works that we're using now and every version before it however with the upcoming version 19 react will have a compiler that to my understanding will replace the virtual Dom and it'll make things faster and it will also automate some of the tedious tasks uh making react easier to work with overall now most of the reasons to use react also apply to the other frontend Frameworks
+
+
+00:05:45
+as well and if you ask me specifically why react over the other ones I would probably say jobs there's definitely a lot more react jobs than the others also the ecosystem is huge when it comes to um meta SSR Frameworks like next J s and remix you have react native for mobile development it's just it's definitely the most popular now I'm going to be 100% transparent with you guys the reason that I use react and the reason that I I do most of my courses and videos on react is because of its
+
+
+00:06:17
+popularity to me vue.js and spelt do a lot of things in a much more straightforward way so if you're not caring about jobs maybe you're a freelancer or maybe you're just trying to build your own products I would definitely look into other Frameworks as well um especially spelt and and Vue because again I think react just over complicates a lot of stuff it's don't get me wrong it's a great framework but if we're if we're just looking strictly at how we write our code using these Frameworks I think that
+
+
+00:06:50
+spelt and view are are easier um with that said that is just my opinion so take that with a grain of salt also these Frameworks basically do the same thing and once you learn one if you learn react now and then you want to jump to view it's going to be easy you just it's just syntax that changes the the core of what you're actually doing is the same you're still writing components you're still passing props you're still managing State it's just different syntax all right so speaking of
+
+
+00:07:21
+components components are the the core concept of not just react but any front-end framework and a component is a reusable piece piece of codee that can be used to build elements on a page components can kind of be thought of as custom HTML elements and components can be broken down into smaller ones this is called composition and this is a great way to build uis because it allows you to break down complex interfaces into smaller more manageable pieces and this makes your code easier to maintain and
+
+
+00:07:54
+scale and components can be either classes or functions however classes are kind of the older way of of doing things in react nowadays you're not really going to see class-based components they're all functional uh we will be using functional components in this course and in any other course I do um components can also take in props which are basically like arguments or attributes and they can also hold their own state or their own data now state is another thing that you're going to have
+
+
+00:08:24
+to wrap your head around when doing when working in the front end State represents the data that a component manages internally it allows components to store and manage their own uh their own data which can change over time and it'll change in response to user interactions or other factors now state is typically used for data that's expected to change such as user input fetch data from apis or UI related data like whether a model is open or closed and to Define state in a functional component you can use a hook and I'll
+
+
+00:08:57
+talk more about hooks in a second um you'll use the Ed State hook which is a built-in react hook and this will return an array with two elements the current state value and the function to update that state and we're again we're going to get into this I know that just hearing me say this doesn't tell you much we will get into examples now there's also something called Global state which relates to the app as a whole and not just a single component so this would be something like the data
+
+
+00:09:27
+that you fetch from your database you you probably want to share that with multiple components so there's ways to handle this everything from just keeping your Global state in your main component and passing it down to child components to the react context API which is beyond the scope of this tutorial but it is an option within react you can also use a third-party State management system like Redux okay now we're not going to get into context or Redux um but we will look at some Global State later on now
+
+
+00:10:00
+if you've never used react before hooks can be really intimidating they're also difficult to explain so bear with me once we start using them it'll be more clear now react hooks are functions that enable functional components to use State and other react features without writing a class because like I said react components used to be classes and they used to have something called life cycle methods which were methods that ran at specific times during the the component rendering process and and
+
+
+00:10:30
+functional components don't have life cycle methods because they're not a class so hooks allow us to do the same stuff that we could do within class components such as set State such as perform effects like data fetching on load things like that and basically right now at this point in your learning the two main hooks that you need to know are use State and use effect the others aren't really essential for you to know at least right now in fact three of them are being phased out in react 19 um as
+
+
+00:11:00
+you can see all hooks start with the word use so you can also create your own custom hooks to use within your components and that's not something you need to know right now but just know that you can create a hook that basically does anything all right so I just want to give you a full picture of what a component looks like so we know that it can have state associated with it which is just data and it can also take in props now the other part of a component is the output and the output is jsx or JavaScript syntax extension
+
+
+00:11:34
+and this is basically HTML or an HTML like syntax within your JavaScript that and that's what is actually returned from a react component so this is actually an example right here you can see there's uh it's a function called hero it's taking in some props a title and subtitle with a default and then it's returning what looks like HTML but this is actually jsx okay what's great about jsx is that it's Dynamic it's basically what HTML would be if it were a programming
+
+
+00:12:06
+language you can see right here we're outputting title and subtitle which are coming from these props all right you can also have Expressions you can have loops conditionals you can basically do anything within your jsx all right so there are some differences when it comes to HTML as you can see you can't use class because that's a reserved word in JavaScript so instead we use class name also for if you let's say you have a label with a four attribute that's going to be changed to HTML 4 so there are
+
+
+00:12:38
+some slight differences but for the most part it's just HTML all right now I was a little hesitant to even add this page because I I think it might confuse some people so if you don't understand it that's fine don't worry about it at the moment so there's different types of applications and websites you can build using react so what we're going to be doing today is a SP or a single page application and this is what these Frameworks were initially created for so basically it loads a single HTML file an
+
+
+00:13:08
+index HTML in the browser and then it it it loads a JavaScript bundle that includes your entire UI your entire application basically and this allows our interface to be very interactive and even if you go to a specific page like let's say you click on a link and go to slab it's not actually loading the about page on the server the JavaScript is loading that content for you so spars are like I said great for really fast Dynamic interfaces but it can have some issues when it comes to initial page
+
+
+00:13:43
+load times as well as SEO since the content comes from JavaScript so the solution for that is to create a server side rendered app which you can do with a framework like nextjs or remix now these Frameworks still they still use react you can kind of think of it as a wrapper around react and instead of everything being bundled in the JavaScript the initial page load is rendered on the server so this is good for SEO it's also good for the you know the initial page load time now an SSR or server side rendered app is a little
+
+
+00:14:19
+more difficult to deploy because you do need a server a single page app you can pretty much deploy to any any type of host um SSRS you use something like versel or uh netlify or something like that now the third option is static site generation so a static site is where the server generates a bunch of HTML files at build time so we have Frameworks like Gatsby and Astro that can do this and those Frameworks also use react so I know that this can get complicated because there's just so many damn
+
+
+00:14:55
+Frameworks but just know that they're all using react so what you learned today still applies whether you're using Gatsby whether you're using uh nextjs Astro you can actually use a react or view or spelt components um but yeah what you're learning today is basically the core of of all this other stuff so don't worry about learning this other stuff right now just know that it is available and just know that if you're confused that's completely normal you should be it's JavaScript you're always
+
+
+00:15:26
+going to be confused and I just realized this is react generate static HTML that's not really accurate um it it would be the The Meta framework like Gatsby that is generating it not react itself now there's a few ways to get started with react we're going to be using a tool called vit along with the react plug-in and getting set up is as easy as running this npm command now create react app was the most popular option to build a spa with react um and it's been around for a long time but
+
+
+00:15:58
+it's no longer recommended it's a bit bloated it's uh slower and as far as I know it's not supported anymore so vit is a newer Solution that's faster it has a better developer experience it's built on top of something called es build which is a very fast JavaScript bundler and it also has a built-in development server with hot module replacement so it's a great solution for building Spas with react um and and other Frameworks as well so that's it let's jump in and
+
+
+00:16:29
+let's get our hands dirty learning react all right guys so real quick I just want to explain how my crash courses go if you're new to them so basically the point of this is to teach you how to get up and running with react in this case and we want to go over all the fundamentals but I also want to create a project and end up with something that you can have that you built by the end of it so this is what we're going to create this react jobs website and it's just a uh job listings front end now as
+
+
+00:16:59
+far as the data itself it's going to be coming from uh a mock backend that we're going to create with Jason server it's really simple basically we just create a Json file with some data and we can then send get get requests put post delete and we're going to add crud functionality all right so as far as the template here the The Design This is a Tailwind theme that I created and in the repository you'll have your Source folder with you know all your components and react stuff and then this theme
+
+
+00:17:31
+filesor theme files is going to be just the HTML files um basically just a theme it's not going to actually fetch data or anything like that it'll all be hardcoded but it'll have all the classes and all the stuff that we need for styling so we'll be copying some of that as we go along because I I I like it to look decent now just to quickly go over this the homepage we have a hero component navbar component some box es and then we're going to fetch our jobs and list three of them on the homepage
+
+
+00:18:03
+we can toggle the description here just to give you you know an example of State uh component State and then if you click read more it'll take you to the page The Details page with all the info the company info there's buttons to edit and delete the jobs now we're not going to get into authentication that's something that would be separate from this crash course I do have videos with all different types of authentication and react but we'll have full frud functionality we have our ad page here
+
+
+00:18:32
+to add a job we have our jobs page which will show all the jobs again having this little toggle here so it's a pretty simple project but I think that it's it's a it's a good one to just kind of break you into react and and how everything works as far as components props events things like that all right so yeah that's what we'll be building the repository link will be in the description and as far as what you need you're just going to have to have node.js installed because we're using V
+
+
+00:19:02
+and we're using the node package manager to set that up so npm comes with node.js so just download that if you don't already have it I would suggest installing the react developer Tools in your browser we'll probably use those at some point you can see the components through you know through your browser and see any props and state and things like that so it's helpful and then react. deev is the new react website and this is where you can find all the documentation so you might want want to
+
+
+00:19:29
+just use that kind of as a supplement to the crash course all right so we can close this stuff up here um I'm just going to keep the the react Dev website open and I do have in Sublime Text I have the theme files so if I need to copy something from here you know to get the HTML and the classes we'll go ahead and just grab that so maybe just open the theme files up somewhere all right so we're going to start off by opening the terminal and just go to wherever you want to create your project folder I
+
+
+00:20:00
+have a folder called Dev that I'm going to use and then we're going to run npm create again make sure you have no JS installed or npm won't work so we're going to say create V at latest and then just whatever you want to call the folder I'm going to call it react crash d224 but you might want to call it like react jobs or something like that I'm just naming it this for for you guys for the repo and then as you can see you can use vanilla JavaScript view react and other Frameworks we're going to go ahead
+
+
+00:20:33
+and choose react and you can choose to use typescript if you want I'm going to go with just regular JavaScript and that's it that creates basically a boilerplate app for us so we can CD into the that folder that we just created and then from here I'm going to go ahead and open up visual studio code with code Dot and if you're using something else that's fine um just uh you know open open the folder in your in your text editor or IDE so let's just take a look at the file structure real quick so there's a v
+
+
+00:21:09
+config file and this is for any configurations for your Dev server as you can see we're bringing in the react plugin and using it here passing it into this array that's because we chose react when we were asked the questions one thing I like to do is change the port because by default it's I believe it's 517 three I prefer to use 3,000 for frontend stuff so what we can do is add in Ser a server object and then in that server object we can say port and then whatever you want so I'm going to use
+
+
+00:21:41
+3,000 so now if I open up I'm going open up my terminal within VSS code my integrated terminal and run first of all npm install because as you can see there's no node modules folder so we need to install the dependencies which are react react Dom and vit and then we have some plugins for um eslint as well as some types for typescript all right so once we do that as you can see in the package.json there's a Dev script so we can run npm run Dev and for me it's going to open on 3,000 because I changed that value in
+
+
+00:22:22
+the config so let's open that up and you should see a page like this just a landing page all right so now we have the dev server running let's just talk about the structure here for a minute so the index HTML remember this is a single page application and and this file is the single page because this loads in the browser and then everything else loads through JavaScript and as you can see here we're actually including the main. jsx file in the source folder including that as a module which is
+
+
+00:22:53
+really cool it's different than how you know create react app works with webpack so here I'm just going to change the title to react jobs and that should change as soon as I save it you can see up here um and then the way that this works if you're not familiar with frontend Frameworks they they all pretty much do this this same type of thing we have a div or I should say single page applications do the same thing there's a div and it has an ID of root if we go into the source folder this is our our
+
+
+00:23:25
+react application and the entry point is this main.js T file and in here we're bringing in react react Dom which is the library that allows it to work with the document object model or the browser and then on that react Dom object we have a create root and that gets passed in an element and as you can see we're we're selecting that root element by ID and then we're calling this render method and you can render whatever you want as your application and in this case we have this app component which comes from
+
+
+00:23:59
+this app.jsx file now I could change this to anything I want if I put an H1 here and say hello and I save that as you can see that's what's rendering as my application and it's styled because of this index. CSS so I want to just clean this up a bit I'm just going to undo that and put the app back um and then you also have this strict mode which is a wrapper component that'll check for potential problems in your app app so it'll check for things like deprecated and unsafe life cycle methods
+
+
+00:24:33
+uh Legacy context API usage things like that so what I want to do is is a little bit of cleanup so as far as the CSS you can see it comes with two CSS files index.css and app.css we're going to be using Tailwind so we need to install that and set it up um I'm just going to keep the index CSS so let's delete the app CSS and and the app.jsx is our main component and basically this is all the stuff you see right now on the homepage so what I'm going to do is completely wipe that away and just create uh
+
+
+00:25:10
+basically an empty component now components can they're functions and you can do a regular function so for instance we could do function app or you can do an arrow function so con con app and then use an arrow and you can type it out if you want but I would suggest using this extension here this uh it's called e ps7 react Redux react native Snippets and this gives you easy Snippets that you can use to generate components so what I like to do is RA Ace which is react Arrow function component and then export which will be
+
+
+00:25:45
+at the bottom so you see if I hit tab or enter it gives me an arrow function and has the export at the bottom now there's other Snippets like ra a if we do rafc it does do an arrow function that's what the a is but the export is here as opposed to the bottom and then for the regular function I believe is RFC so now you can see it's using the regular function syntax so you can use any of these but I'll be doing ra fce so if I save that now we should just see app now I want to get rid of all the CSS and as
+
+
+00:26:22
+you can see in the main. jsx it is including the CSS file and I'm going to keep that but let's just get rid of everything in that file for now okay so now we just have just an unstyled uh website so yeah that's pretty much how this works we have this div with the ID of root and then we're inserting our app into that using this render method all right now let's uh let's get Tailwind set up and there's uh some steps we can follow if you just Google let's say V V react
+
+
+00:27:02
+Tailwind so right here install Tailwind CSS with v so basically we need to install uh let's see we already did this created a v project so now we just need to install tailwind postcss and auto prefixer so I'm just going to grab that and then I'm going to open up a new console I'm going to just let that one run the server and we'll go ahead and run that and then we want to initialize tail with dasp so this this will create a Tailwind config file and the- P will create a post CSS config file so let's
+
+
+00:27:37
+go ahead and run that and now you can see Tailwind doc config post css. config then the Tailwind config we want to have this so I'm just going to copy that whole thing go to Tailwind config and just paste that in all right so basically it's going to watch anything that has a jst tsj SX or TSS extension it's going to look for Tailwind classes in any of those files in the source folder now there is a couple things I want to add here so in extend I'm going to say font family and I want to use the robotto
+
+
+00:28:13
+font so I'm going to say sanss and then in an array we can pass in robotto or whatever font you want to use and then Sans serif so it just allows you to pass in a font stack and then and also I want to have a a certain grid class for The Details page that's 7030 basically the left column will be 70 the right will be 30 so I'm going to say grid uh grid template columns and then we're going to just pass in here a string and say 70-30 so that'll be the class and then we want here
+
+
+00:28:55
+70% space and then 28% % we'll leave a little bit of room there okay so that's going to allow us to add a class later on that we need now my spell check is showing these blue squiggly lines so I'm just going to disable that extension just to get rid of those because that could be a little confusing okay so that's the Tailwind config now we just need to go to our index CSS and add these three lines which is going to load Tailwind so right here index CSS add those save it and then we should be all set so if
+
+
+00:29:35
+we go back to our application should uh let's see we might have to reload let's just stop the server and run it again um no utility classes were detected oh we don't have any Tailwind classes but that's the only reason it's saying this but you can see the font has changed and there's no margin or padding so Tailwind is being included in fact we can go to our app component and remember with jsx we can't use class we use class name so let's say class name and we'll
+
+
+00:30:10
+do text- 5xl which is a Tailwind class and there we go so Tailwind is now working so let's close that up and yeah we'll just put this here close that all right so we're going to talk a little bit about jsx so every react component is going to return jsx that's what this is right here which is an H HTML like syntax and I'm going to give you some examples of some things you can do here because it is dynamic um but one rule that you have to remember is that you can only return a single element
+
+
+00:30:45
+okay you can have as much stuff in that element as you want like inside this div but it can only return one so if I try to for instance uh and you can put parentheses around this as well whoops parentheses and you know put it on uh multiple lines but if I were to add a paragraph here like that you'll see I'm already getting an error in vs code it says jsx Expressions must have one parent element so if I save that that's going to give us an error same error over here because I'm returning a div
+
+
+00:31:19
+and a paragraph now if I wanted this div and this paragraph then I could simply wrap it in a single element so I could say div uh whoops I hate when it does this so I could say div and then end that here and that's absolutely fine okay so just remember that it has to be wrapped in a single element now you might not want an actual div here so what you can do is use what's called a fragment and it's just an empty HTML tag so just like this so if I do that you can see that still works but now it doesn't have a
+
+
+00:31:52
+surrounding div in the actual Dom all right so just remember that now to give you kind of a a little jsx crash course let's say we want to put a dynamic variable here so above the return I can just write JavaScript so for instance I'll create a variable called name and this isn't part of the project it's just to give you some examples so we'll do name and then I can put that value anywhere within my jsx wrapped in um curly braces so I could say hello and then curly braces name and
+
+
+00:32:26
+you see I get hello John and it doesn't have to be just a single variable it could be an expression for so for example I could say const x = 10 and const Y = 20 and then I could say um let's go under that we'll put another paragraph and I'll say the sum of and we'll put in X X and Y is and then I could do an expression I could say X x + y and if I save that I get the sum of 10 and 20 is 30 so basically you could put whatever you want in these in these curly braces now we can also use loops and we
+
+
+00:33:13
+can render something called a list so let's add up here let's say cons names and say we'll make this an array and we'll just put some names in here so Brad Mary uh Joe and Sarah so we get some names and let's say I want to Loop over these and output them in the browser so we can create a list by let's put this in a ul and it doesn't have to be a UL it could be anything but I basically want a list item that has these names inside so what we can do is open up some curly braces take our names array and
+
+
+00:33:51
+then we use map which is just the the vanilla JavaScript high order array method that takes in a function but we're going to return some jsx for each one so we'll say map and then name and then in here we can have whatever we'd like I'm going to use a list item and then we should have access to each name so this creates what we call a list if we check it out now you'll see the names are all in a list all right now if I open up my console we're going to see an error or a warning and and let's see it says me
+
+
+00:34:30
+just reload this okay so it says each child in a list should have a unique key prop so when you create a list whatever this element is inside the map has to have a unique key prop so we'll say key now if we had an ID in this array like if it was objects with IDs we could use that but since we don't what we can do is get the index by passing in a second argument here and then for the key we'll say that's going to equal and if you're going to set this to something Dynamic then you use curly braces so we'll say
+
+
+00:35:03
+key equals index and then if we reload that that error goes away so that's a list now we can also use um conditionals in within jsx now I can't I can't use like an if statement in here in in U curly braces like I can't do this if something um because it has to be basically a oneline expression um um one thing you could do is you could have different returns so let's say we have let's say logged in and set that to True right and then you might do something like if logged in so I'm doing this above the
+
+
+00:35:46
+return so if logged in then I could return I don't know we'll just say H1 and then hello member so if I did that then I see Hello member and none of this is going to render but usually you're going to want to have the conditional somewhere in here so in that case what we could do is get rid of that let's go underneath um the UL and we could use a Turner we can say if loged in then let's show an H1 and we'll say hello member else then we'll show we'll say hello guest so now if we take a look it
+
+
+00:36:35
+says hello member and if I change logged in to false it says hello guest now let's say you don't want to show hello guest you just want to show hello member if they're logged in so couple things you could do you could just put an empty string here so now it doesn't show anything or you could get rid of this the colon here and instead of using a turn eror you could just use a double amp per so basically this is going to return this if this is true so right now it doesn't show anything but if I change
+
+
+00:37:07
+logged in to true I should probably just make this smaller so if I change logged in to true now it says hello member okay so you can do all kinds of dynamic stuff in here and I like to say that jsx is what HTML would be if it were a programming language and it had logic now for styling there's a couple ways you can do this so obviously you can have your CSS file and you can add class uh class names okay remember you don't want to use class you want to use class name um but if you want to put inline style you can
+
+
+00:37:40
+actually do that within your JavaScript within your jsx so let's say for um I don't know I guess this this hello John right here let's add style now we're going to pass in here double curly braces if you're adding inline style like this and let's say we want to change the color so we would say color colon and then a string of red so it's not quite CSS but you have the same properties um but one difference is you're not going to have for like font size like let's put a comma here you're
+
+
+00:38:16
+not going to do font Dash size like you would in CSS you're going to do font size like that and we'll change that to let's say 24 pixels all right so if I save that now you'll see that that's styled differently now you can also put this stuff in a variable if you wanted to so up here let's say we want to do const and let's call this we'll just call it Styles oops con Styles and we're going to set that to an object that has color uh color red so make sure you put
+
+
+00:38:52
+it uh quotes because it's a string and then font size and for that we'll say let's say 55 pixels and then what you can do is instead of setting this you could just simply set it to uh in this case you would do single uh brackets or curly braces and then just add in Styles okay so now it's using this but we're not going to need to do anything like this because we're using Tailwind so all we have to do is add classes all right so none of this has to do with the project I just wanted to
+
+
+00:39:25
+kind of give you a little intro a little crash course to jsx so what I'm going to do is just get rid of all of it and ra fce once again and just clear all that up we can close this up for now so we want to start our project and the way that I want to do this is just start off by copying the entire homepage and putting it into our app our main app component and then break it up into smaller components so let's do that I'm going to go to Sublime Text because that's where I have my theme files
+
+
+00:39:58
+and we're going to go to index HTML okay so just open that up now we don't need the head stuff that's already in the the single page the index HTML so let's grab everything that's in the body so from this nav and then we want to go down to uh the last section we don't we don't want the um the script there so just just grab this and then we're going to put this as the return so let's return some parentheses and then paste all that stuff in now I'm sorry we can't do that
+
+
+00:40:32
+because remember it has to be inside of a parent so what we can do is use a fragment and then paste everything in that fragment now remember we don't want to use class it will work um well one thing that's not going to work is the comments here so you either have to comment it out with jsx syntax like this or just get rid of the comments uh I'm just going to I'm going to get rid of I guess I'll keep them we'll just comment these out so yeah you definitely want to either delete a comment them out
+
+
+00:41:06
+because you're going to get an error so job listing three and I just put the comments in just to kind of break everything up was that all of them let's see this one here developers and employers [Music] hero and to comment it out I'm just highlighting and doing command and forward slash or control forward slash logo we don't need that comment all right so now if I save that you'll see it actually does work um but if I were to open up the console it's going to tell me invalid Dom property class did
+
+
+00:41:43
+you mean class name so it's telling us to change these so what we can do is just highlight the first one and we can do a commander control shift L that will select all of them and then we're going to change it to class name save it and then that should if we reload that will get rid of the the warning okay so now we have our entire page inside of this the app component which obviously isn't what we want uh we want to break everything up into components so let's start off we'll just
+
+
+00:42:14
+go from top to bottom we'll start with the nav bar so that's this entire nav tag and everything in it so what we'll do is in the source folder we're going to create a new folder called components and in components I'm going to create a file called navb bar. jsx now a component can have a JS or a jsx extension and if you're using typescript it can be TS or TSX I prefer jsx so we're just going to do that and we'll do ra fce again and it's going to call it navbar because that's the name of the
+
+
+00:42:46
+file that's fine so I'll save that now to bring that in and use it into our main component we're going to go up to the top here and say import navbar from do/ components navbar and then we can put that anywhere in here we want let's just go right above the actual nav tag and say navbar just like a an HTML tag and there it is so now we're we're importing and using that component so let's take the the entire nav tag and everything in it and let's cut that if we save it you
+
+
+00:43:23
+can see now it's gone and I'm going to go into the navbar and I want to put that that as the return so we'll put some parentheses and then paste that in save it and now it's back okay but it's in its own component and if we were to use the react Dev tools so if you open up your uh tools down here and you go to components you can see we have our navbar component and it will show you any props or state which obviously right now we don't have any but that's a separate component a UI component so now
+
+
+00:43:57
+Let's uh let's do some stuff here you notice that the image isn't showing the logo so first thing we need to bring it into our file structure and I'm going to put it in the assets folder right now there's just this react SVG uh which we can just we can get rid of that and let's bring over so if you go in your theme files and you go to images you'll have the logo PNG so I'm going to bring that actually let's create let's create a folder are called images in the assets folder and then
+
+
+00:44:30
+we'll bring the logo into that all right and then what we can do is bring that image in to our navbar so we can say import let's say import logo from and then we need to navigate let's see we're in components so we want to go up one level into assets and then into images and then logo.png okay so we're going to bring that file in and then we can go down to the image where we have the logo which is right here and let's replace the source we're going to make it Dynamic so we need our
+
+
+00:45:11
+curly braces and then we can say logo and there we go so now the logo shows so now the Navar is its own component we'll come back to this later when we deal with the the routes and links and and that stuff but now let's deal with the hero so the hero is this section right here so I'm going to just get rid of that comment and then I'm going to cut this entire section and then in components let's create a file called hero. jsx and we'll do rafc and let's get rid of that and then
+
+
+00:45:45
+I'm going to paste in that section save it and then let's go to our appjs and do the same thing we'll bring in hero here hero and then we can embed it like that okay save and we still get the same thing but now the hero is in its own component in fact if we look at the dev tools again if we go to components you'll see we have navbar and we have hero now I want to go over props because remember I said we can pass in props to a component which are basically attributes so let's say we want to be
+
+
+00:46:26
+able to pass in in two things we want to pass in the title which would be this and the subtitle which would be the smaller text so we can pass it in let's say title and for now I'll just say test title and then let's pass in subtitle and I'll say this is the subtitle okay so by doing that nothing happens right so I mean I'm just passing it in I'm not using it in any way so let's go go into the hero close that up for now and then what happens is that props it'll get passed in here and you
+
+
+00:47:05
+can call this anything I'm going to call it props for now but in a minute I'm going to show you how we can destructure it as well so we want to put the title here instead of this hardcoded content so what we would do is open up our curly braces and we can say props do title and then here for this one we'll say props props dos subtitle and if I save that now whatever I'm passing in is going to get displayed as the title and subtitle now usually what you'll do is destructure this so instead of of just
+
+
+00:47:41
+props we could add some curly braces in here and then destructure the title and the subtitle like that and then wherever we use this we don't have to do props dot we can just do title and then here we can just do subtitle and that still works now you can also have default props so all we have to do is up here let's say for the default we want what we had become a react Dev and then for the subtitle set that uh what was it find find the react [Music] job that fits your skill set okay so if I save that nothing
+
+
+00:48:33
+happens because we're passing in the title and subtitle whatever we pass in is going to override the default props so let's get rid of these put it back to just hero and now we have our default prop content showing now we can also have wrapper components so in addition to just being able to to do this with the self-closing tag we could do something like let's say we had a card component and then you want to put you know whatever content inside of it so let's do that for these two cards here all right now instead of
+
+
+00:49:11
+of bringing in the card component that we're going to create into this file and having all that content here I want to keep this app file clean so what we'll do is create a component to hold all of our cards and we'll call that home cards I know we didn't create this yet but let's just embed it here and then bring it in we'll say import home cards uh from and it's going to be in components slash home cards okay and I know we haven't created it yet that's why we
+
+
+00:49:44
+have an error but let's go ahead we can get rid of that comment and then let's copy this entire section which ends right here okay so we're gonna not we're going to cut that and let's go into components right and in components we're going to create a new file called home cards. jsx rafc and then let's do get rid of this and then we'll paste in that section and then it should yeah there we go so it's working again so now this right here is its own component called
+
+
+00:50:23
+home cards but what I want to do is have each one of these be a card component that we can wrap the content in so whatever content we wrap will have this background color and I also want to pass in that background color as a prop or pass in the class as a prop so let's create another component called card. jsx rafc okay now this card component is going to take in as a prop it's going to take in uh we're going to destruct rure it's going to take in children so children is what we use for whatever we
+
+
+00:51:01
+wrap so if we pass in like an H1 into the card component we wrap the card or wrap the H1 in a card then this would be that H1 so that children we just want to display that um in the return now I do want to have the the card styling like the background and the the Shadow and all that so let's um let's make this a div that we return but let's add some classes so we'll say BG D gray d00 let's do padding -6 let's do rounded dlg and let's do Shadow Das MD all right so we'll do that and then
+
+
+00:51:52
+in here is where we want to Output the children which is going to be whatever it is we wrap so I'll save that and now let's go into home cards and let's import cards oops cards from uht slash not cards just card singular okay and then let's see where we have so we have the grid class and then these right here right so this BG gray and then this BG Indigo these are these two so I want to take everything that's in the BG gray div right here right this H2 and all this actually you
+
+
+00:52:35
+know what let's just take the whole thing or wait a minute no we'll take everything in it so the H2 the paragraph and the link I'm going to grab that and I'm going to copy it and then I'm going to cut or not cut but just delete this entire div and then this this is where I want to put the card and I want to wrap this stuff okay so this card now is basically just taking the place of the div this BG gray div and then let's do the same thing here we'll take the H2 the paragraph and the link we'll cut that
+
+
+00:53:15
+and then we'll replace this div with another card because you can have as many of the of the same component as you want then we'll paste that in now if I save you'll notice that they're both they both have a gray background because that's what we're using in the the card wrapper component but what I want to be able to do is pass in a class like this so I can change the background color so let's add another prop here so in addition to that it'll take in BG and I want to set a
+
+
+00:53:47
+default of the BG Das gray- 100 so that's what it will be if you don't pass in a BG all right now here we want to make this class name Dynamic so instead of hardcoding the be this right here we want it to be this variable so how do we do that well we have to instead of just using quotes we have to it's going to be dynamic so we need to use curly braces so let's do that and then let's get rid of uh where's my cursor let's get rid of this right here BG gray and then we're we're going to put
+
+
+00:54:27
+some back ticks in here so here and then here okay so right now it's just it has these hardcoded classes but since we're using a template literal now I can put a variable in here so I'm just going to do that and then put the BG variable here which by default will be this but I can also pass in a new one so if I save that now you'll see that's still gray but if I were to go to the second card here and then pass in b G and set that to let's say BG D Indigo Das 100 and save now I've changed
+
+
+00:55:07
+that so you can use props to not only change the content but to also change the styling so now we've come to the browse jobs and now we want to start to work with data a little bit now we don't have a backend yet so we're not going to be fetching these jobs just yet what we'll do for now is just use a Json file so let's um just open up the so from the repository in the source folder there's a jobs. Json file so I want you to take that and bring that over to your Source folder now at the moment this is an
+
+
+00:55:47
+object that has a job a named jobs array inside of it and the reason for that is because with Json server which we're going to use later that's how you need to format it but for now what I want you to do is just just have the array so we can get rid of this the curly brace and then the jobs so it's just starts with the bracket and then down at the bottom just get rid of that curly brace okay so now we just have an array of jobs and we can bring this into the files where we file where we need it now we could bring
+
+
+00:56:18
+it into you know into the uh we can close home cards but we could bring the data into the app component and then we could use it here but like I said I want to keep this app component clean so why don't we put the listings into its own component and then we'll have a single listing component which will be you know this this block so in components let's create a new file and we'll call this job listings. jsx and let's do rafc and then let's grab from the app this entire section
+
+
+00:56:54
+under browse jobs we can get rid of that comment and then this section see so this ends right here actually let's see do we want the H we'll put the we'll put the other section with the the view all button in its own component so let's just take this one section cut it and then in the job listings get rid of that paste this in save it let's go back to app let's import job listings and then let's add it here so job listings so you can see how we're cleaning this file up now it's going to
+
+
+00:57:39
+look the same right except now this is in its own component now I want this data because right now if we look at this the data is just hardcoded in the HTML I want it to come from that Json file like I said ultimately it's going to come from Json server which is a mock back in but for now we'll just bring in the data directly so we can do that by just saying import jobs from and we want to go let's see up one level into and then we want jobs. Json and just to make sure that we're
+
+
+00:58:15
+getting that we can just do a quick console log of jobs and then if we check out console see we have an an array of jobs all right now we want to show those jobs here um so what we'll do and this right here that you're seeing the log in my browser this is the the console ninja extension not the browser my editor this is uh from the console ninja extension if you want to check that out it's pretty cool so let's see we want to create a list remember I showed you a little while ago that if you have an array
+
+
+00:58:56
+which is is what this is jobs you can Loop through it and create a list using the map method so let's figure out where we need to do this so we have the grid here so why don't we inside of the grid create a list that will have a div like this with the BG white rounded XEL around all the jobs okay just like we see here same thing but we'll be using the actual data from the file so I'm going to go right above where it says job listing one and let's take let's say jobs. map and then that's going to take
+
+
+00:59:34
+in a function and we're going to return some jsx from that and the J and that's going to take job and then the jsx that I want is one of these divs one of these boxes so this div which ends right here I'm going to grab that and I'm going to cut that okay we don't need that we don't need these other listings now so let's get rid of job listing two and job listing three which ends right here make sure just make sure you get rid of the right divs all right so we're just we're really cleaning this
+
+
+01:00:16
+up as well and then inside here right inside the function is where I want to paste in that single div now if I save this you'll see it's going to show it a bunch of times it's showing the same data because that data is hardcoded but it's showing what 10 because that's what I have in the Json file so if we look here we have oh no it's six yeah ID 1 through six so it's showing me six boxes but it's all the same data so all we have to do now is replace the hardcoded data with the data
+
+
+01:00:54
+from each job which we're getting right here so for where it says fulltime let's change that to job Dot and then type so now those should be a little different fulltime this one says part-time okay so for the title this right here the hardcoded title let's get rid of that and let's say job. tile now all the titles are different then we have the description let's get rid of that and say um job. description okay now those are different then we have the salary so this right here uh let me see how are those
+
+
+01:01:37
+salaries formatted do they have okay so it's just the whatever K2 whatever K so the slash year will leave there but we'll replace this with job. salary um that should be a big k let me just fix this all right so let's see what else do we have here the location um and by the way you see we do have the font awesome it tag here we don't we're not using the font awesome CDN so it's not showing up the little map marker but I'm going to show you an extension that we can use called react
+
+
+01:02:23
+icons where you can uh basically bring in your font awesome icons as a component but we'll do that in a minute let's um change this to job. location and now you can see that the locations are different and then finally the link here is going to job. HTML which obviously isn't correct ultimately we want to be able to go to our website slash and then jobs and then slash whatever that job ID is so so let's change this to uh template literal so we'll put in some back ticks and we'll say slash job
+
+
+01:03:06
+slash and then we want the ID so job. ID like that okay so if I click it it's going to go to job SL2 in this case which doesn't exist yet but that's fine now another thing I'd like to do is to make this an actual component because right now in our job listings yes we have a list but we're just outputting a bunch of HTML let's make this into a single component that we can then show for every job so in components let's create a new file called job listing singular. jsx rafc and then that's going to take
+
+
+01:03:45
+in as a prop we'll destructure and that's going to take in a job and then what we can do is in the job listings within the map this div we're going to grab that ends right here we're going to cut it and then here we want to paste that in and basically it's going to get passed in that job prop and then we'll use it in all these different areas so now in job listings we can simply import job listing the singular and then what we want to render for each job is going to be job listing and it's going
+
+
+01:04:23
+to get passed in a job prop okay now remember when you have a list it also has to have a key or you're going to get that that error so let's say key equals and I'm going to set that to the jobs ID because that's going to be unique remember it has to be a unique value so if I save and reload you can see that it's still it's working okay and if we look at the dev tools here if we go to components you can see all of our you can see our tree of components Navar hero in the home
+
+
+01:04:55
+cards we have two cards components in job listings we have six job listing components all right and if we look at that you'll see over here the props which is all the job data so you can see how this UI is nice and organized now right everything is in UI components and it's easy to manage so if you were using just vanilla JavaScript you would have this giant monolithic file where you're just selecting all these elements using whatever a query selector uh and then you'd have to just create all these
+
+
+01:05:28
+different functions and it's just it gets very messy but with react or not just react but any front-end framework you have everything nice and neat for your UI okay and it might seem like more work at first but as you your application scales you you'll be you'll learn to appreciate it all right so on the homepage I actually don't want to show all of these I only want to show three um but I also want to use the same job listings component when we get to the jobs page so trying to think of
+
+
+01:06:05
+how how I want to do it right now I think right now let's just go to job listings and what we can do is uh let's see instead of just using jobs directly down here and and looping through let's do this let's say const recent jobs and let's set set that to the jobs array and then we're going to use slice and we'll say we want to get from zero to three so we only want the first three and then we'll replace this with recent jobs so now it's only going to Loop over those three save that
+
+
+01:06:42
+and there we go all right so this final thing this button if we look at our appjs that's the last thing we have so let's put that in its own component so we'll cut that section and then in components let's create view all jobs. jsx rafc and we'll replace this with that section okay and for the link here let's change that to just slash jobs because when we start to use the router that's what it'll be and then in the app file we can just bring that in so import View um what do I call
+
+
+01:07:27
+it yeah view all jobs why isn't it coming up slash slash view all jobs and then embed it here save it and there we go so now our app file is nice and neat so what I'd like to do next is get into State a little bit and the use State hook so remember there's two types of State you have component state which relates to a single component so one of these right navbar hero and then you have app level or Global state which you can it relates to the entire app and you can pass down to components um so what I want to look
+
+
+01:08:16
+at now is is is component State and I want to go into the job listing component so this right here here and basically I want to be able to toggle this description from being short where it ends around here and then we can have a button that says show more that we click and it'll show the rest so basically we'll have a piece of State called show full description okay and we can change that based on if we click that button so let's come up here and if you're going to add State you need to
+
+
+01:08:52
+use the Ed State hook so we're going to import use state and that's going to be from react okay now the way this works as I briefly showed you in the slides we're going to come above the return the output and we're going to have an some brackets here and we want to set that to use State okay now this is going to pertain to the the show full description and it's going to be a true or false value and in here you want to put whatever you want as the default so I'm going to say
+
+
+01:09:24
+false I don't want it to show uh flass false I don't want it to show by default and then in here we have two things the name of the state itself which I'm going to call show fo description and then the second is going to be the name of the function that we call to change that state and it's going to be whatever this is with just set in front of it so in this case it would be set show full description and camel case all right so now let's get the description so I'm going to go right above the return here
+
+
+01:10:06
+and I'm going to say let description and I'm going to set that to the job. description that's you know the job that's being passed in for each one of these and then if let's say if uh we'll say if not show full description then let's basically just cut off some of it so we'll take that description and we'll set it equal to whatever that whatever that description is except I'm going to use the substring method to cut it a little bit so we'll say 0 to 90 and then I want to
+
+
+01:10:50
+add onto it an ellipses The the three dots so I'm going to concatenate three three dots onto it and then what we can do is just replace job do description with that description variable so now if I save that you can see that they all got shorter and they have the little ellipses on the end all right so just to kind of reiterate I haven't done anything with this state yet all we've done is take the job description and if the value of show full description is false which it is by default then it's going to cut off
+
+
+01:11:26
+okay it's going to cut off after 90 characters and add the ellipses so now we want to have a little button that we can click and this is going to get us into events as well um but we want to be able to click that and show the full description so we can call this to change that so let's go down here and let's add that button so I'm going to put it we going to go right under the description which is right here okay and then we're going to add a button and I'm G to add some classes to
+
+
+01:11:57
+this let's do text- Indigo um text Indigo 500 and let's do margin bottom five and then I'm also going to add in on Hover then we want text- Indigo D600 and then in the button text so this I want this is going to depend on the state okay so this is where we show something different based on the state well we've already done that with you know cutting it off short but I'm going to have a a conditional in here Turner and I'm going to say if show if show full description is true then I want this um I want this
+
+
+01:12:42
+text to say less else then I want it to say more okay so if we save that check it out so it says more because set um set show fold description is false if I make it true by default it's going to show all the text and then this is going to say less so you can see just the value of that state changes my component so I'm going to put it back to false and then let's make an event so when we click that we then set that state to just the opposite if it's true it'll be set to false if it's false it'll be set
+
+
+01:13:18
+to true so to do that let's go to the button and let's add I'm just put it right here we're going to say onclick so when you want to add an event it's going to be onclick you have um uh onsubmit and it's going to be camel case like this not like vanilla JavaScript where it's all lowercase so on click what do we want to do we want to basically just call that set full uh set show full description now you don't want to just do set full description here because that'll actually call it
+
+
+01:13:54
+without even clicking on it you want to run a function and then call set show full description now you could do this you could say just set it to not whatever set full description is okay because when you call one of these methods uh whether it's set show full description or or Set uh I don't know set anything whatever you you have for your state it can take in a couple different things it can take in a straight value so in this case we're just setting it to the opposite or it can take in a function so if you pass a
+
+
+01:14:31
+function in you actually get here whatever the previous state is and you can call this whatever preve preve state and what we want to do is then set it to the opposite of whatever the preve state is so if it's true set it to false if it's false set it to True um because you you can do it the the way I just showed you just passing in the not set full description but you can run into some issues so this is a a better way of doing it passing in the function getting the previous state and then setting it
+
+
+01:15:02
+to whatever the opposite of that previous state so we'll save that and then let's come over here let's click more and now we see the whole thing and of course it's only the component where that we click that we're talking about okay these ones stay the same if I click less then it'll show less all right so this is I know we don't have a lot of this type of stuff in this project but that's the beauty of using a frontend framework is the ability to add this this kind of dynamic
+
+
+01:15:32
+stuff okay and you can picture using this for like a modal you have the open and close State um if you have a a menu a hamburger menu you have maybe menu you could have menu open like right here you could have menu open and set menu open or something like that so um hopefully this gives you just kind of a a good picture of of what component state is and what you can do with it now we're close to our homepage being done so let's take care of the icon because right now we have that in our job
+
+
+01:16:08
+listing component we have that it tag which isn't showing anything because we don't have the font awesome CDN but I don't want to use the CDN I want to use a separate package for that so this will kind of give you a little bit of experience in using additional packages so I'm going to go to my terminal here the one that's not running the server and we're going to say npm install react Das icons and this will allow you to work with not only font awesome but material icons and some of the other
+
+
+01:16:40
+packages as well so now that we have that installed we can go to any component we want so in job listing let's import and we can get from react icons but since we're using font awesome it's going to be SL fa and then there's a bunch of basically all the font awesome icons that are available here and they all start with fa and you can see here there's just tons of icons so the one that I want is called map marker this one right here and then what we can do is go down to where that it tag is now I still want uh
+
+
+01:17:19
+actually I'll just read the classes but let's let's replace this it tag with fa a map marker which is a component so basically the icon itself is a component and I'm just going to add some classes to this I want it to be in line side by side with the location text LG and then a little margin bottom so let's save that and now you can see we have our little icon let's actually put some margin on the right as well we'll say mr1 push that over a little bit so now anywhere you want icons you can bring it
+
+
+01:17:56
+in from react icons so I think now we're to the point where we want to start to add additional pages right we want the jobs page the ad job page so we can't do that with just react so this is this is where you know what I talked about earlier a library versus a framework being a library it doesn't have a way to add separate pages so we're going to use react router which is the basically the official router for react but it is a separate package so we need to install it so let's go
+
+
+01:18:33
+to um let's go to the terminal again and we're going to npm install and the name of this package is react router ddom okay make sure you add the dashd so we're going to install that and the the way that you set this up has changed a lot over time um in fact there's been at least two times where I've created a react course and then not too long later they changed it up on how to use this um and it can be a little the the boiler plate can be a little overwhelming for beginners so
+
+
+01:19:10
+just bear with me so we're going to put all the routing stuff in the the main app file so in the app jsx and react router is it's actually a pretty big package um it's it's buil the remix framework which is a server side rendering framework for react it's built on top of react router so there's a lot that you can do um we we're going to get into some stuff like data loaders that react router offers we're going to do that later on so just just be aware that it is there's a lot
+
+
+01:19:43
+to it and it can be a little overwhelming but I'm going to show you exactly how to create routes and you know so you can have multiple pages so let's import a few things from react router Dom again make sure you use the dash Dom at the end so we're going to bring in the route component we're going to bring in create browser router create uh it's called create routes from elements and also the router provider okay so we want to bring in those things now the way that this will work
+
+
+01:20:23
+is above the the return in the main app component we're going to create a variable called router and we're going to set that to create browser router which does just that it'll create our router and inside that we're going to then use create routes from elements and inside that is where we can use our route component so we're going to put in route and then you can put in a path here but this is going to be for the homepage so we'll we can actually just put an index and then you can have
+
+
+01:21:00
+an element represent that route so for now I'll just I'm just going to put in in H1 because you can do anything just to show you we'll just say my app okay now this isn't going to do anything just yet because we haven't um we haven't implemented the provider okay the provider is what provides the router and that's going to go down here so we're actually going to change this up and not embed these components in here cuz we're going to have separate pages so we can actually um get rid of all
+
+
+01:21:37
+this and all we're going to return is going to be the router provider so we're going to say router provider and don't worry we're still going to use those components they're just going to be used in a different way so let's say router provider and then that'll take in the router that we just created so if I save that now you can see we have my app and that pertains to the homepage row now if I were to set this let's say path equals slash about right and then I go
+
+
+01:22:10
+to slab then that's going to show that element okay so this does exactly what it says it creates a route with a path and it creates that from an element which in this case is a H 1 now I want to show a page for my for my index let's put that back to index so what what I do is create a separate folder because your your pages are components they're still react components but I don't want to put them in the same folder as the my regular UI components so let's create a a folder called Pages you might see it
+
+
+01:22:49
+called screens sometimes um but we're going to call it pages and then we're going to create a home page. jsx file and just like a regular react component we'll do rafc and on the homepage we want to bring in actually let's just save this for now and go back to app jsx and we no longer need to bring this stuff in here because we're not using it in our main app file so we can get rid of that but we do want to bring in our pages that we're going to use so we'll bring in homepage make sure it's from
+
+
+01:23:24
+pages and not components and then here we're going to render the homepage okay so now if I save that and we go uh about doesn't exist and I'll show you how we can create a custom 404 page as well but if we go to the homepage then we see the text homepage okay now in the homepage this is where I want to bring in um not the navbar because the Navar I want to show on all pages and we we don't want to have to bring it into every single page so we're going to create something called a layout um but
+
+
+01:24:00
+let's say the hero component for example that I only want on the homepage so that I would import let's say import hero from and then let's see we're going to go up one level into components and then hero and then let's uh we'll make this a fragment and then we'll put our hero component save that and now the hero component shows all right now like I said for the navbar and things like Footers that's stuff you want to show on every page so this is where layouts come in so we're going to
+
+
+01:24:42
+create uh another folder in the source folder called layouts and you can have multiple layouts this particular project will only have one but you can have multiple but let's call this main layout out. jsx and again this will be a react component now before we do anything here I just want to show you how to actually use the layout so we can bring it into our main app jsx let's say import main layout and then what we need to do is just create a parent route to the rest of our routes so let's go right here and
+
+
+01:25:20
+say route and say path and set that to to slash and then um the element is going to be set to the main layout okay and then we're going to surround this uh this parentheses should be here and then we're going to move that in here okay so basically if I save that you'll see main layout so now this is being applied we don't see the homepage anymore and I'll I'll show you how we can get that back in a second second but basically anything any routes we put in here are then going to use this
+
+
+01:26:00
+layout so in the main layout whatever route you're on that that content that page is going to come through the outlet so we're going to import outlet from react router Dom and then down here let's make that just a fragment and then get rid of the text and we want to Output here um we want to say Outlet okay it's it's an actual component now if I save that we're seeing the the hero again because we're on the homepage right we have no other routes so if I were to go to slab we're just
+
+
+01:26:40
+going to see this 404 okay but uh let's reload that that was just cached um but now we're seeing whatever whatever the content of the page r on now I want the navbar to show on every page so here here we're going to bring in the navbar say navbar that's going to be from dot do SL components navbar and then let's put that above the outlet so and there we go so now any page we're on is going to have the navbar and of course this this is much better than doing you know the vanilla
+
+
+01:27:20
+way of having separate HTML Pages where you have your separate header or your separate navbar code HTML on every page so now that we've done that let's see the next thing let's finish up the homepage basically we're just going to bring in the rest of our components that we had on the main in the main app file so what else we have the hero we have the home cards so going to bring that in from components slome cards and we'll put that right here okay so now those are showing there uh what else do we need the job
+
+
+01:28:07
+listings uh import job listings plural uh dot dot slash components job listings put that here so instead of just putting the stuff in the main app component we're putting it in the homepage okay then the last thing I think was the view all so view was it view all listings view all jobs all right we'll put that here and there we go so we have this which goes to SL jobs which doesn't exist yet so let's do that next let's create the jobs page in the jobs route so that's kind of the workflow from now on
+
+
+01:29:13
+is you create a new page and then you go to the app file and add the route so let's create a file in Pages called jobs page. jsx we'll say ra fce jobs page just save that for now and then let's add the route we can close this other stuff up let's add the route into app jsx so we need to bring in jobs page and then we can just copy this down except now we're going to change index to path and we're going to set that to slash jobs and change this the element to jobs page so now if we click on
+
+
+01:30:07
+jobs uh oh this is still going to jobs HTML and that's another thing I want to get to is links because it works a little bit different um we don't use a tags we use the link tag so uh but we can use the a tag it will work so I just want to real quick go into the nav box so components navbar and just change let's see this index HTML change that to slash change this to slash jobs and change this to slash add job all right so now if I click jobs it takes me to the jobs page right also this button
+
+
+01:30:45
+down here goes to SL jobs as well so now let's get into the link tag because we don't want to use a tags because it does a complete page refresh okay so if I click uh wait so if I click that if you look up here in the in the tab it shows the little uh little loader real quick right so by using the link tag it doesn't do an actual refresh so in the navbar let's import link uh actually it's going to be in curly braces so we want to import Port link from react router Dom and then we're
+
+
+01:31:30
+going to change any a tag we have such as this one which goes around the logo we're going to change it to link and then the href we're actually going to change it to two and then let's make this just slash which is the homepage all right so that one and then we have this one change that to link change this to two same thing here link make sure the ending tag changes as well two and this one all right so now let's save that and now I'm just going to reload this page if I click there you can see it goes to
+
+
+01:32:16
+the home and as I as I link and change Pages you see there's no refresh loader thing in the in the title it's it's very fast right because it's all it's all on the client and we want to change the link down here and the links for all these buttons to use the link tag so let's go to let's see what's next we'll go to the um where is it home cards yeah this home cards change that actually we need to bring it in so up top of Home cards let's import link okay and then this is going to be
+
+
+01:33:01
+two and it's going to go to slash jobs and then this one the add job let's change that to link change that to two and change that to just slash add job all right so that should work this does that route doesn't exist yet but it will then we have the the job listing component so let's go into that job listing and let's bring in link and then the a tag which is right here link to okay and then is that it I think yeah I think that's it did we do this one no view all jobs now we want to do that as
+
+
+01:34:01
+well okay and then change this and this all right cool now a couple things I want to do before we get to the jobs page so one thing I want to have a custom 404 cuz obviously this doesn't look very good so what we'll do is go into the theme files and I believe I have uh not found yeah right here not found so all we want here is this this section so I'm going to grab that and then let's create a new page so in Pages we'll say not found page jsx and rafc and then I'm just going to paste in
+
+
+01:34:50
+that section be sure to change all the instances of class to class name and let's see we're going to bring in link into this file as well so let's import link and then change this a tag to link and change the HRA to two and change this to just slash just slash uh why is this all right there we go so now let's go to actually do we have an icon yeah we do have an icon here so I'm also going to bring in FA exclamation triangle from react icons and then let's replace this this
+
+
+01:35:44
+it tag right here um I'm just going to copy these classes yeah and then we'll get rid of the it tag and then let's put in FA exclamation triangle and then class name paste in we're going to have text yellow and then um actually we don't need this fa class right here we're going to get rid of that let's add text- 6xl okay now to make this show on pages that aren't found we're going to go back to the main app component and let's import the not found page and then what
+
+
+01:36:25
+we can do is add a new route actually we'll just copy that down and we're going to set this to the not found page and for the for the path we're just going to put in an asterisk so this should be like a catchall so home should work jobs works if I go to add job we get 404 not found okay so any page that's not found you're going to get that which looks a lot better now the next thing I want to do is is the active link so right now you can see if I go to jobs the home is still active so if we open up the
+
+
+01:37:07
+navbar right here you'll see that the home link has a class of BG black so basically we want to show that BG black on whatever the the active Pages now we can do that by bringing in something called nav link instead of Link which which works it works in a very similar way except it adds a class to the active link and we can change all the instances of link to nav link and it'll work the same way so right here here here and then here all right so if we do that then this should still work the same way so
+
+
+01:37:54
+what we're going to do is go to the home link which is right here and for the class name let's just delete all this for now and and put some curly braces in here and what we can do is actually pass in an arrow like this and then in these parentheses we're going to pass in uh some curly braces and then put is active and then we can test to so this will be a true or false if the link is active if we're on that that page then this will be true so then for the class name we'll have a turn area and we'll
+
+
+01:38:30
+say if is active so if this link or this page is active then show a class else should have another class and I'm going to just copy all these right here and I'm going to put that in the first one but I'm also going to add in here uh BG Das black okay and then for the else this one I'm just going to put it in without the BG black so now if I save that so you can see it has a black background if I go to jobs it doesn't and we want to do that for all of these so what we can do is just copy
+
+
+01:39:09
+the first nav link actually you know a cleaner way to do this would be um to put this in a in a function up here and then just add it yeah why don't we do that that makes more sense so let's grab the function so this the parentheses and then the arrow so basically to this and let's cut it so that all you have now oops so that all you have now is just the curly braces and then we'll go up here and we want to go within the component and let's say const we'll call this link class and then set that and
+
+
+01:39:56
+then paste that in okay so now what we can do is just simply add for class name we can just add link class and we can do that for all of these so we'll take that do it for that one and for this one and now if I go to jobs now that's highlighted Okay add job I mean it still does the active link but it doesn't exist so you can see we make this you know dynamic um just by using navlink so let's do the job uh the jobs page which is going to be really easy because I want to reuse the job listings
+
+
+01:40:40
+component so let's um let's do this let's go into jobs page and let's bring in job listings and then let's see I'm just going to to make this a section and give it a class name of BG dblue D50 and PX4 and py6 and then all I'm going to have in here is the job listings component so let's add that okay so the issue here is that we're only seeing three and we want to show all of the listings so let's do this let's pass in a prop into job listings D structure
+
+
+01:41:30
+and it'll be called is home and we'll set it to false by default and then let's let's change this variable let's um yeah because instead of recent jobs we'll call it job listings and then we're going to say if is home then we want to set that to job slice just like we have it else then we want to set it to just jobs which is coming from the file which is going to be all of the jobs and then down here instead of creating a list with recent jobs we'll create it with
+
+
+01:42:11
+job listings so now if I save that you'll see now it shows all six now on the homepage it shows all six however let's go to our homepage and let's pass in that prop of is home and we'll set that to true so now if I save now we only see the three on the homepage so that takes care of that we could even change the title based on if it's home or not so let's say let's say this if is home then let's show um browse no we'll do recent yeah if it's home we'll say recent jobs else
+
+
+01:42:57
+we'll say all jobs or browse jobs yeah browse jobs so browse jobs recent jobs before we get into the single page right if we click on this we go to job slash and then the ID before we do that let's switch from just bringing in a Json file to actually fetching data from a back end and to do this we're going to use something called Json server which is a fantastic library that basically lets you create a mock API and you can send get post put patch delete requests so you can create crud functionality it can
+
+
+01:43:40
+be any resource you want because all you have to do is create a Jason file which we already have and you can put any type of resource you want in it so we can use our existing Json file we just have to basically put back what we changed which was make it an object that has uh a jobs a a named jobs array and then we can install Json server and then we can simply run it like this so we can create an mpm script to run the server which will run on a separate Port than our front-end react app all right so let's
+
+
+01:44:14
+do that let's uh for now just close all this stuff up and then the Json file the J s. Json file we're going to go ahead and just put opening curly brace here and then a closing one at the end and then we want to just name this array so we're going to put double quotes call this jobs and then set that to that array now that's going to break our application so if we go back you can see it's broken because it's just looking at the jobs file and it's looking for an array not an object with
+
+
+01:44:51
+a an array in that object so that's fine don't worry about it being broken for now we're going to fix it but let's come down and let's install Jason server so I'm going to install as a Dev dependency Jason uh Jason Dash right I believe it's I've done this so many times I don't know why I don't remember yeah it's Jason Dash server okay and then as far as the the command to run Jason server we're going to put that in our package Json file so let's go here and then let's add
+
+
+01:45:31
+in um yeah we're going to add in a server we'll put this at the bottom here just put a comma and then we'll call This Server and what we want to run here is going to be Json Dash server and we want to d-at in the source folder the jobs. Json file and then d-port now I I have something running on Port 5000 on this machine that's usually what I would use so I'm going to use 8,000 for the server but feel free to use whatever Port you want I think it's I think it's 5,000 by default I'm not
+
+
+01:46:15
+sure um but let's go ahead and save that and then I'm going to run so I already have my react Dev server running in this terminal so I'm going to go into this one and do npm run server and as you can see we have an endpoint of Local Host 8,000 jobs and if I go to that in the browser I'm now seeing my data I can even go to jobs slash and then the ID and I get the single post so it's it's just like if we built a rest API with Express or Django or anything else we can also make post
+
+
+01:46:49
+requests and add one uh and it'll get added to the actual Json file we can edit we can send a put request we can send a delete requests so we essentially now have a backend all right so so where I want to fetch this data is going to be from the job listings component because that's where that's the only place in this application where we need the jobs because we're using this component on both we can't see it now but we're using it on the homepage and on the jobs page so let's uh let's change this up a
+
+
+01:47:26
+little bit we're no longer going to just bring in the jobs file we're going to make a request and we're going to do that inside of a use effect hook because what the use effect hook does is it allows our components to to um have side effects and we want a side effect of fetching data when the component renders and when we get those those jobs from the API we want to put them in state so we want also want to bring in used state so let's import we're going to import Ed State and use effect from
+
+
+01:48:05
+react and as far as the uh let's see let's um yeah let's add the state we no longer need this because we're not dealing with um yeah we'll just get rid of that and then let's create our state so just like we did with the show details in the um job listing component we're going to add a piece of State here for our jobs so remember this takes two things the name of the state and then the name of the function to update the state so jobs and set jobs and then the default value we
+
+
+01:48:43
+want for jobs goes in here which is going to be just an empty array because it's going to be an empty array will make the request when the component loads through the use effect and then we'll fill this state with the response from the API now I'm also going to have a piece of State for the loading so loading and then set loading so that way we can show a spinner or something when it's actually fetching and I'm going to set that to use State and as a default I'm going to pass in
+
+
+01:49:14
+true and then once we do the fetching and it's done then we'll change it to false so now let's add our use effect so we're we're going to say use effect now the way this works is it takes in two things it takes in a function and then it takes in a dependency array so if you put something in here like let's say we had a variable called name or something like that if we put name in here then every time that name changes this use effect will run now you want to have an empty array in
+
+
+01:49:48
+here even if you don't have anything you know any variables you want to put in here because if you don't it's going to just be a NeverEnding Loop so you want to have this empty array in there in in most cases and then in this function here I want to do our fetching and I want to use a sync a we however you can't do this you can't say a sync right I can't do that and then in here say a weight fetch I can't do that so what we need to do is create a separate fun async function inside of
+
+
+01:50:22
+here so let's say cons fetch jobs set that to async and then we do our fetching and then just make sure you call it so right here we'll say fetch jobs so in here I'm going to do const res set that to await Fetch and we're going to pass in here let's say HTTP and then our back end which is Local Host uh Local Host and I'll show you how we can add a pro proxy uh after so we don't have to always put in this Local Host 8000 but for now we'll just add that and let's do slash jobs right
+
+
+01:51:03
+because that's what we saw in the browser uh so if I were to do Local Host 8,000 jobs that's our data so that's what I'm getting here and then let's do const data set that to await res. Json and that should give us our data and what we want to do is set jobs we're setting this this part of our state to the data that's returned now i' I mean we don't have to but I'd like to put this in a try catch so let's do that and we'll take these uh these three lines here and move
+
+
+01:51:44
+them into the try and then in the catch Oops in the catch I'm just going to do uh cons so log for now and say error fetching data and we'll also pass in error now we want to set loading to false whether it's successful or not so I could put set loading false here and in here but since we have a try catch we can just add a finally because whatever we put in here will run either way whether it fails or not so that's where we want to put our set loading and set that to false all right and
+
+
+01:52:27
+then yeah so that should work and it's going to put it into the jobs and then down here let's change job listings back to jobs so we'll save that and then let's go let's see home and now you can see we have six again which is fine we'll H we'll handle that if we go to the jobs page there we go so these are coming from our API now we're not just bringing in the file and using the data we're we're fetching from the the back end and putting it into uh putting it into the the job
+
+
+01:53:06
+State now let's use this loading value and come down here where we're we're creating the list with the with the map I'm going to go right above that and let's say if loading then we'll show for now we'll just do we'll just put in H2 and we'll say loading But ultimately I want to show a spinner and then else then let's show uh we'll just have a fragment and then I'm going to put this right here this job list into that fragment uh what did I do here loading
+
+
+01:53:46
+I'm sorry that should be a question mark there we go so now when I reload you can you can see it flashes loading on the screen real quick so that's that's when we're actually fetching the data now I want to use a spinner so there's a a package we can use called react Spinners that allows us to um to easily show a spinner you could just throw an image in there but uh I'm just going to use this so I'm going to open a new terminal cuz both of these are running whoops both of these are running
+
+
+01:54:19
+uh the the back end and the front end so let's say npm install react Das Spinners and let me just show you this real quick let see react Spinners yes so you can show like all these things I want the GitHub page okay so the way that we use it is like this we can uh let's see so we can bring we can use the clip loader so apparently there's different loaders we're going to use just use the clip loader and then put it in like this um yeah let's uh let's create a new component let's call it spinner.
+
+
+01:55:12
+jsx RAF CE so you can see literally everything is a component or can be a component so in this component let's import CLI uh what is it clip loader and that's going to be from react Spinners slash clip loader so we want to bring that in and then spinner is going to take in the loading State as a prop so let's destructure and add in loading and then we're going to return the clip loader component so here let's say clip loader and this is going to be a self closing yeah this is going to be a
+
+
+01:55:57
+self-closing component so let's say clip loader like that and then it's going to take in some arguments here some props so for the color let's do heximal 4338 CA and let's do loading which is going to be set to the Loading prop that's passed in and then we're going to add a CS override because we want to just add a couple custom styles to center it so let's set that to a variable called override and what we'll do is come up here and create const override just like
+
+
+01:56:35
+I showed you before we can put Styles in a variable so all I want to do is add a display of block uh put a comma here and then a margin let's say um we'll do 100 pixels top and bottom and auto left and right so that that'll put it in the middle and then we're adding that to the CSS override prop for the size we'll set that to 150 and yeah that should be good so let's save that now in our job listings we're going to bring that component in so import our spinner and we can come down here where
+
+
+01:57:17
+we have this loading and just replace that with the spinner component and then pass in our loading state so let's take a look at that if I reload okay you can see the spinner real quick it's not in the middle though U I'm not sure why as we have we have our override um yeah it should be in the middle oh we have it in the grid that's why okay so we should probably put this div inside yeah let's do that we'll put that here and then this ending div put that here so now there we go so now it's
+
+
+01:58:09
+in the middle and it should do the same thing on the homepage because remember it's the same component yep all right and now you can use that spinner wherever you fetch data and you want to show it so so let's take care of the the homepage having uh having all six we don't want to do that we only want to show three so what we could do there's there's so many different ways we could handle this but what I'm going to do is come up to the fetch jobs so we have is home being passed in so let's
+
+
+01:58:42
+utilize that so in the fetch jobs let's do const AP and let me just show you that you can add on to this with Jason server this is another cool feature you can do question markor limit equals 3 and if I save that now it's only showing three however the jobs page is also showing three so what we're going to do is first of all let's say API URL and we're going to set that and say if is home right so if is home is passed in if that's true then we want the a you want the URL to
+
+
+01:59:23
+be this because we want three else then we want it to be this without the limit okay and then we can simply replace this Fetch with the API URL so now we have six on the jobs page and we have three on the homage cool so now I'm going to show you how to add a proxy so that you don't have to add this because if we if we deploy this this project it's no longer going to be at Local Host 8000 so we need to create a proxy now if you've ever used create react app then you know that you do that within your
+
+
+02:00:02
+package.json with v it's a little different we do that within the config file so let's go to V uh V config and in the server object under the port we're going to add a proxy and basically we're going to say if it's if it is prefixed with SL API then we want to use this so we're going to set that to an object with a Target and that Target is going to be HTTP Local Host Port 8000 or whatever Port you use for Jason server we're going to add change origin and set that to true and then we're going to do a
+
+
+02:00:47
+rewrite and set that to that takes in a function with a path and we're going to then just use uh replace and pass in an expression for slash API so it's going to be double forward slash and then uh carrot back slash back SL SL API like that and replace that with nothing all right so that way if we do SL API slj jobs it's really going to hit Local Host SL jobs so let's try that out we'll come over here and then let's change this this and this to just slash API like that and let's reload and it still
+
+
+02:01:37
+works all right so now anytime you want to use the back end you want to send a request you simply do slash API and you're not going to have to change anything once you um you well you're going to have to change it here but you have to change it uh you know in every single file that you you that you make a request when you deploy so that's that's basically data fetching uh using use effect now there are other ways to fetch data so you're probably going to run into those um there is something called react suspense
+
+
+02:02:13
+which is included with react and it allows you to do a render while fetching what we're doing here is uh fetch on render because when it renders it has a side effect of fetching the data but suspense will allow you to render while fetching and you basically provide a fallback UI such as a spinner or a loading text whatever you pass that in as a prop or as an attribute um now I'm not going to do that in this video I think it's kind of beyond the scope I do have an older suspense tutorial from
+
+
+02:02:46
+from when it first came out or you can just check the documentation um what else there's also something called react query which is a third-party Library there's one called s SWR as well and that those make data fetching a little easier than this um so that's something you might want to check out as well but this is like the base way of of fetching from a client side component all right and then also with react 19 you have the new use hook which you can also um look into as well in fact that react 19 video I did I give
+
+
+02:03:21
+you some examples with that so there's a lot of that's the thing with react is there's so many different ways to to do the same exact thing and some people will say that's wrong you know do it this way and another person will say that that's wrong so you just need to kind of do what works for you all right so now we can start to work on the single page right this right here job slash and then the ID and the way that we're going to get this data is going to be a little different we're
+
+
+02:03:49
+going to use uh a data loader from react router which is actually pretty cool but we first have to create the actual page for the single job so let's close all that up and then under Pages let's create let's say job page singular and then jsx rafc save that and then before we add anything here let's create the route so we're going to go to our app jsx we're going to bring in the job page and then we want we want to add the route so that if we go to job slash and then any ID
+
+
+02:04:26
+that it loads this this page so I'm going to copy this down and let's do job page make sure you import it and then for the the path we're going to do job well actually you know what let's do jobs I like to kind of keep these the same even though it's a single job I think I'm going to keep jobs but you could you could do what you want and then we're going to do colon ID now the colon represents it basically signifies that this is dynamic so it's not a literal ID the Letter's ID that you're passing in
+
+
+02:05:03
+it's a it's a symbol or a variable for whatever the ID is all right so let's save that and then if we go back here and reload or let's just uh let's see why isn't that working so SL job oh because I have job ID so let's change the the link in the job listing component so job listing I'm going to say jobs slid so now click it and there we go so now we're seeing the job page and it doesn't matter what the ID is here we're still we're still loading that page now
+
+
+02:05:44
+let's close up job listing closeup app and again there's so many ways to fetch data and we could do the same exact thing we did in the job listings component we can use a use effect so that when this page loads uh we get the job now what I want to do is use a data loader from react router so this is going to work a little bit different than um than we did with the job listings now a data loader we basically create a function in this file and then we can export it from this file and then
+
+
+02:06:21
+use that function in in other areas so we can use this in basically as our Global state for for whatever this job is and pass it into other components so the way that we do this is let's see we're going to where should we do this let's go right under the function here the job page function and we're going to create a function I'm going to use an arrow but if you want to use a regular function you can we're going to call this job loader right and then we're going to set this to
+
+
+02:06:58
+async and it's going to take in actually we'll uh yeah we got to pass in params because that's how we're how we're going to get the ID you know what I'm going to show you how to do it with use effect first because I don't feel I don't feel confident enough that I that I showed you enough fetching with use effect so let's let's do that first and then we'll change it up and I'll show you how to use a data loader so I'm going to import use State and use
+
+
+02:07:33
+effect from react and let's see we'll we'll add the job to the state so let's say const and just job and then set job all right and then we'll set that to use state and then as far as um as far as the default we'll just do we'll just we'll just do null for the default and then we'll have our use effect and the use effect again takes in a function and dependency array and I'm going to create a function just like we did in the how we you know when we got all the jobs we're going to
+
+
+02:08:25
+have this this is going to be called Fetch job and this is going to be a sync and then we want to call it down here I like to do this first because I always forget to call it and then in the fetch job basically we can probably just copy what we did in the job listings uh like this stuff here we'll just grab the TR catch I'm probably going to change this up after but let's do HTT oh we don't need HTTP anymore we just do slash API SL job now we need the ID so how do we get that we
+
+
+02:09:08
+can get that using the use params Hook from react router Dom so let's say import use pams and that's going to be from react router Dawn and then the way that we do this is we can come we can go right here at the top and we're going to destructure from use params and we want to destructure and get the ID okay so that should give me the ID and then in here let's replace these quotes with back ticks and we'll say API job slash and then the ID okay then we get the data and then instead of set jobs we're going to do
+
+
+02:09:55
+set job data and yeah I think that's fine yeah I think that's good um oh the loading State we didn't do that so we want to do loading set loading that's going to be true by default okay and let's see what else um let's bring in the spinner component and then for the return let's do return if loading then show the spinner else yeah else then we'll just put in H1 for now and just say job and I want to make sure we get the job data so why don't we why don't we put in this
+
+
+02:11:09
+H1 job. title cannot read property null so we're setting the job the [Music] data uh let's see let's let's do a console log of data responded with a status of 404 oh I think it's jobs yeah there we go so we're seeing the title and we're seeing it in the whole thing in the console so just to kind of reiterate what's going on here the component loads it has a side effect where we fetch the data from this from API jobs and whatever the ID is in the URL and we're getting that because of
+
+
+02:12:03
+the used pams Hook from react router Dom and then once we get the data we're setting it to the state we down here we're saying if it's loading show the spinner so if I reload you can see the spinner real quick and then once it's loaded it shows an H1 with the title which is this right here okay so that's how we can get the data just using use effect now I'm going to show you another way to do this using react routers data loaders and we can do this without having to do the use effect and we can
+
+
+02:12:35
+also export the the data as well from this component so we can use it elsewhere and we will use it elsewhere we're going to use it in the edit page because in the edit page we do the same thing we have to fetch the job so I'm going to get rid of this if you want to just kind comment it out so you still have it you can do that but I'm going to get rid of that I'm also going to get rid of the two states and I'm even going to get rid of um the use State and use effect I'm still going to get the params because I
+
+
+02:13:04
+do need the ID still and uh yeah we'll keep that as well but what we can do is go under the function above the export and let's say cons job loader and remember this is a this is a feature of react router not react itself so let's set that and we're going to pass in an object with param okay and then in the job loader this is where we're going to make our requests so let's say resz equals await uh await Fetch and it's going to be let's see let's use back tick here and then slash
+
+
+02:13:48
+API jobs and the ID we should be able to get from that pams doid then we'll say cons data set that to await and then res. Json and then we're simply going to return the data from this function okay so a loader is just going to return the data now we want to export it but we also want to still export um job page as default so what we can do is say export we can do this wrap this oops wrap this in curly braces and say job page as default and then have a comma and also export the job loader now what we can do is go into the
+
+
+02:14:41
+app for uh app jsx where we're embedding the job page and where we imported job page that's default so no curly braces around that that but then we can also go like this job loader CU we exported that as well so now we have access to this job loader and with react router we can go down to where we have the route for job page so we're going to put this in the route not the not the job page um component itself but in the route so I'll go after element and then say loader and set that to job loader like
+
+
+02:15:21
+that all right so now we're passing in a loader now the way that we access this loader from in here from in our component so we're exporting it from you know from this function and then we're passing it in to the route so the way that we can access that is with the used data load use loader data hook so use loader data and that's going to be from react router Dom and then all we have to do is simply say const job set that to use loader data like that and then I'm going to save let's come back over here let's see
+
+
+02:16:02
+loading is not defined so we're not using loading anymore so I'm just going to return the H1 and there we go so you can see we're actually getting the data but this time it's actually coming in through that loader we don't need the spinner either so we cleared up this file quite a bit and in addition to that this job loader we can pass into other components as well and use that to get a job by its ID now let's finish up this page so I'm going to go to my theme and it's going to be the job. HTML
+
+
+02:16:45
+file and there's quite a bit here so let's see we have this section with the go back button and then this section so I'm going to grabb both of these sections okay we're going to grab both of those and then we want to return here um we're going to return a fragment with both of those sections and then let's not forget to change all the classes to class name and then any comments like sidebar right here comment that out uh we can get rid of that get rid of that and is that
+
+
+02:17:34
+it I think so so let's save all right so now we just have just hardcoded data right so we need to replace this with Dynamic data also we have an icon right here for the the fa Arrow left so let's bring that in from say fa Arrow left and we're going to replace this with fa Arrow left and let's add a class name uh we're going to do margin right two and now we have our arrow and then as far as the link we need to bring in link and change that to link change this to two and change this to just slash jobs
+
+
+02:18:31
+so now the back button should work good but notice they're all senior react developer no matter what because they're hardcoded but we have access to this job object so we can simply replace everything so like right here full time let's change that to job. type all right let's change that um this is going to be the job. tile okay now we get frontend engineer we do have another icon here which I believe we're going to use the map marker for that um yeah let's let's bring in FA
+
+
+02:19:15
+map marker and let's replace this fa map and let's see what that looks like yeah so we want to give that let's say class name text- orang d700 and margin right two or margin right one maybe yeah that's good enough okay so underneath that this Boston Mass we're going to change that to job. location we have the description job dot description salary so this right here we're going to replace that job. salary now in the sidebar we have the company info and if we look at the data we have a company object with name
+
+
+02:20:20
+description contact email and contact phone so for the name it's going to be job. company dot uh typ was it name yeah so we get the name then we get the company description so that's going to be job. company dot description and then we get the contacta email so this right here is going to be job. company do contact email and then we have the phone so that's going to be job company contact phone all right so all that stuff is now coming from our back end and then what do we have down here
+
+
+02:21:18
+we have the edit and delete so the edit is a link so let's change that to link let's change this to two and then as far as the link itself let's make this Dynamic with some back ticks because we want this to go to slash jobs sledit slash and then the job. ID and we'll handle that later and the button we'll just leave that as is for now and there we go so now whatever we click on we can see the actual data and let's make sure we're not getting any errors cool so we now have our single
+
+
+02:22:00
+pages so now we're going to do the the add job page which right now doesn't exist so let's create the page so under Pages we'll say add job page and let's add the route so we want to import add job page and then we're going to put this uh I'll just copy this down change this to add job page and then the path is going to be add Dash job okay so now if you click on ADD job you should see that also this button here should also go to the add job page all right now we need to get the
+
+
+02:22:48
+form so let's go to the theme file so this is ADD job. HTML and what we're going to do is get the whole section right here that has the form in it so just grab this entire thing and let's paste this in the return so right here we're going to have parentheses and then paste that in now we have to change all the instances of class so command shift L class name also these have labels with the four attribute which isn't allowed in jsx we need to change it to HTML 4 so I'm going
+
+
+02:23:22
+to select the four equal not just four CU I'm sure there's other things in here that have F so select the equal sign as well select all of them and then change it to HTML uppercase R4 I mean uppercase F for save it and now we have our form now there's many ways to work with forms there's other libraries like foric um there's there's a lot of things you can do you can use refs but the I'd say the the common way the core way of doing it is adding a piece of State for every
+
+
+02:23:57
+field in your form okay because the these change and then when you when you change it when you type in it or you select you change the state of that item okay so what we're going to do is bring in add State uh you sorry use State add state so let's import use state and then we want to create a state item for each field now there's different ways you can do this you could have just a single object in your state and have all the fields in that object or you can do a separate piece of State for every
+
+
+02:24:36
+field which is what I'm going to do just to keep it simple so let's say con we know we have a title so title and then set title to change it and set that to use state and then in here is going to be the defaults and most of these actually all these are just going to be empty strings as default now I'm going to just copy this down actually you know what I'm going to paste the rest of these in and then you can just copy them okay so we have title type location description salary company name company
+
+
+02:25:13
+description contact email and contact phone all right so those that those are all the state and and what we need to do now is add on each input so let's see the first one is the select it's the type so this select right here and what we want to do is add a value and set that value to that piece of state which in our case is called type okay so if I save that and I come over here and I try to change it notice it doesn't work it doesn't do anything and if if I look at the console it's
+
+
+02:25:52
+going to tell me I provided a value prop to a form field without an onchange Handler so basically when you add a piece of state to or you connect a piece of state to an input you have to add an onchange because when you change it that state has to update and has to call this set type or set whatever the field is so what we can do is under the value we're going to say onchange so just like any other event on click or whatever you just add it camel case and what we'll do is set a function and this can take in
+
+
+02:26:30
+an an event param okay now this parameter has on it uh a target. value and that's going to be whatever is selected or typed in the field so what we can do is then say well we want to set the type and we want to set it to e. Target do value because this is going to be whatever I select and I'm going to set the state to that so now if I save that reload and I click on part-time now it works and if we look in our components in the dev tools now we have a bunch of stuff here if we look at the add job page and we
+
+
+02:27:13
+look in the state where it says part time if I change that to fulltime you'll see that the State updates okay okay so now this input is part of the component state so we need to do that for all the inputs so let's actually copy the value and the on change here and go to the next one which is the title I know this says name but it's the field is title so we're going to paste that in and then change that and that to title okay and make sure that you this is uppercase if if you selected both and changed them at
+
+
+02:27:48
+the same time then this is probably going to be lowercase so you can manually change it to uppercase or what I would recommend is using this multiple case preserve extension and it'll basically just preserve your case if you're changing a bunch of stuff at once so really comes in handy it's it's a small extension pretty unknown but it's very useful all right so now description that's the placeholder um the placeholder that's the the text area and we're going to go ahead and just change
+
+
+02:28:20
+change that and that to description okay so it's just setting that description state to whatever I type in on change every time I type in anything salary let's see this is another select so let's paste that in and change that and that to salary okay then we have location so we're going to do this this location name change that company name and set company name then we have the description so this is company description whoops it should be set company description then we have the contact
+
+
+02:29:20
+email now again make sure you're changing this too not just the value and then for the phone contact phone oops Yeah would just double check double check all those all right so I think that that should do it as far as adding the state for each of these you should be able to you know change these up type in here and it's changing the state of you know those fields um now we want to submit the form so let's come up to the form tag now they just react 19 is going to have something called actions where you
+
+
+02:30:18
+can actually put an action and set that to function that's a a brand new way of doing it in react 19 that isn't even released yet so we're going to stick to just adding an onsubmit and set that to now now up to this point where we have events we've been putting the function directly in here but we can set it to uh a function that we create so let's say we want it to be called sub uh we'll call it onsubmit uh no let's call it submit form and then we can create that function up here I'm going to go
+
+
+02:30:56
+above the return con submit form and I like Arrow functions you don't have to do this you can use a regular function if you want and that's going to take in an event parameter because we want to stop the default Behavior so we can do e do and this is just like with vanilla JavaScript so prevent default and then let's do a console log and we should have access to all the the state right because they're all connected to those fields so for instance if I put in uh let's say description if I console log description
+
+
+02:31:33
+right come over here let's open up the console and just make sure okay and then I'm just going to put something in the description and I'm going to submit the form all right so we do have some required fields let's see is that it oh this is required too okay so now I submitted and what I had in the description right here is now logging so we know that the forms hooked up to this event this submit Handler and we know that we can access at least the description field so let's construct an
+
+
+02:32:14
+object from the form fields that we want to submit to our API so I'm going to say con new job set that to an object and we want to set the title and since I'm setting title to title like this we don't need the second one we can just simply do that type um location description we have the salary now this is where cuz we we need this to match up with the way our API is structured so now we're going to have have our company object and let's set name to the company name and let's set the
+
+
+02:33:03
+description to the company description whoops uh company description and then we have what else contact email and that's the it's called the same thing so we can keep it like that and then contact phone all right and then let's just console log this new job just to make sure uh new job and let's see I'm just going to just make sure you fill out every field so we can just make sure we submit if we look in the console uh looks like salary and type which are the two select lists looks like those aren't showing
+
+
+02:33:52
+up okay now it did salary type all right so that did um I just want to make sure if I don't if I leave the defaults for salary those should those should show the default values which they're not they're blank um all right so you know what we can do is set the defaults for those since there's select lists for the type for instance let's say under what's the default if we look at the options here oh for for Sal uh not salary for the type this is the default fulltime so um for the type that's going to be
+
+
+02:34:48
+full-time and then for salary let's make this it has to be the same exact as this so we'll set that as the default for the salary so let's see if I reload that and then we submit this again I know this is kind of a pain to have to fill these in again all right so now yep under 50K for the salary and fulltime for the type so our submission is working now we need to make our request our post request to the back end so for that we could do that here right but I like to have requests like that
+
+
+02:35:41
+all in the same place so I actually want it in the main app file the edit the delete and the add or the submit so what we can do is pass in let's see so right here as a prop we can pass in a function so we'll we'll say um what do we want to call this add add job submit and then we can call that function down here let's replace the console log with ADD job submit and once we submit it I actually want to redirect to the jobs page so to redirect we can use use navigate the use navigate Hook from react router Dom so
+
+
+02:36:30
+let's say import use navigate and that's going to be from react router Dom now to use this we need to First initialize it so I'm going to go right here below the state and just say const navigate set that to use navigate and then after we submit I'm just going to Simply return navigate and then where we where we want this to redirect which is going to be slash jobs okay so this add job submit this is being passed in now as a prop so in our app let's go to the component which is
+
+
+02:37:18
+the add job page and let's say add job submit and what we'll do is set this to a function called add job and then we can create that here so we'll say const add job okay and that's going to take in the new job and just to make sure this is working we'll do a console log of new job all right [Music] uh actually you know what this should be in the app component and I'm going to move the router into that as well yeah let's do that let's move this stuff into the app component I meant to
+
+
+02:38:08
+put that in here to begin with okay so that should still work now let's fill out this form again paint in the ass form all right so if I submit it it redirected to the jobs page and it showed it in the console so that means that it's calling this right you can even see it in my my editor using console ninja and then it it redirected us because of this so if you want to if you want to call a function in a parent component you can do that you just pass it down like this right so I passed in this add job I
+
+
+02:38:55
+passed that in as a value to add job submit and then in this in this page I caught add job submit and I called it right here so I mean that that kind of confused me when I was learning this because it's it's just a little weird to know am I passing this up am I passing it down like it's a little confusing at least it was to me but just know you can pass in a function and you can call that function and um whatever you put here so add job for instance is going to get fired off whenever you fire this off in
+
+
+02:39:31
+this component or this page so now that we've done that we should be able to to make the request and actually add the job so let's get rid of the console log and let's say cons res set that to await uh await fetch which means we have to make this asynchronous so async and then we're going to fetch let's say slash API SL jobs but this is going to be a post request so we need to pass in a second object and set the method to post okay and then we also want to set the headers oops
+
+
+02:40:17
+headers and that's going to be an object and we want to specify the content type so content-type which is going to be application slash Json and then the data itself is going to go under the headers in the body we're going to wrap it in json.stringify and pass in that new job and then after that will'll just return so let's save that and then let's come over here go to add job we'll just say test job one this is a test company name this is an awesome company all right so we're going to go ahead and
+
+
+02:41:23
+click add job and it redirected us to the job page and we have our new job all right so it made the post requests and it we just returned from this function but we redirected in this one to jobs and if I click read more it takes me to the single page for that new job so now let's do the delete so I want to be able to click this delete button and and again I want that the actual request function to be in the main app component so let's put a comment here we'll say add new job and then
+
+
+02:42:00
+underneath that add let's say delete job call this delete job and it's going to be a sync it's going to take in an ID because we need to know which one to delete and then for now we'll do a console log of delete and the ID and that's going to get passed into the single job page right here as a prop so we'll say delete job set that to delete job yeah so we'll do that and then we can pass that in as a prop to the job page so right here I'll say delete job and then on the
+
+
+02:42:51
+button at the bottom here we have this button let's say onclick and we're going to set that to a function and then we'll we'll call another function called on delete click and then pass in the job. ID okay and then this on delete click we're going to put that up here const on delete click and let's pass in uh we get the job ID getting passed in here and I want a confirmation since it's a delete so I'll say cons confirm set that to window do confirm and we'll say are you
+
+
+02:43:41
+sure are you sure you want to delete this listing okay and then let's say if not confirm then we want to just return if we don't if we do confirm then we're going to call that delete job that we passed in and we want to pass in the job ID okay and then I'm going to um redirect so in order to do that we have to bring in use navigate so let's see that's going to come in from react router Dom and then we have to initialize it so const like that and then we can just navigate to
+
+
+02:44:40
+slash jobs all right now let's just click on it and what should happen is it should redirect irect us and it should show the ID in the console so click it say Okay redirects and shows the ID is that the ID see jobs. Json so it should have added my test to the file yeah right here so that is the ID for the test job good so now we want to make the actual request to the API so that's going to go right here so we'll have all of our requests in you know nice and neat in this file now this is for a small
+
+
+02:45:25
+application you could use cont the context API which you know you would have it o in a in a context file you could use Redux or some other state manager but this is such a small application we don't need that so I'm going to just grab this from the ad job and then put that here okay we're going to fetch API jobs now we have the ID coming in so let's make this make these back ticks and say slash and then the ID method is going to be delete okay um headers get rid of that and get rid of the
+
+
+02:46:15
+body and yeah I mean that that should should do it let's try that so DET test job one delete are you sure okay and now it's gone if I reload it's gone and it should be gone from that Json file as well and again you would be working with an actual backend so that leaves us with the edit now before we get to that I want even though it redirected us I wanted to show some proof that we deleted did the job so we're going to use a package called react toastify which will show a little
+
+
+02:46:54
+toast notification uh wherever we want to put it so let's install that I know this is not you know this is a separate package but it's something that you'll commonly you'll probably commonly use I use it all the time react icons react toasttify react spinner these are things that I use in just about every project so let's say react Dash toast [Music] ify now we have to set this up we need to have um let's see in our layout is where we want to put this so that we're a so we
+
+
+02:47:32
+have a basically like a wrapper for the layout to Output so if we go to our main layout we're going to import from here uh we're going to import the toast container so toast container that's that's going to be from react toasttify and then there's also a CSS file that we need to import so that's going to be react toasttify and then slash dist slash react toasttify docss like that and then the container you can pretty much put that anywhere it's positioned absolute so it'll it should be up in the
+
+
+02:48:15
+corner um but you can change the positioning with attributes or props if you want but let's save that now what we can do is when we delete let's see where should we put this we're going to put this in we could do it here but I think I'm going to put it in the job page right before we redirect so wherever you want to use a toast you simply import toast uh from react toasttify and then where we want to call it let's go right after we delete and say toast. success so you can do success or error and let's say
+
+
+02:49:01
+[Music] job deleted successfully all right so now let's try it again I'm not going to delete any of these I'm just going to create another dummy job actually before we do that let's do a toast where we um where we added as as well so we'll import this into the ad page and then right before we redirect here let's say toast. success and we'll say job added successfully okay so now let's just put whatever just some junk in here add there we go job added successfully and then if I delete
+
+
+02:49:58
+it job deleted successfully and you can do toast. error if you want it to show an error for some reason all right cool so now we're going to do the the edit okay we have this edit job button let's create the edit job page we can close this stuff up leave the app jsx open and in Pages let's say edit job page and then let's add the route so in our appjs it's import edit job page and let's see we're going to add this um so with the edit page I'm actually going to use the job loader
+
+
+02:50:51
+because in order to edit we have to fetch the the data right and we already have this job loader so we might as well use that so I'm actually going to copy this route for the job page copy that down I'm going to change the route let's do this one here we're going to change it to edit Das job and then slash and then the ID and change this to edit job page and we can get of this delete job and just like we did with the job page we're going to pass in the job loader that'll give us access to the
+
+
+02:51:28
+data so let's save that now if we click on the edit button it should take us um wait a minute that goes to job sledit I'm actually going to change that so in the job page where we have the edit button I'm going to change that to edit Das job and then the ID so edit there we go so now we're seeing the page and since we passed that loader and we can do the same thing that we did in the job page we can bring in use loader data and then simply do this and we should have access to the job for
+
+
+02:52:14
+that page so I'm going to grab that and let's see do we need this stuff here um yeah we'll just leave it for now and then let's do this so use loader data and go like that and then I'm just going to do actually what what I'll do is output here and we should be able to get the job. tile so let's go back and there we go so we're we're getting the data for whatever job we're trying to edit so reactjs developer click on edit job reactjs developer so I think the the
+
+
+02:53:00
+data loader feature in react router is really cool for stuff like this now we need the form and we need to fill the form with existing data so why don't we copy the entire add form so add job page let's grab the entire section okay so we're going to grab that and then go to the edit job page and then let's return in parentheses paste that in and we're going to do the same thing where we have the state so we can also copy this all this stuff right here and put that in put that right here actually let's
+
+
+02:53:49
+let's put the state above that all right and then what we can do is put the default actually no we want this above the state because I want to add the defaults from this job so for instance the title let's say job. tile so for the type let's say job. type and this will F this will add the fields in the form add the data in the form so job. location this is going to be job. description job. salary job Dot and this will be company dot uh is it company yeah I think it's name company
+
+
+02:54:47
+name and then job. company dot description company. email let me just double check I think it's contact yeah contact email and contact phone job dot uh company dot contact phone all right so if I save that we get use state is not defined so we do have to bring in use State submit form is not defined so the form has this on it this submit form function so we just need to create that say submit form I don't have to put anything in it just yet just create the function and now you can see the form is actually
+
+
+02:55:58
+populated with the right data which is exactly what we want now the submit form we might as well copy it from the ad because we're going to do the same thing and construct the new job so let's just grab uh yeah we'll just grab this whole thing and then in the edit submit form paste that in now one difference here is going to be uh we're going to pass along the ID because we're going to need it when we make the request so I'm just going to pass in ID right here and then instead
+
+
+02:56:39
+of actually instead of new job let's call this updated job and then instead of add job submit let's say update job submit and pass in updated job and then we'll do a toast we'll say job updated successfully but we do have to bring in toast because I don't think yeah we didn't bring it in so import toast okay now this this um actually let's also redirect to the job page so let's put in some back ticks here and we'll say job job slash and then the uh yeah we just put the
+
+
+02:57:37
+ID now this right here update job submit we're going to pass in as a prop so update job submit um also if we're we're going to navigate we're using navigate here that means we have to initialize use navigate um and yeah I don't think we need we don't need used pams so that should be good all right now this update job submit let's go back to our appjs because we need to basically catch that and then fire off a function in here so where we have our edit job page let's
+
+
+02:58:26
+do uh update job submit and we'll set that to a function called update job and then up here we'll create that so const update job all right now as far as what we're going to do here I'm just going to copy this from the ad and you could put these requests in a separate file if you want in some kind of service but I'm just I'm trying to keep things simple uh let's see so this is going to be Fetch and then um the job will come in here and then we'll change these the
+
+
+02:59:18
+back TI because it's going to be jobs slash and then job. so that's why I added the ID in the other file it's going to be a put request and let's see the body here is going to be job actually we could call this no that's fine yeah and then that should do it let's save that and let's try it out so we have our reactjs developer job let's change it to just reactjs Dev and we'll keep all the rest of the stuff add job uh it's not submitting reference ID is not
+
+
+03:00:17
+defined oh ID is not defined um so this so I guess yeah I guess we do need the use pams because we got to get the ID so from react router Dawn Dom let's say use pams and we can just go right here con ID use pams okay we'll try that change that to react Dev we'll change the text to this too but let's submit job updated successfully and it changed to reactjs Dev and it redirects us to the page let's just change the button text so right here change that to update job is there a heading too yeah we change
+
+
+03:01:23
+the heading because it says add job so right here update all right so we we have a full crud application the only thing we're missing is authentication but like I said that's that's beyond this tutorial this this went way longer than I initially planned and wanted but we did a lot you know we we learned about components props State the react router um uh data loaders use effect use State use pams all those hooks with react router Dom so I think we we touched on a lot and I think that
+
+
+03:02:06
+you should have enough to create some some simple projects on your own now as far as deploying what you would do is just run npm run build and that will give you uh that will give you a production version of your site you see how the react Dev tools right here it's orange and it says this page is using the development build of react because we're running the development server so what I can do is stop the development server and I can do npm run build what that'll do is create a new folder called disc and that disc is your
+
+
+03:02:44
+production build okay so I can run that with v there's a in the package.json there's a preview right this preview and that should run the development build so let's say npm run preview and that's running on 4173 so now notice this extension says this page is using the production build of react okay so now this is this is what you would deploy this disc folder and and you could basically deploy it anywhere now if you do try to deploy this it's not going to show the jobs because we're using a local server we're
+
+
+03:03:27
+using Jason server if you actually want this to be a real project then you're going to have to create an API with Express or something else um but you're not going to really have to change anything as far as this stuff because this is going to be the same whether we're dealing with Jason server or you're dealing with a a rest API I with Express D Jango laravel just whatever um so yeah I mean this is this is a a front-end course but I did want to give you some examples of using backend data
+
+
+03:04:03
+because that's what it's what you do in the real world all right guys so hopefully you enjoyed this I hope you learned something from it um like I said there's so many different ways and react to do everything so if you saw some things the way that I did you didn't like it that's fine you know everybody has their own way of doing things uh and also keep in mind I try to do things as in the simplest way possible so that I can explain it and people can can learn it and understand but that's it guys
+
+
+03:04:33
+thank you so much for watching and I will see you next time
+

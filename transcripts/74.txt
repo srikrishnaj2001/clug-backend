@@ -1,0 +1,28 @@
+
+00:00:00
+hi everyone in this video I'm going to show you how to deploy your website on netlify now I'll be honest I normally just use tiny. host which is super quick and simple to use but I'll show you netlify first so that you can see the difference so I've just logged into the netlify dashboard now and there are two methods I'm going to show you to upload your website with them the first is if you have a git account associated with your project you can scroll down click import an existing git project click
+
+
+00:00:25
+your provider I'm going to click GitHub and this should be all authorized because I did this earlier now after some loading I'm going to upload this calculator so let's click on the calculator and I'm going to scroll down not worry about any of these settings for now I'm just going to click deploy calculator and now this can take a little bit of time so I'll skip ahead into the future so that's just finished uploading now to view our site we can click view site deploy then click open
+
+
+00:00:51
+production deploy and now here's the calculator that I just uploaded I can play around with the buttons and that's all working great so that's the first method for uploading to netlify that used git the next method is a drag and drop feature with a zip file so to do that I'll close this tab go to the homepage to get to this feature we're going to go to sites on the left here then click add new site and go deploy manually now we need a zip file here so to do that I'm going to open up my
+
+
+00:01:19
+finder drag all the files I need for my project right click and click compress this is going to get this archive dotzip I'm going to drag that into the upload section and this is a lot quicker than the Git it should take just a few seconds and here we go we can click open production deploy and now here is the calculator that we just uploaded the final method I'll show you is using tiny. host which is what I normally use I've just logged into their dashboard I'm going to click upload now we can
+
+
+00:01:48
+upload a HTML zip or PDF file for our website so I'm going to get that zip file from earlier and drag it into the upload section and Tiny has a few extra nice features that I'm going to use here so we can use a custom domain but I'm just going to use their's and name our link I'm going to call it my calculator and we can also add some restrictions so we can do no restrictions we can have a password protected screen or capture emails before sharing our website but I'm just going to do no restrictions
+
+
+00:02:15
+I'll click publish there's a few extra features we can use after we have our website live but here's our link let's click it check out the website and here's our calculator that we've been seeing but to go back to Tiny I'm going to click the cross go to these extra buttons down here we can share a QR code of our website which can be really useful just have people share it with their phones but also a really nice feature is we have some analytics so these are the analytics just from me a
+
+
+00:02:42
+few visits from my own website and this is all really helpful and all available on tiny. host if you enjoyed this video and want to see more tips from us please remember to like And subscribe with that all said thanks for watching and I'll see you next time
+

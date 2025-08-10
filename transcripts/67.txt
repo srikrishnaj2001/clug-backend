@@ -1,0 +1,808 @@
+
+00:00:00
+what's going on guys welcome to my node.js crash course so I like to revamp these every few years or so it's been about 3 years since the last node.js crash course and I'll go over what I'm going to cover in a few minutes but I just want to say that this is for all skill levels because we're not using any Frameworks like Express and when you build an app or an API 99% of the time you use a framework like Express or fastify or Adonis or something like that which really makes things easy and gives
+
+
+00:00:30
+you the tools to create routes and add middleware and just makes things a lot easier now this video is much more lowlevel so we're going to we'll do things like create a server explore the HTTP module as well as other core node.js modules so even if you have experience with say node and express there's probably going to be some things here that you haven't really worked with and if you're an absolute beginner it's a good start to to just learn node by itself and know what it's capable of all
+
+
+00:00:59
+right so sit back back I would suggest following along just because I think that you can learn a lot more that way but if you want to just watch that's fine as well so we're going to just spend a couple minutes on some slides and then we'll jump right into the code okay guys so before we get started let's define what nodejs actually is so many absolute beginners think that node.js is some kind of framework or library or even a language but it's not it's a JavaScript runtime and a runtime
+
+
+00:01:33
+is a program or an environment that runs other programs so we can build JavaScript applications and run them right on your computer or right on the server now node.js was built with C++ and it uses the powerful V8 JavaScript engine that's also used with the Google Chrome web browser node.js can be used for a lot of things but it's mostly used for developing serers side and networking applications apis microservices it essentially allows you to to use JavaScript to write serers side code and do a lot of the same
+
+
+00:02:06
+things you would do with python or PHP or C and other server side languages now traditionally JavaScript was only used on the client side in the web browser to do things like form validation animation small stuff like that but with node.js JavaScript has really become a truly powerful full stack language and again you can do a lot of the same things you can do with other server side languages and there are actually other JavaScript runtimes such as Dino and bnjs and those are really cool to explore they're much
+
+
+00:02:38
+newer Technologies but they don't really have a space in the industry yet um so I would definitely suggest starting with node.js I would never suggest that someone start with something like bun JS or Dino just because it's it's so new and you're most likely not going to find jobs using those Technologies just yet there's also not really uh you know a large community or support for them either so nodejs is very fast and scalable due to its architecture and the V8 engine uh it's also pretty popular I
+
+
+00:03:10
+think it's somewhere something like 6.3 million websites use node.js and it's used by companies like Netflix Uber LinkedIn and in addition to really large companies node is also real a really popular option for startups and smaller projects as well now I want just want to quickly go over over what we're going to cover in this course and in kind of the order we're going to do it in so of course we're talking about now what node.js is I'll talk a little bit about how it works under the hood as well um we're
+
+
+00:03:42
+going to install it set up a project set up the package.json which is a kind of like a manifest file we're going to look at some custom modules and which are basically just files that we can create and we can Import and Export uh functions and data from those files to and from those files and there's really two module systems that we can use there's commonjs which is kind of node.js is native system and then you can also use es modules which is the import syntax that you use with react
+
+
+00:04:12
+View and all the frontend JavaScript stuff so I'm going to show you both but ultimately we're going to stick with es modules that's just what I prefer it's more modern now when it comes to the the core modules that that node includes I think the HTTP module is one of of the most important to kind of understand when you're getting started and this is what allows you to create a server and accept requests and give responses so a big part of this tutorial will be using the HTP module now in real life like I
+
+
+00:04:44
+said earlier you'd probably use something like Express which is a web framework that makes things much easier uh and I'm also going to be revamping my Express crash course as well but Express uses or sits on top of the HTP module so it's good to know how this works and how to accept requests how to work with them um how to send responses back send Jason back and deal with HTTP headers and methods and all that stuff so that's really what we're going to cover um in this course or in in that part of the
+
+
+00:05:14
+course we're even going to look at some custom middleware which are functions that sit between incoming requests and outgoing responses now when it comes to some of the other core modules we're going to be going over those in the second part of the course so the file system module path module URL events things like that so I'll cover the basics of all those as well now one common mistake that I see people do is jump to node.js too quickly before learning node.js you should have a good understanding of JavaScript so of
+
+
+00:05:46
+course you should know all the fundamentals variables functions Loops objects classes you should have a good understanding of that stuff most definitely now I'd also suggest that you understand a synchronous PR programming so you should know things like callbacks promises the Asin a weight syntax chances are you'll be building web applications in Json apis with node.js so you should understand how HTTP works the request response cycle you should know about HTTP methods like get post put delete um you should know the common
+
+
+00:06:20
+status codes 200 404 500 things like that and you will be learning more about this stuff as you learn about node.js and even in this very video now you probably are coming from front-end JavaScript so you've probably worked with j u uh API Json apis you've probably consumed them well now you're going to be creating them most likely so it it helps if you already have a basic understanding of how they work like I said HTTP methods and Status codes and all that and then npm the node package
+
+
+00:06:53
+manager you probably have some experience with I mean if you're using react or any front-end framework you're usually installing that stuff with npm so you probably have an idea but you will also learn about npm and and package.json and stuff in this video all right so let's talk a little bit about how nodejs works and I'm not going to go too deep into this because I I want this to be practical and easily digestible but you should have a basic idea of how node Works under the hood so
+
+
+00:07:24
+as I said node is built on top of the V8 JavaScript engine which is the same engine that powers Google Chrome other browsers have their own engines like Firefox has spider monkey Safari has JavaScript core the V8 engine is written in C++ and it's it's what takes your JavaScript code and converts it into machine code so that your computer can understand and node has taken this engine and extended it to work on the server side now node.js is what we call nonblocking which means that it doesn't
+
+
+00:07:54
+wait around for Io operations which are input output operations and those are things like Network calls file system operations database operations and instead of blocking the execution of code while waiting for these things to happen or these things to complete node.js uses events and callbacks and this allows it to handle thousands of connections at the same time and this is why node.js is so fast and efficient now in node.js there's a a single main thread that executes your JavaScript code and you can think of a thread as a
+
+
+00:08:26
+set of instructions that your computer executes and in a single-threaded environment there's only one set of instructions that are executed at a time this is different from multi-threaded environments where you have multiple threads that can execute different parts of your code simultaneously so node.js uses something called the event Loop which is a mechanism that allows node to perform non-blocking IO operations and when you make a a network request for example node.js doesn't wait for that
+
+
+00:08:57
+request to complete instead it continues to execute execute the rest of your code and when that request does complete it triggers a call back which is then added to the event queue and the event Loop picks up the call back and then executes it so I know this is a little tough to understand so the analogy that that I like to kind of describe and what helped me is to imagine the event loop as one of those giant revolving doors at the mall or something like that and each person represents a task or operation
+
+
+00:09:27
+initiated and as a person walks into the building that's initiating a task instead of waiting for them to complete their business inside the mall we'll call that the task execution node.js keeps the revolving door spinning signifying the event Loop now as each person finishes their task in the building they exit the revolving door representing the completion of their task and the event Loop or the door keeps the flow going handling incoming tasks and ensuring that the program's execution remains uninterrupted so when
+
+
+00:10:00
+a callback executes in node.js it's akin to a person executing that revolving door and it would Mark the completion of their task and while the event Loop keeps processing and flowing it it waits for others to enter now I don't know if that analogy helps or if it just confused you more but that's kind of how it works and it's not that important for you as a beginner to understand how everything works under the hood right now uh it's more learning the syntax and how how to handle incoming requests and
+
+
+00:10:31
+send responses and things like that now as far as what node is used for it's used for a lot of things so of course building apis and this could be restful apis graphql apis um server rendered apps so of course we can serve Json data but we can also serve HTML pages and we can use different template engines like ejs mustach um there's all types of of engines that you can use to serve HTML Pages dynamic Pages it's also great for realtime applications like chat uh realtime games collaboration tools
+
+
+00:11:07
+things like that uh microservices so microservices are small independent services that work together I actually just did a crash course on microservices if you're interested command line tools you can build CIS command line interfaces bots so for example you could build a Twitter bot or a bot for slack or Discord web scraping no. js's is good for web scraping and there's a few different Frameworks that you can use for that as well and then web servers of course and it could be a sophisticated
+
+
+00:11:37
+web server handling complex routing and serving Dynamic content or just a simple static file server what node.js is not great for is CPU intensive applications so as we talked about no. JS is single threaded and uses an event Loop which which makes it great for Io operations but not so great for CPU intensive operations so if you're doing a lot of heavy computation and things like that you probably want to look more into like python Ruby Java and other server side languages but that's it for the slides
+
+
+00:12:10
+now what I want to do is jump in we'll talk a little bit about installation which is very simple and we'll start to set up a project and then we'll go from there all right guys so this is the official node.js website nodejs.org and as far as installation goes it's very simple if you're on Windows or or Mac you can just simply go to the site click download download the LTS which is the long-term support version you can download the absolute latest version if you want there might be some extra
+
+
+00:12:40
+features there but I usually uh I usually suggest using the LTS and then you can just run that file I already have it installed in this machine so I'm not going to run it but it's just like any other installer just go through it and then node should be installed now if you're on Mac you can also use Homebrew and of course if you're on Linux you can use your you know whatever the package manager for your drro is and get it installed that way and then you just want to open up a terminal or command
+
+
+00:13:06
+line prompt and just do node-- version and that will show you the version that's installed and nodejs comes with npm which is the node package manager which you can use to install thirdparty packages and you can just make sure that that's installed as well now nodejs does come with a repple which stands for read a Val print Loop and it's basically just an a command line environment to run JavaScript and you can start that by just typing node and then enter so from here I can type in any JavaScript that I
+
+
+00:13:39
+want now you're probably not going to use this much but it is a a nice way to kind of test out code and just experiment with JavaScript and not have to do it through a file through the browser or anything like that um so I'll just give you some examples we can we can do a console.log and obviously when you're using when you're doing frontend JavaScript the console pertains to the console in the browser this pertains to the terminal so if we do console log hello world and run that it's going to
+
+
+00:14:09
+just spit it out to the terminal to the console and undefined just means that there's nothing being returned from this line now you can also create variables like we can say name John and obviously I get undefined because that doesn't actually return anything if I do a console.log of the the variable of name then I should see John you can also create functions like I could create we use a oneline arrow function here called greet and we'll just return uh let's just return we can put some back ticks
+
+
+00:14:44
+in here and say hello and then put our name variable and then we can call that function and we get hello John all right so like I said you're probably not going to use this much but it is it is there for you to to test out code or whatever you want so you can just do control or command C to to to get out of that now from here I just want to create a folder to work in you can either use your Explorer or file manager or you can use the terminal and just do make directory and I'm going to call this no.
+
+
+00:15:16
+js- crash d224 okay and then I'm just going to CD into that folder and then from there I'm going to open my text editor with code dot if you're not using vs code just open that folder up in whatever editor you're using so close that and now I'm just going to use the integrated terminal for any any commands that I want to run now 99% of the time the first thing you're going to do when you're starting a new node.js project is create a package.json file so we can do that by using an npm command so in the
+
+
+00:15:52
+terminal we can say npm in knit and there's going to be some questions asked and if you wanted to skip those questions you could just add- why but I'm going to go through those just so you can see what they are so the package name whatever is in parenthesis is the default so you can just hit enter to accept that version um description I'm just going to say nodejs crash course code and then the entry point which is like your main file index.js that's fine and then you can just enter through this
+
+
+00:16:22
+stuff if you want you can put your own name and then for license I usually put MIT and then enter and that will create a package.json file for you so you never have to create this manually and this has you know basically the stuff that we just that we just answered and then it also has scripts so basically you can create what are called npm scripts to do certain things like start your server stop it run tests all kinds of stuff and I'll get more into that a little later so now that we have a package.json file
+
+
+00:16:52
+the next thing you would usually do is create an entry point which is your main file the file you're going to run you usually when dealing with nodejs or any language really you're going to have a project structure with files and folders and usually you have one entry point and the other stuff is just imported into other files so let's create a file I'm going to call it index.js and you might see this as appjs or server.js I usually like to use index now from here we can just type JavaScript so I can do a
+
+
+00:17:25
+console log let's just say hello world now since we have nodejs installed on this machine I can run this file from my terminal by saying node and then the name of the file which is index.js make sure you're in the correct directory and you'll see Hello World printed to the console and you don't even have to do the JS we could just do index which is the name of the file and then that runs it as well okay and you can put any JavaScript that you want here okay now there are some differences
+
+
+00:17:56
+so for instance when you're in the browser environment and I'm I'm I'm assuming that a lot of you are coming from the front end so in the browser you have this window object right if I were to run it you'll see I get an error says window is not defined that's because there's no browser so there is no window object now there is something called Global which is similar but it doesn't it obviously doesn't represent a browser window it represents just the global object and you can see that there's uh a
+
+
+00:18:24
+bunch of stuff on this uh on this as well such as set timeout set interval these are actually not part of JavaScript they're part of the web API in the browser but they're also available in node.js because of this global object all right now there's also not a document object so there's no Dom right because there's no document uh the document pertains to the browser and its environment so that's not available but there is a process object so that pertains to the current process that's
+
+
+00:18:58
+being run so you can see there's a bunch of stuff on here that you can get as well you can get environment variables things like that and I'll talk more about Pro the process later all right so yeah so those are basically it's just the environment is different but as far as the JavaScript language goes it's all the same and that's what's great about building full stack when you're using like react or view or anything like that you're you're writing the same language
+
+
+00:19:23
+on the front end as you are on the back end which is nice rather than doing JavaScript on the front end and then python or for PHP or something on the back end which is also fine but I like to have it all you know all in one now I want to talk about modules so usually like I said you'll have a structure of files so let's go ahead and create a utils.py simp Le we'll just say math. floor so we're going to round down math. random and we'll multiply that by 100 and then add one so it's basically going
+
+
+00:20:10
+to give us a number between one and 100 uh 100 now I want to be able to use this function in other files so in order to do that we have to export it now the system that I'm using right now is called commonjs it's like the native nodejs module system and I'm going to show you how to do do with that first and then I'm going to show you how we can switch to es modules which is the more modern syntax that you use with with front-end Frameworks so with commonjs what we would do is say module.
+
+
+00:20:39
+exports and whatever we want to export we set this equal to so let's say Generate random number we don't use the parenthesis here now since I exported it I can import it where I want so let's import it into the into this file so to do that we'll say const and then Generate random number and then we use the the require syntax that's commonjs and then we want to do do slash which is the current directory and then utils and with commonjs we don't have to do the JS at the end so now I should be able to
+
+
+00:21:12
+let's do a console log we'll put some back ticks and we'll say random number and then we should be able to use that function so now if we run this file with node index I get random number 67 random number 79 so I can use other functions from other files and it's not just functions that you can export you can also export objects or arrays and other types of data now this is what we call a default export because it's it's one thing being exported however you might have other functions that you want
+
+
+00:21:49
+to export so let's create another one we'll call this Celsius to Fahrenheit and let's say it takes in Celsius argument and then let's see the the formula for that is let's see that whatever that Celsius value is multiply by 9 and then divide that by five and add 32 so that should give us the fahrenheit now I want to export both of these so what I need to do is export an object like this and put both functions in there like that and then when I UT pord it I'm going to wrap
+
+
+00:22:32
+this in uh curly braces and then I can just go ahead and import both and then I'll come down here we'll do a console log with back ticks we'll say Celsius to uh Fahrenheit fahit I don't know if I spelled that right and then we should be able to run that function and we'll pass in let's pass in um 32 I'm sorry passing zero Celsius 2 Fahrenheit so that should give us 32 all right so you can see right here Celsius to Fahrenheit 32 so that's like a a quick crash course on
+
+
+00:23:11
+commonjs syntax now I want to show you how to use es modules which is the import export syntax now there's one thing we have to do in order for this to work and that is in the package.json file we have to add in here type and then we're going to set that you see we have two options here commonjs which is the default and then module so we just have to set type to module and then we can use it so let's create another file I'm just going to call this post controller.js so we'll say we're
+
+
+00:23:43
+building some kind of blog API or blog app and this will be where we can fetch our post and stuff now usually you'd have some kind of database you would use a um a third-party package like SQ eyes or mongoose to interact with your database but we're just going to create some hardcoded posts so we'll have an array an object we'll just have an ID and a title so we'll just say post one and then we'll copy that down and this will be post two id2 all right so let's say we want
+
+
+00:24:18
+to have a function and we can use Arrow functions as well of course so we'll say get post and we'll set that to an arrow and then we'll just return the post so very simple and then to export there's a few options we can do this we can simply just put export before it and then in our index JS I'm just going to comment this stuff out you can just ignore that now so to import we can do this and it's not exported as default so it we need to have these uh these curly braces around get post now with es
+
+
+00:24:54
+modules when you're using it with nodejs we do have to add the Js yes at least I I think we still have to let me just run that yeah so you see how we get an error so cannot find module did you mean to import post controller.js so if I do that and I run the file I shouldn't nothing's going to happen because there's nothing here but I don't get the error so I should be able to use this now so we'll come down here and let's just do a console log of get posts and now we'll run it and you can
+
+
+00:25:28
+you can see it prints the post now another way that you can export is at the bottom so if you don't do it here get rid of that we can just do export and then as an object get post we can put that in there like that and it should work again now you might want to export it as default so for example when you build a react component in the front end you usually export that as default because it's usually the the only thing being exported from that file so to do it as default you would get rid of these
+
+
+00:26:02
+um curly braces and you would say export default get post like that now if I want to use this I have to bring it in without without the curly braces so that should work and it does and you can even export one thing as default and then other things is not default so let's say we we have a actually we're going to use export here so let's say we want to export another function called get post length and we'll set that to an arrow function and we'll just return post. length Okay so that's going
+
+
+00:26:41
+to export get post as default and get post length as just regular so here I can put a comma and then have my curly braces and get post length and I should be able to let's console log and say post length and then get post length if we run that there we go post length two all right so that is using Import and Export for both um commonjs and Es modules I prefer to use es modules so we're going to just use that for the rest of this so like I said I want to jump into the hdp module and creating a server and dealing with
+
+
+00:27:25
+request response I mean that's that's kind of the majority of what you're probably going to be doing with node.js now like I said a few times you're going to do this most likely with a framework such as Express or Kaa or fify there's there's tons of great Frameworks out there but uh but I think that it's good to know kind of what's going on under the hood so let's close up index.js and let's create and I'm just creating these files just so you have them I'm going to
+
+
+00:27:54
+put them in a repository just so you have them for documentation but let's create create a server.js file and that will be our new entry point for for what we're doing now and we're going to import the HTTP module so let's say import HTTP from HTTP okay no do slash or anything like that because it's not a file that we're including it's a it's a module that's included with node.js so we want to create a server and there's a method called create server that we can use so we're going to create
+
+
+00:28:27
+a variable called ser server and then we want to set that to http and then there's a like I said a method called create server and then that's going to take in a function it doesn't have to be an arrow it can be just a regular function if you want now this will have a request so req and a response Rees and these two objects are really important and we're going to use different methods and properties from them but all I want this to do is basically just send some text to the client so we're going to take our
+
+
+00:29:01
+response object and there's a write on that and you can see right here the write method writes some data to the stream and calls the supplied call back once that data has fully been handled if there's an error then the call back will be called with the error and I mean you can read all this stuff if you want to really get into it but we're just sending some text to the client in our case it's going to be the browser so let's just write hello world and then we want to end the response
+
+
+00:29:31
+with res. end now like I said and I'm probably going to say this a bunch of more times when you're using a framework like Express you don't have a responsibility to end the stream it just it does it automatic all right just like you don't have to uh manually set header some header values and the content type and and all that stuff um and and if you take the express crash course after this I think that's a good idea because you can kind of compare the two so this by itself won't do anything we have to listen on a
+
+
+00:30:04
+port so we're going to take that server variable and then we're going to call the listen method and that's going to take in a port I usually use 5,000 for server side stuff but that's actually being taken up on this machine so I'm going to use 8,000 and then you can also pass in a function so you can just do something after it it connects so we'll just do a console log and we'll say uh server running on Port and we could we could even make these back ticks yeah let's do that let's make
+
+
+00:30:36
+these back ticks and then we'll actually create a variable for the port so we'll say on Port and then we'll put that variable in here and for now we'll set the variable up at the top here let's say const port and we'll set that to 8,000 all right so now we should be able to run our server it's a very very simple server but we should be able to run node server and now you see Server running on Port 8000 and it takes up the terminal I can't I can't put any more
+
+
+00:31:07
+commands in here unless I shut down the server now let's open up the browser and I'm going to go to uh not 5,000 8,000 and we should see Hello World so let's go back to our code and we can even get rid of this res. write because the end method you can send a response body here so we can actually put our hello world in there and we could get rid of this and we should get the same thing now you do have to restart the server so let's do that and let's reload and yeah we get the same same thing now
+
+
+00:31:47
+we can also set header values such as content type or you might have like an authorization key or something like that so we can take our response object and there's a set header method and let's change the content type so we'll say content-type and then the second argument we pass in is the type we want let's say text/html and then down here let's wrap this hello world in an H1 and restart the server and then if we come back here you'll see it's now in H1 and if we open
+
+
+00:32:27
+up our Dev tools go to the network Tab and reload click on this Local Host you can see it's a get request it's going to be a 200 response by default and you can see content type is text HTML now I could change that if I did like text plane that's for plain text reload the server come back here and now it's actually showing me the H1 tags it's not parsing the HTML because the content type is explicitly set to this text plane now there might be cases where you want to change the status right if you
+
+
+00:33:04
+if you want to send back like a not found page you could change it to like a 404 so we can do that let's go actually let's put it back to HTML and then here let's say res do status or I'm sorry status code and we're going to set that equal to 404 and then maybe you'd say like not found or something like that but let's just stop the server reload it and come back here reload the page and now down here notice that it's red the local host and it has a status of 404 and we could
+
+
+00:33:39
+actually shorten this up right so we could do this instead of separating instead of having two separate lines here we can use the right head method so we can say WR head and you can see here it sends a response header to the request the status code so it allows to send the status code and um things like the content type so headers so let's wrap um in here let's say we want to send yeah let's do a 500 and then we'll set the content type so here we can have an object with different header values
+
+
+00:34:18
+so we'll say content-type and we'll set that to let's set it to application slash Jason and then we can actually send Json data here so let's say json. stringify and I'm going to go I'm going to talk more about apis and Json data but just to show you can put an object in here we'll say message server error and restart okay so now if I reload this page now we get this Json message server error and you can see it's a 500 now before we move further with with uh our server and you know writing some
+
+
+00:35:06
+more code in here I want to just talk about npm scripts and no uh npm modules because I want to install one called nodon because it's kind of a pain in the ass to keep restarting the server so let's um let's create a a script first to run this because right now we're running node and then the name of the file but if we go to our package.json we can add a script in here called start we can replace the test that's fine we're not using that and then let's have that run node server or
+
+
+00:35:41
+server.js so now what we can do is come down here and we can now Run npm start and that will do the same thing okay so that'll start our server now if you if you use something else other than start or test like let's say we use dev then you you actually have to do npm runev not just npm Dev so keep that in mind and Dev is really common because a lot of times you'll have your you know your development environment and then you'll have your production environment so let's we'll just put that back to start
+
+
+00:36:14
+for now so next thing I want to do is install nodemon and when you install something using npm right so let me just clear this up so if you do npm install node mon I'm not going to run this just yet but what it's going to do is it's going to install it from the npm registry or npmjs registry so you can actually go to the website if you want so right here and search for nodemon or any package and this will show you the page you can see the install you can also use just I to install um and then the
+
+
+00:36:51
+repository so you have the GitHub the homepage it shows you the weekly downloads version license all that stuff along with the documentation so all the usage so these pages are very very helpful and they usually have kind of the same stuff on the GitHub page as well as you can see it's like the same exact docs so I want to install this because I I don't want to keep restarting the server but I do want to install it as a Dev dependency which are dependencies that are not needed for your production environment so to do
+
+
+00:37:24
+that you just need to add the dash uppercase d flag okay um I'm just going to close up the package.json because it's actually going to update so let's run this npm install or you could even do just npmi DD nodemon okay so what that's going to do is a couple things it's going to create a node modules folder since we didn't have one because we haven't installed any packages but as soon as you install a package it creates this folder and if you look in it there's a crapload of
+
+
+00:37:55
+stuff here and even though we only installed nodon that particular package just like every package has a bunch of dependencies and then those dependencies have dependencies and that's why you get this big node modules folder all right the other thing it did is in the package.json you can see now we have this Dev dependencies object with the nodemon and the version okay so if we installed it without the dasd just a regular dependency then it would be in the dependencies object so you might you're going to have a dependencies
+
+
+00:38:29
+object if you install something normally and then another thing that happened is this package-lock dojon file was created and this has the entire dependency tree with all versions and everything you don't have to do anything with this file all right um now when you when you push your code to GitHub you never want to push the node modules folder okay you don't want to ship this ever because you can easily just reprod produce it in fact I'm going to just delete it and since my package.json has my
+
+
+00:39:04
+dependencies in it which right now is just one Dev dependency of nodon since I have that I can simply run npm install with nothing else it's going to look at my package.json dependencies and install those right so when someone gets your code from GitHub all they have to do is run npm install and it looks at the package.json Manifest and then it will install the node modules on their machine okay so hopefully that makes sense now to prevent that from going to your git repository you can create
+
+
+00:39:37
+what's called a dotg ignore file so we can create a new file called dotg ignore don't forget the dot and then in that we can just simply put nodecore modules and save it and that's it now when we push this to GitHub that node modules folder won't get uh it won't get pushed all right so let's see the next thing I want to do is use nodemon and I mean you can check the documentation to to look at the specifics but basically all we have to do is instead of node here in our script we can run node Monon
+
+
+00:40:12
+and then the file name so now if we come down here and I run npm start it's going to run our server on Port 8000 just like it has been but now it's going to constantly watch it right so if I come back here so we have our M we have our 500 status and our Json but let's change it to let's change it back to 200 let's change the content type to text/html and then let's get rid of the Json stringify and all that stuff and we can put back H1 hello world now normally I would have
+
+
+00:40:50
+to restart the server but if I save you'll see this kind of refreshes and I can come back here and reload and it works I don't have to now I don't have to go back and keep refreshing so noemon is is just one of those tools that I use in just about every node.js project now another thing that I want to show you real quick is the use of a a EnV file so environment variables are variables that are in your environment on your system and you can access them from your entire program you can access them from
+
+
+00:41:21
+different programming languages is usually a certain way to do it with node.js we have the process object and on that is a an EnV object with all your environment variables well you can create a EnV file and create environment variables in that file and you used to have to install a package called EnV but now with a recent version of node.js you don't have to do that anymore it's you can just do it without installing anything so just to show you let's create a EnV and you don't usually want
+
+
+00:41:56
+to push this you don't want to to include this in your git repository because a lot of times you'll have API Keys like maybe you have a Google API key you know you'll have something here and you don't want other people to access that or to see that so what I would do is add that to your dog ignore so we would just do this and then that won't be added to your git repository so in the EnV let's create a port variable here so if we want to change the port number we can just do it from this file
+
+
+00:42:26
+so I'm going to set it to to just to test things out I'll set it to 8080 and then what we can do is go into our package.json because you do actually have to run it with a flag um at least for now so that would be right here where we run nodon we can just do d-v das file and then say equals and then the name of the file which is EnV so that now when we Run npm start it'll run this command and it should use that file so I'm going to save that and then let's go to our server JS and instead of
+
+
+00:43:06
+hardcoding 8000 here we should be able to access it with process.env and then anything I put after this this EnV dot um I can access any variables in this file or on my system so let's say port and now let's see I think we have to manually restart the server yep so now you can see Server running on port 8080 so it's looking in this file okay and I could access process.env port on in any file in my project now I'm going to put that back to 8,000 and just restart server and now it's back to 8,000 but
+
+
+00:43:52
+now it's reading it from here and again you would put your API Keys things that you want hidden you don't want in your Source you know in your um repository now another thing that I want to look at is the request object here okay we we used a bunch of methods that are on this response object but there's a bunch of stuff we can get from here so let's do a console log of I want to do request.url and I want to do console log request. method because those are two very important things that you're going
+
+
+00:44:24
+to need in order to respond correctly so let's go to the browser and just reload and then if we look in the console here you can see we have a slash so that's going to be the URL because we just went to Local Host 8000 and no no page after that and then it's a get request if you if you go to a page on a website that's always going to be a get request you can submit forms as a post request or you could make put requests and delete requests either from JavaScript using the fetch API or from curl or from a
+
+
+00:44:58
+client like Postman which I'm going to get into so if I were to go to like localhost 8000 about it's going to show me the same exact thing because we're not checking the URL all right if we look it down here now request.url is going to show slab but we're still giving the same thing we're still doing this no matter what method we use and no matter which URL we hit so that's why Express is is so valuable because you can just do something like this you can say app. poost so
+
+
+00:45:31
+it'll you can do like app. poost so it'll only be for post requests and then you can do like slash whatever users so that will handle then you'd have a call back here and then whatever you put in this function whatever you put in this function would only run if you made a post request to slash users now with just the core HTTP module we have to manually check everything the URL and the method I'm going to show you how to do that but just know that this stuff is a lot easier with Express but again for
+
+
+00:46:05
+like the fifth time I think that it's good to to know how this stuff works under the hood so let's see what should we do next let's make some other types of requests and I would suggest using Postman that's the client that I use but there's all types of clients uh you could just use Curl if you want which is a command line utility um you could use like F what are some of the other ones there's there's a bunch of extensions for for vs code I actually have the postman extension
+
+
+00:46:35
+installed so if I click on this little icon here I got to sign in let's see this is my workspace so I would suggest if you don't have a postman account I mean you can just sign in with Google I'd suggest doing that because this is really helpful I can just say new HTTP requests and it'll open up a window here and now I can make a request to uh let's do 8,000 and I'll make a post request so I'll click post and then send and you'll see down here in my console we made a
+
+
+00:47:12
+request to slash which is just the root and it's a post request and this is how if you're creating apis this is how you would test your your routes without having any kind of front end where you would have the fetch API or axios or something like that routing is also easy with a framework so let's create just a very simple router so I'm going to get rid of this and you can console log the the entire request object if you want to see some of the stuff that's on there I mean you can get headers that are sent
+
+
+00:47:42
+um if you have cookies you you can access cookies and all types of things so I'm going to get rid of this as well and let's just have like a we'll just create a little router so we're going to check the URL so let's say if request.url if that is equal to just slash not do slash just slash so that's that's the route then let's uh let's see we'll just move this up here I guess we'll move both of these up here and let's say instead of hello world let's say homepage and this could
+
+
+00:48:23
+be Json if you're building an API this could be content type application J Jon you could serve you know Json objects or arrays but I'm going to just pretend that this is an HTML server and then let's say else if and then we'll check request.url and we'll do an API after we'll we'll do some js and stuff after so let's say if it's about then let's see we'll copy oops we'll copy this stuff here put that in there and let's do instead of homepage we'll say about and
+
+
+00:49:02
+then let's say else so any other page then we want it to be not found so I'll paste this in and we'll do a 404 and we'll say not found all right so this is a very simple but it is it is a router so now we'll save that let's go to uh I'm going to do it from Postman but you can do it from from uh from the browser if you want so right now it's it doesn't matter what method we use it's just it's just looking at the URL so if we go to the homepage you'll see we get NH H1 and it
+
+
+00:49:39
+should be type HTML right here so content type text HTML so that's the homepage now if I go to slab that shows the H1 with about and if I go to anything else then I get a 404 not found and we write to the body not found so that's a very simple router now let's uh let's create a server that will check for get requests as well right because if I make a post to the root I still see the homepage and I don't want that I only want it to be for get requests so we can go back into our code here and what we can do let's
+
+
+00:50:22
+do a try catch and in in the try let's check check if get or if get request so we'll say if the request do method is equal to get then we'll do something else then we can throw an error so we have this error uh object that we can use actually want to do new error Constructor and we'll say method not allowed and then I'll just grab this right here we'll cut that and then we'll put that in here so it has to be a get request now if there's some other type of error going on then let's
+
+
+00:51:13
+do a 500 so we can take this put that there set that to a 500 which is a server error and let's say server error okay and you'd probably just send this like as plain text so we'll do that we'll send it as text plain okay so now if I were to make a get request it should work but if I make a post request I get a server error of 500 now what about loading files instead of obviously you know you're not going to just put your HTML inside of this res. end so we can use the the fs or the file
+
+
+00:52:02
+system module which I do want to go over more in depth a little later but let's just use it to now just to load an HTML file so what we can do is have in our structure here our crazy structure because this is just like a Sandbox we're not really building something specific let's create a folder called public and we'll say we'll have an index.html in there and we'll have a whoops we'll have a about. HTML and then we'll have that's it we'll just have those two and then I'll just
+
+
+00:52:40
+put a boiler plate in here just say homepage homepage and then for the about we'll do the same thing okay so we have our two HTML files now I'm going to bring in up here I want to import the fs the fs module and there's multiple ways to to use the fs module and to use the methods on it like read file WR file so there's one way which is the default which is a an asynchronous callback and then there's also a synchronous version of all the methods which does it it's blocking so it stops the the execution
+
+
+00:53:25
+of your program until it finishes which you usually don't want to use and then there's also a promise version where you can use promises either with then or with a syn of weight so I'm going to import the the promise version so I'm going to say from FS SL promises and then let's come down here and I need to get the the current file path now if you're using commonjs modules the require syntax that we looked at that then you actually have um I'll go right here you actually have
+
+
+00:54:02
+let's say get current path some variables you have one called double uncore file name which will give you the current file name with the the path and then you have double uncore durame which will give you the current path of the file that you're in so these aren't available if you're using ES modules unfortunately they're not available in the environment and you'll get an error if you try to to use them but we can kind of make our own by using a couple things so one is the URL module
+
+
+00:54:36
+so I'm going to import URL from URL and these are all these are all core node.js modules you don't have to install these or anything and then let's create our own double uncore file name and set that to URL and then there's a method called file URL to path and in that we're going to use this import import. met. URL which will give us the file URL to whatever this file is in and we don't want the actual file URL we just want the path and that's what this does is it takes that file URL turns it
+
+
+00:55:11
+into a path then what we can do to get the directory name is use the path module and I'm going to go over these modules more after we're done with the HTTP stuff so let's import path from path and this just gives you a bunch of utilities to work with file paths and on that we have a method called durame okay I mean I know we're calling this durame but this is a variable this is a method that we can use to get the directory name that we're in and we just want to pass in the current file name
+
+
+00:55:46
+which we just created here so just to kind of give you an idea of what this gives us let's console log both file name and durame just to see what that gives us so you'll see right here the first one which is file name gives me the server JS and the entire path the durame gives me just the entire path but not the file name and these are very helpful and you'll use these for a lot of different things in your project so now what I want to do is like I said instead of just writing this H1 I want
+
+
+00:56:21
+to load a file and instead of kind of repeating ourselves here cuz we're doing right head and um we're actually going to get rid of these so inside this these conditionals and let's set a file path variable with let so we'll say let actually let's put this above where we check the URL so above the above that let's say let file path and then in this first if we want to set the file path equal now we could just do double uncore durame SLU index HTML because that's what I want to load but
+
+
+00:57:04
+the path module has a method called join which will just take in arguments and each argument you pass in is going to be part of the file path so for instance I want to take the current directory that we're in then I want to go into the public folder and then I want to go into index HTML or load index HTML all right and then I'm going to copy this line and then go go into here and instead of index HTML we want this one to be about. HTML and then if it's not found I mean we could create a not found page or
+
+
+00:57:37
+whatever but I'm just going to do a throw we'll say Throw new error and just say not found all right now since we have that file path variable let's go under the if statement still within the you know the if get and let's say cons data and set that to a weit and we do have to make this asynchronous so up here just put in async and I'm I'm going to be using the the read file method on the fs module so we're going to await fs. read file and then pass in that file path okay and then we'll go ahead and
+
+
+00:58:23
+let's set the content type to HTML so we'll say res . set header and let's do content Dash type and let's set that to text/html and then we'll use res we'll do res. write and pass in data which is going to be the file and then res. end all right so that should work let's save it and now I'll do this from the browser so let's go to uh Local Host 8000 about I reload and now it's showing me the HTML the about. HTML you can see the title says about so anything I put
+
+
+00:59:08
+in that HTML page is going to show here if I go to Just Local Host 8000 then it loads the homepage if I go to slash test which doesn't exist then I I get a server error probably better to put a 404 notfound page but uh I don't know I guess that's fine for now you guys get the idea and again six time I've said this you're not going to be doing things like this um in your actual projects if you use express this is a lot easier this is just very lowlevel it's a web server you could build your website and
+
+
+00:59:40
+you know start to put your HTML together your CSS and all that now I want to show you the other side of building an API which is very common a lot of times you'll have your back end will be adjacent API and then you'll have react or view or something something on your front end and you'll make requests using the fetch API or using axios you'll make requests to the back end to get your data and your back end is where you'll interact with your database or whatever it is you're doing graphql anything you
+
+
+01:00:11
+want really so let's um I want to keep this code here so I'm going to close it and I'm going to create another file called server 2. JS and I want this file to run when we run npm start so let's go into package.json and just add a two onto This Server JS so now if I restart this and I run it it's running but there's nothing in our in our code so I'm just going to stop it for now so let's once again we're going to use the a the create server method from uh from the
+
+
+01:00:44
+HTTP module but since that's the only thing we're using we can actually just import that I'm sorry we want to use import and we can say import create server from HTTP okay because that's that's all we're using and then let's just create some users so this will be a users API and again this would probably come from a database but we're just going to hard code just an ID we'll do an ID and a name so John Doe copy that down we'll do Jane do id2 ID3 this will be jimo all right so we
+
+
+01:01:27
+have our users now let's do the same thing server set that to now we can just say create server we don't have to put the HTTP in front of it and that takes in our function with request response and then down here we want to just listen so server. listen actually I'll just just grab this so we'll do that and let's just add our Port up here so cons Port that's going to be from our environment so process. env. Port okay now in here let's check we want to check for the URL and we want to
+
+
+01:02:13
+check for the method because with a with an API usually you're going to listen for like post requests to add a user get to get the users put to update and delete to delete now I do have a video on my channel it's called something like vanilla uh build a van an arrest API with vanilla node.js and that goes much deeper than we're going to do here I just want to make a couple be able to get users and get a single user but again if you want I'll put that video in the description if you want to take this
+
+
+01:02:44
+further so let's say if the request URL is equal to and we have something like API SL users and let's check for request Dot method and see if that's equal to get so if that is then let's do res. set header and we want to set our content type and for Jason it's going to be application SL Json okay and then let's do res dot WR and in here we're going to do json. stringify and again with Express you can just pass in you can do something like this don't don't type this but you can
+
+
+01:03:31
+do res. Json and you can put your JavaScript object right in there and it'll just parse it as Json you don't have to do Json stringify so let's pass our users in there and then we just want to end the response and that should work we can make should be able to make a request now well let's run our script and then make a request to slash API slash users and there we go so we get a 200 okay and check it out we have our users down here in the body now let's make it so if if we're if
+
+
+01:04:09
+we hit a route that is not this that doesn't exist then we'll just say you know route not found so let's have an else and for this let's do uh let's see I'll just call copy this and then I'm going to just put in a message here let's say message route not found so if we do that and then let's go back here and let's go to Just API I don't know todos and we get route not found now you should probably make this a 404 so what we could do is just go in here here and
+
+
+01:04:56
+say res. status code and set that equal to 404 and now if I make that again now I get route not found but my status is a 404 so you want to follow these these conventions when building an API now let's say we want to be able to go to like slash users slash and then the ID of the user or it would be sorry API SL user and then the ID so I want to be able to do that so we can put another basically put another route in here so we'll say else if I think that yeah so we'll do that is that right no we need we need
+
+
+01:05:47
+our curly brace here as well all right so else if now this is difficult using just node in the HTP module if we using Express we could just have a route where we're saying if it matches you know API we could do like if it matches API URL and then colon ID which would be dynamic this ID then you know do whatever but in this case one way to do it is to use a regular expression and use the match method so we have our URL so request.url and then we want to say if it matches and then the regular expression I'm just
+
+
+01:06:28
+going to grab that and throw it in I hate typing regular Expressions out so it's going to be wrapped in these double you know forward slashes and what this is saying is it needs to match SL API literally SL API and then slash users and then slash any number okay so this brackets 0 through n and we also want to make sure it's a get request so let's say and request. meth is equal to get so if that's true then for now let's just uh let's just copy this just to make sure that that
+
+
+01:07:08
+works and I'll just for now just pretend this is a user so name John dope okay so let's try that and just see if that comes up so we'll send and there we go all right now to to get the actual user by its ID we can let's see I'm going to go right above that and let's say const ID because we need to get the ID from the URL so what we could do is say request.url and we could use split and we want to split it on the slashes and then it should be the third one and just to test that out we could
+
+
+01:07:53
+do a console log of the ID and now if I go when I hit that route down here you can see one if I pass in right here two send it now we see two so we got the ID now we want to get the user so let's say const user and set that to users doind and find is just a JavaScript method takes in a call back so it's going to look for the user and once we get that user uh we want to return if the user. ID right so this Loops through the users we're saying for each user we want to check the ID and see if that's equal to
+
+
+01:08:35
+the ID variable but let's parse it as an integer so parse in or parse it as a number okay now we'll come down here and we'll say if user so if that user exists then let's go ahead and cut that so if the user exists this we'll go ahead and put in here in this Json stringify that user variable and then else so if that user does not exist then let's do this and let's say user not found because it is a it's a route but the user's not there so we'll try that out
+
+
+01:09:23
+let's go to postman or your browser whatever you're using I'm going to send and you'll see it gets me the user with the ID of two that gets me the user with the ID of one if I do 100 user not found 404 so this is the beginning of a rest API and again it's very kind of messy code it's it's confusing that's because it's just the HTTP module and normally you're going to use a framework if that's not clear by now and we could actually since we're using this
+
+
+01:09:55
+twice here we could actually get rid of these and put this put that here and then get rid of that CU we're doing that either way and same thing with res. end we could go ahead and put that uh down here res. end and let's make sure that still works so user not found users gives me all of them slash one all right cool now let's talk a little bit about middleware so middleware are basically modules or functions that have access to the request and response object because they it they sit in the
+
+
+01:10:39
+middle of incoming requests and outgoing responses and they can perform basically any code that you want you can execute any code you can also make changes to the request and response objects all right so if you wanted to add a value onto onto these you could do that um a lot of times when you have authentication middleware you'll end up with res. user and you'll have access to the logged in user you could and then you have to call the next middleware function with the next function so to
+
+
+01:11:12
+give you an example let's add to this I'm going to create a middleware function and usually you'd put this like uh in a separate file but I'm just going to put it here let's say we want some logger middleware that will just will log the uh the URL and the method whenever a request is made so let's create a function we'll call it logger now middleware is going to take in request response and next and this is the same whether you're doing it with just node.js or with
+
+
+01:11:46
+Express so let's do a console log and we'll put some btics in here and I want to log the whoops the method so remember the we have access to request so we have access to request. method and then next to that let's do the request.url now since this is middleware we have to then call the next function because that basically says okay this is done let's move on to the next middleware now to use this we actually have to wrap uh we have to run it and then everything we're doing here here we have
+
+
+01:12:26
+to wrap in the call back so let's go into the server I'm going to clean this up after as well but let's go ahead and say logger and this is going to take in request response and then a function and in that function is where I basically want to have all this so I'm going to grab from here down to here C it and then put it in here okay so now let's make a request so we'll do the get to this this users one and now notice down here in the console it says get and then API users one if I
+
+
+01:13:12
+do API users if I do a post request which shouldn't work but it still shows it down here because we're logging the URL on the method so that's an example of middleware now I want to clean this up a little bit and we could actually since we're doing the application Json basically everywhere so you can see we're kind of repeating ourselves we could make that a middleware function let's say Jason middleware so we'll say con Jason middleware and set that to and that's going to take in request response
+
+
+01:13:54
+next and all I want to do here is this so I'm going to take that put that there and then we can call next so that's all that's all I want that to do and then for the user stuff right so for here for this route uh where is it yeah for this route API users we're getting all the user we're sending all the users for this one we're sending back a an individual user so let's create a Handler function for those just to clean it up so we'll say route uh route Handler for SL API SL
+
+
+01:14:43
+users actually we'll say for get API users so const get users Handler and we'll set that that equal to now this is not a middleware function it's just a Handler it's just a function and takes in request and response and we're going to just do let's see this right here and the end because we don't have to do this that's going to be taken care of with with the the uh middleware all right so that's the get users's Handler now let's do the get the user byid so we'll say route
+
+
+01:15:26
+Handler for get SL API users slash and then the ID so we'll call this get user by ID Handler all right and then what I'll do is grab Let's see we want the ID want this these two lines the ID and the user so we'll put those in there and then we want to check for the user so we'll grab this if statement right here and the end grab that put that in here so you can see it's just breaking it up and it's making it it's cleaner it's easier to read than this slop that we have down here and
+
+
+01:16:21
+then finally we could have a not found Handler so let's let's say not found so const not found Handler and set that request [Music] response and for that let's see we'll grab the 404 we'll grab this and the res. end put that in there now we just have to put it all together so we have our logger I'm just going to get rid of everything in the logger middleware or I'm sorry in the logger um call back so all this stuff and since we have two middlewares we have logger and we
+
+
+01:17:10
+have the Jason middleware we can basically just kind of um stack them in here so Jason middleware request res and then the call back and then that's where we want to do our routing so we'll check if the request.url is equal to/ API users and the request dot method is equal to get then we want to call the get users Handler okay so this is much neither else if now this is where we have to do our little um expression so request. URL do and then we'll use match and let me just grab that expression same one we had so
+
+
+01:18:13
+that and we want to check to see if the request dot um see if the method is equal to get if that's true then we want to call our get user by D Handler right and then else then we want our not found Handler oh we have to pass in request response into those because it's not going to know what those are so make sure in these handlers pass these in okay so let's try it out so I'm going to go API users and we get all of our users if I do slash1 if I do sl11 we get not found if I do API use which doesn't exist I get route
+
+
+01:19:04
+not found and we our logging middleware is also working now what if we took this a step further and made it so if we make a post request we can actually send data and create a new user I think that'll give you a good idea of how to actually get data from the body of a request so let's add a new Handler so this is much more scalable now because now I can just create a a route Handler uh to a right rout Handler for a post request to slash API users and even though this route was already used with
+
+
+01:19:41
+a get request it's fine because it's going to be a different method so we'll say const create user Handler and it's going to take in the request response and getting body data is much more difficult I mean it's not difficult but it's it's more difficult than with Express because with Express you would send your body data you know send your Json and then you could just access it with request. body and that would give you the the name the whatever it is you're sending here it it's a little
+
+
+01:20:17
+different so first thing we're going to just create a variable called body and set it to an empty string and then what we do is we listen for the data by doing request.on so we're listening listening for a specific event here and the event is called data and when that happens we have this call back which takes in a chunk okay so this Chunk we basically have to take we're going to take our body variable and we're going to append onto it that chunk but we want to make it a string so we want to convert it to
+
+
+01:20:54
+a string and that should give us the data and then underneath that request.on we're going to do another request.on and now we're going to listen for end and when that happens we'll have a function and we should have access to that body variable which will include whatever we send so let's say con new user and set that equal to and we're just going to parse it so json.parse parse that body because it comes in as Json but we want to turn it into a regular JavaScript object and then we'll
+
+
+01:21:30
+take our users array and we'll push on to it in reality you you'd be adding it to the database but we're just adding it in memory here onto the users's array and then we'll do a res. status code of 201 which means successful and something was created and then we'll do a res. write and let's send Json so we're going to stringify which is the opposite of Json here we're turning Jason to a JavaScript object here we're turning a JavaScript object into Json send the new user and then res. end
+
+
+01:22:05
+now let's come down to our router okay this is our router basically it probably be better as a switch but this is it's fine so I'm going to add another else if so right here before the else let's say else if um and then yeah so we want to do that and we'll say if the request.url is equal to and we want to see if it's equal to API SL users but we want to make sure it's a post request so we'll say and the request. method is equal to post and if that's true then we
+
+
+01:22:47
+want to call the create user Handler and pass in the request and response objects so let's try it out we'll go to postman and we're going to select here body and then raw and we're going to send the ID usually you wouldn't send the ID you'd have the database would create it on its own or we create it on the server side but we're just going to send it for the just to keep this simple so ID we'll set that to four 2 three four whatever and then for the what else do we have the
+
+
+01:23:22
+name we'll set that to just say Brad so I'm sending a post request so I want to select post and I'm sending this in the body so let's send and we get route not found because this needs to be API users and there we go so we get a 2011 created and we get back the new user and if I do a PO a get request now to API users you can see that Brad is now included now it's just in memory if I reload then that's going to go away but you can see that it's working how it's supposed
+
+
+01:24:00
+to so I think that that's going to be it for the HTTP method we did quite a bit but I want to move on to some of the other core modules like I mean I know we use the fs and the path module a little bit in our API and stuff but I want to just get a little bit deeper into those so let's close these up and I'm going to stop the server cuz we're actually going to be using different files now and the first module that I want to look at is the fs or file system module that we did we looked at a tiny bit but I want to
+
+
+01:24:32
+give you a better idea of how that works so let's create a file we'll call this FSD demo.jpg documentation all the core modules you can find on the side here so file system if you take a look there's there's tons of methods so read file uh sync truncate write file all kinds of stuff that have to deal with permissions and pretty much anything you want creating directories I'm definitely not going to go through you know all of these or or even a lot of them I'm just going to show you
+
+
+01:25:16
+probably write file read file and a pend file um just so you know how they work because there's actually multiple versions of some some of these you can see that like this one right here chod sync and there's a chod so chod would be the asynchronous version which is is non-blocking and then chod sync is the synchronous version which will block and it will wait for that method to finish until you know for it to continue executing a code which in most cases you want to use the asynchronous version um
+
+
+01:25:49
+but you know there is a synchronous version available so we'll start with the read file method me and I'm going to show you the different versions so we'll say read file and this is the it's the async version but it's the Callback version because there is a call back and there is a promise version call back is is kind of the default um so let's yeah we'll just do this so let's take fs and we're going to call read file and read file does just that it could be a text
+
+
+01:26:19
+file so let's create we'll say test.txt and I'll say this is from the text file so I want to read what's in this file into my program so this is going to take in three things first is going to be the file location which is in the same directory test.txt and then the second is the the encoding which is going to be utf8 and then third is the call back so this is a synchronous so this call back will run once that the file is read so this takes in a possible ible error and then the data from the file and then we
+
+
+01:26:58
+could just check for an error if there is then throw error and then let's just do a console log of the data in the file so now I want to run this FS demo JS so I'm just going to say node FS demo. JS and we see this is from the text file so that's the first version now I want to show you the synchronous version and this is actually called read file sync okay so this is the synchronous version now this is is written easier in my opinion but it's blocking so if it's a giant file that you're reading it's
+
+
+01:27:40
+going to stop the rest of your code so you usually want to use the asynchronous version but if it's something really quick and and it you know it's not going to affect performance you could just use this so read file sync takes in the location and the file name so test.txt and then the encoding and then we can just console log that data so now if I run FS demo you can see that it runs Twice first for for this the asynchronous and then once for the synchronous now I want to show you the promise version and there's actually a
+
+
+01:28:16
+separate import for that so we can import let's comment this one out and say import FS from and then it's going to be fs/ promises and then I'm just going to comment out these so we don't get any conflicts and let's say this is going to be the read file and this is going to be the promise version and there's basically two versions of this because we can use the the dot then syntax and we can use a sync away now out of those four async AWA is my preferred so that's what we
+
+
+01:28:48
+use for the rest of these but just to show you we can say read file and then pass in. SL test.txt pass in the encoding and then take off that semicolon and we could add dot then because remember this returns a promise so do then and then we have our function with the data console. log data and then we can add a catch for errors so that'll take in a function with error okay so now if I run the file we should we should see this is the text from the file and we're using the promise version so let's do the the
+
+
+01:29:42
+async await example so we say read file and this is going to be a sync a weit I'm just going to comment out this one now with a sync await obviously we have to wrap this in an async function so let's create a a read file function and it's going to be asynchronous and then in here we'll do a try catch to handle any errors okay and we can write it just like we can do the sync version that that's why a sync await was created so we can write code that looks more like this than like this right in fact I
+
+
+01:30:24
+could just just take that and instead of calling read file sync we'll call read file and we just have to put a weight in front of it and then we can console log the data so this is my favorite way of doing things because it's more readable and it's asynchronous and then here we'll just console log error and then we have of course we have to run read file and there we go so we get this is from the text file so those are the four different ways to use this function or to use really any of these FS methods so
+
+
+01:31:01
+the next one we're going to look at is write file so let's say write file and I'm not going to do it four different times I'm going to use the asyn A8 version so let's say const write file and it does just that it writes to a file if it doesn't exist then um it'll create it so let's say async and again we'll do do try catch and in here we're we don't need to return anything from it so we'll just simply say await and then write file it's going to take in the location and
+
+
+01:31:34
+name of the file I'll just use the same one uh we don't need to put the encoding what we do need is what we want to write to it so let's say hello I am writing to this file and then we'll just do a console log and we'll say file written to okay so now let's do the right file before the read file so we'll go ahead and run this and now we see file written to and we see hello I'm writing to this file and if I open up that test.txt you can see that it it overwrote what was there so it's
+
+
+01:32:17
+always going to overwrite whatever you have there now if you want to add something to it and not overwrite it you can append so that's where append file comes in so for this let's say const append file okay and then we'll do uh we don't have to return anything so we'll just say await fs. append file and it's going to take in the file we want to append to and what we want to append so I'm going to put in a string I'm going to use a new line character which is sln and we'll say this
+
+
+01:32:57
+is appended text and then I'll just console log we'll say file appended to all right and then we'll call this let's do it second so aen file and then we'll read it so we'll run file written to file appended to we see the first line and then we see the appended text and if I look in the file a new line we have this is a pended text so that's kind of the gist of the fs module you can do all types of stuff with files if you want to save logs or or whatever you could even integrate it into our API
+
+
+01:33:37
+into the middle the logger middleware to log it to the file in fact that could be a little assignment for you guys to do so the next thing I want to look at is the path module which we looked at a little bit so let's create path demo.jpg going to bring in path [Music] from path okay now and this is it gives you utilities to work with file paths and it doesn't matter if the file path is there if like it's actually in our structure or not so I'm just going to create a variable to represent a file path to
+
+
+01:34:17
+work with so we'll do SL dur1 SL dur2 SL test .txt okay that's not a real location but that's what we'll use to kind of show you the different utilities we have so the first is base name all lowercase and this will return the last portion of a path so we can simply console log path. Bas name and then pass in our file path and then we'll run this so remember you got to run path demo. JS and we get test.txt because it's looking at this and it's just giving us the file name just the
+
+
+01:34:57
+base name now we can do the opposite and get the directory with dur name so durame and let's do console log path. durame and then file path and take a look and you can see here it's just giving us the the file path the dur dur One D 2 now you might want to get just the extension name so EXT name will do that so we'll go ahead and console log path. EXT name and then pass in our file path and when we run that we should see. txt okay because it's just going to give you the extension now there's also
+
+
+01:35:38
+a method called parse that will basically give us an object with all this stuff right here so if we console log path. parse and we run that see we have an object with the root which is just an empty string and then the dur or the directory the base the extension and name just the name of the file so there's going to be different cases when you're working with file paths that you're going to need stuff like this now I already kind of showed you how to get the dur name and the directory name and file name of the
+
+
+01:36:11
+current file but I'll just go through that again and again if you're using commonjs you have access to double uncore durame and double uncore file name you don't have to do anything but if you're using ES modules you have to kind of create it yourself and we do that by using again the URL module and then we can use the right here so file name equals uh URL and then the file URL to path and what we pass in here is the file URL which we can get from import. met. URL okay so that import that gives us something like this
+
+
+01:36:55
+file SL colon SL slash and then the file path but we want just the path and not that file colon slash so this will give us the the actual um file URL I'm sorry file path and then to get the directory name we can just do dur name and set that to and then use the path module and the durame method and then pass in double _ file name and you have to bring in path and it it auto imported for me that's another thing too if you use sometimes if you use something in BS code a module and you don't import it it'll Auto
+
+
+01:37:35
+Import it for you and then you can console log both of these so we get the file name we get the path name uh sorry the dur dur name if I run that so here we go this one has the actual file in it this one is just the path now another one is join and I believe we use that already as well and what join does is it will create a file path based on arguments passed in and the the main reason for this is because on different operating systems you have different delimeters so for instance on Linux and on Mac you would have a path
+
+
+01:38:13
+like users uh forward slash Brad right but on Windows it would be users back slash Brad so what join does is it'll you just pass these in as arguments and it'll automatically put the correct delimiter in so let's let's try that we'll say const and let's say file path 2 and we'll set this to path. jooin and we'll take the current directory name and then we'll add on to it let's say dur one and dur two and then let's say say test.txt and then if we console log file
+
+
+01:39:00
+path 2 and we take a look it's going to be the the current directory that we're in which is for me is going to be this and then we added dur one then dur 2 and then test.txt so it just it just joins and constructs a path then we also have resolve which will basically do the same thing except it's always going to be an absolute path in fact you can use these kind of interchangeably I could actually just do this we'll change that to three and then we'll here instead of join we'll use
+
+
+01:39:33
+resolve and uh we also want to log file path 3 and if I do that you'll see we get the same exact thing all right and there's tons more methods you can check out and you can look at the documentation for that but I do want to move on so the next one we're going to look at is the OS module so let's say OSD demo. JS and we're going to bring this in so import Os from OS and this will just give you information about your system which is nice if you want to create something that interacts with the the memory on
+
+
+01:40:11
+your system or the CPUs or something like that maybe you want to create a little visualization for um for the memory used things like that so the first method that we're going to look at is user info actually it's a capital I and that will do just that it'll give you information on the the current system user so let's do a console log os. userinfo and then of course we're going to run the OS demo JS and this is what it gives me an object with the uid G username obviously yours is going to be
+
+
+01:40:46
+different depending on your system and your user and of course if you wanted just the username you could just add on to this do user name and if I run that it gives me my user which is Brad traversy all right so next we're going to look at some methods that have to do with memory so we can get the total mem actually it's all lowercase this one so total mem and let's console log os. total mem and we'll run that and that's going to be in bytes so this is the total meem and then we also have free meem which
+
+
+01:41:24
+will be the free memory so os. free run that forgot my parenthesis okay so we have the total memory and we have the free memory now if you want information on the CPUs there's a method called CPUs so we'll console log let's say os. CPUs and what this is going to give you is an array and then you're going to have an object for every core on your system so you can see I have Intel Zeon and it's going to give me an object for every core in my system uh I think yeah I think that's
+
+
+01:42:08
+good for the OS there are some other things but you can check out the documentation for those now we'll jump into the URL module so let's say URL demo. JS and we'll import URL from from URL okay so I'm going to just construct a a URL string to work with so let's say URL string and we'll set this to I want to have something that has a a query param in it as well so we'll use like a Google search so we'll say www. google.com search and then we'll add in a q pram so a search query and we'll set
+
+
+01:42:51
+that to hello Plus World okay so if you were to search Hello World on Google you would have a URL like this now I want to construct a URL object to work with and we can do that with the URL Constructor so let's say const URL obj set that to new and then the URL Constructor and we'll pass in our URL string and then just to see what that gives us let's console log URL object and basically it's going to give you all kinds of stuff from from that URL make sure you run the right file and you can see our object here it
+
+
+01:43:30
+has the atra which is the entire string the entire link the origin which is just the domain the protocol username and password if there's one host the port if there is one the path name which is/ search the query string here so you get the whole question mark Q equals hello world and then you also have a URL search params object with each um each key in value and also a hash so you can access any of these by themselves so if you want to do like um like dot path name and there you go we get slash
+
+
+01:44:09
+search so let's look at some of these other methods so format what format will do is it takes the object and turns it back into a string so let's do a console log of url. format and let's pass in our URL object and you'll see that that will just give me that'll just put it back into string form um we talked about the import So import. Meta do URL so this is kind of a special variable and again it provides the uh well this provides some metadata about the current module so it's not
+
+
+01:44:51
+actually part of the URL module but but this is useful to know and it gives you the the file let's say the file URL so if we were to console log this directly import meta DOL then you can see it gives us the the file has the file protocol here and then the path and then we already saw this as well the file file URL to path which will just convert it to a regular path so we can say console log uh URL do file URL to path and pass in import meta URL and now if I run that now we just get the path now the next thing I want
+
+
+01:45:41
+to show you is how we can get the search params or the query params so like for instance we have a a key of q and a value of hello world so what we can do remember we can we can get the URL object. search so if I do that it's going to give me the entire thing the Q equals hello world but I can go ahead and say con and I'll create a pams object with new and then URL search pams and pass in the URL doob uh not doob URL obj and then do search okay so I'm passing this into this and yeah let's go ahead and console
+
+
+01:46:30
+log now pams and that should give me an object yep so we have an object with q and then the value is hello world and of course if I wanted just the value I could actually do this I could console log pams we we don't do this like you might think we can do pams doq but we don't we use a get method and then we pass in Q so now I should just get Hello World okay and you can even add on to the pams so for instance we can say pams do append let's say we want to add on a limit and say we want to set that to
+
+
+01:47:12
+five now if I let's move this down here and log pams and we should have the Q hello world but we also have that limit five and you can also delete as well so I could say ps. delete and I want to delete limit and now if I log pams now limit is gone and you could you could also Loop through those as well all right and there's a bunch of other methods but I think that we'll go ahead and stop here as far as the the URL module so the next one I want to look look at is called crypto so let's say
+
+
+01:47:51
+crypto uh crypto demo Mo .js so what this does is it provides uh cryptographic functionality and you can read more on the docs but you can do things like create hashes so if you want to Hash passwords you can create random hexadecimal strings you can encrypt and decrypt data just all types of stuff um some of this can get really complicated so I'm just going to do a couple simple things so let's first import crypto from crypto and the first thing I want to show you is how to create a hash with
+
+
+01:48:29
+the create hash uh method so let's say cons hash set that to crypto do hash and then what it takes in uh what it takes in is the algorithm that you want to use which could be like md5 I'm going to use sha 256 which is pretty common all right and then to actually hash something we use the update method so let's say hash dot update and whatever you want to Hash we'll put in here so let's say password one 123 4 and then to get that hash I could use the digest method so hash do digest um and then we want that to be in
+
+
+01:49:22
+HEX so we'll pass in HEX and whoops we want to run the correct file so node crypto demo JS let's see what's going on here the input argument must be an instance of buffer typed array or data view let's see so cinh equals crypto do I'm sorry this is this should be the create hash method all right so if I do that and there we go so there's our hash and you you never want to obviously you never want to store plain text passwords and databases so you could hash it before you put it
+
+
+01:50:05
+in now you might want to just generate Generate random um I can never say this word cryptographic cryptographically strong um data or a cryptographically strong hexadecimal string and you can use random bytes for that so let's say crypto do random bytes and you put the size in here we'll say 16 and then you have a call back that can take in an error and a buffer so we'll say buff and then we can check for the error so we'll say if error then throw error and then let's just do a
+
+
+01:50:45
+console log of now we can take that buffer and we can use two string on it and let's pass into two string hex so now if we go ahead and run that you see it gives me that random string if I run it again it's always going to be different and you could even use this for something like you um user IDs things like that now I want to look at uh let me just put a comment here so this is random bytes I want to look at encrypting and decrypting data and we can do that by creating Cipher text which is an encrypted form of a message
+
+
+01:51:23
+our data so basically it will encrypt plain text which is readable data into Cipher text which is unreadable data using cryptographic algorithms and keys and the cipher text can only be decrypted back into plain text by someone who possesses possesses the correct key and it also uses something called an IV which ensures that even if it's the same plain text and it's encrypted multiple times with that same key the resulting Cipher text will still be different each time now I think I should just paste some of this in
+
+
+01:51:59
+because it's kind of long I don't want to type it all out but I want you guys to know how it works so we're going to be using two two different methods the first is create Cipher IV and actually I think it's lowercase yeah create Cipher IV and then create decipher IV so we need three things we need the algorithm so in this case we're using the AES 256 CBC algorithm if you go to the docs you can see the different algorithms that are available and then we have our key which is just going to
+
+
+01:52:37
+be uh a random string and we're passing in 32 and then the IV also just a random string of 16 and then to encrypt or get our Cipher text we can use crypto doc create Cipher I pass in the algorithm key in IV which we're doing right here we're creating right here and then we're using the update method just like we did with the hash passing in whatever it is you want to encrypt the encoding type and then hex and then here we're taking that variable and a pending onto it cipher.
+
+
+01:53:11
+final so in order to to encrypt that we need to use that final method and then we're logging out the encrypted text so let's see what that gives us um we should actually comment out this stuff here okay so if we run that and this is this is now this in Cipher text so it's encrypted now to decrypt it we kind of do the same thing except we use create decipher IV pass in the same three things the algorithm key and IV and then we use update again and we pass in the encrypted string and then we can append
+
+
+01:53:50
+onto that variable final and then log it and we should see the text so hello this is a secret message okay so this is the encrypted or Cipher text this is the plain text now there's tons of other things you can do with the crypto module but I think we're going to stop that here and the next thing that I want to look at is the events module and the event emitter so let's create events demo. JS and we're going to import now I'm only using one thing from here and that's going to be the event emitter so
+
+
+01:54:24
+I'm just going to destructure it so we'll say event emitter and we're importing that from events now this is great for building real-time applications because you can create custom events and you can listen for those events you can also listen for built-in events like dat the data event on a readable stream so let's uh let's create an instant an emitter instance so we'll say cons we'll call it emitter set that to a new event emitter or yeah so that will give us an emitter now I want to create a couple
+
+
+01:55:03
+functions that we want to to run or to call when an event is emitted so let's do something just very very simple we'll create a greet Handler and we're just going to have that console log hello world and then let's create a goodbye Handler so we'll call this one goodbye Handler and we'll say goodbye world now the on method is used to register event listeners and you can listen for multiple events and have multiple listeners for the same event so let's say register uh register
+
+
+01:55:53
+event listeners so we'll take our emitter so my emitter and then we're going to use the on method so do on and we'll say on the Greet event then I want to call the Greet Handler these are obviously very very simple examples and then let's have another one called goodbye and for that we'll call the goodbye Handler all right now let's emit some events and we can do that with the emit method so on my emitter we have Emit and let's emit the Greet event and then let's emit
+
+
+01:56:37
+the goodbye event now if I run that file so let's clear this up let's run node events demo and we see Hello World and goodbye world so I mean obviously these are very very simple examples but this allows you to to emit events from anywhere and you can create real time applications you can also pass data with the event so when we emit here let's say with greet we want to pass in we'll just pass in John and here we'll pass in John as well and then what we can do is um up here in the Greet
+
+
+01:57:15
+Handler we'll say name and let's let's do this let's say hello and then we'll just add on to that name and then the goodbye Handler and we have access to this this name argument because we're passing in um a second argument to emit so here let's just say goodbye space name all right so let's run the file and now we get hello John and goodbye John and then to handle errors we can actually listen for the error event so let's do my emitter Doon and on error then we have a function with an
+
+
+01:58:09
+error and we'll just do a console log and we'll say an error occurred and yeah we'll just we'll just also pass in error and that's going to give us the error message and the stack Trace so now let's simulate the error we can do that by taking our emitter and then emit error and then we'll say new error and just pass in something went wrong all right so now let's run the file and you can see we get this eror here an error occurred which is coming from right here and then something went
+
+
+01:58:57
+wrong is the message that we passed in to this to the error and then we also have the stack Trace now I wanted to look at the process module a little bit or the process object and it's a it's a global object so we don't even have to import it and we've we've used it a little bit by using process.env to access our environment variables so let's create a file called process demo .js and like I said we don't have to actually I think I said it we don't have to import it you can if you want but we
+
+
+01:59:29
+should have access to I mean if you do console log process and we run node process demo you can see we have access to this and the first thing I wanted to look at is this arv property which is an array and it has two things in it by default it has the path to no nodejs and the path to the current file but if you add arguments in the command line you can access those from there as well so if you want to create CLI command line interfaces it's it's helpful so let's console log process.
+
+
+02:00:10
+argv and let's pass in we're going to run the file but I'm also going to pass in import this could be anything I'm just using import as an example and now what it gives me is the array with those two paths and then the third item in here is import right if I add something else like let's say I want to add a flag like dash s and then I run that now- s is the next item in the array and if I want to access one of these you know on its own I could do since it's an array AIS the3d and that gives me just s and I
+
+
+02:00:44
+could say you know if if um this is equal to- s then whatever whatever the logic is for that flag so it's really cool for um for command line interfaces let me just put a comment here so this is the argv property now we we talked about and we looked at process.env a little bit um because we you know we set our port in the EnV file and we were able to do process. env. Port but there's a ton of stuff on this if we just look at process.env and we run this you'll see um you're going to have a whole bunch of stuff
+
+
+02:01:23
+from your system because this this does doesn't just have to do with um with this program or even just node.js it's just your system things um for instance the computer name I can do process. env. computer name pretty sure that that's that's correct so or maybe not could have swore that was on there um maybe it's not computer name let me see all right so let's look at log name for example so if we do process. env. log name so I get Brad traversy so you can check out all the the system variables
+
+
+02:02:08
+you have another thing is the the ID of the node.js process and you can get that with P ID so let's say console log process. PID if I run that you can see that's my nodejs process if you want the current working directory you can use CWD so console log process. CWD which is a function sorry and there we go so that's my current working directory you can get the string that represents the title of the node.js process so title so console log process . title if I run that I get just node uh
+
+
+02:02:58
+memory usage is another one that's a method so memory usage so console log process memory usage and we get this object which has all this this information in it you can also get the uptime now there's an uptime for um for the OS module as well that's your system up time this this is the up time of just the process now when I do this process. uptime it's going to be something very very short so 0.03 seconds um because it basically is the time from when you run the command um to the script executing which is
+
+
+02:03:47
+obviously a very short amount of time now another method you might use is exit so basically exit will it'll exit the process and you can pass in a specific code where zero means success and if you pass a one in it's just a general error so if I do process. exit and pass in zero which is just success like it's supposed to exit if I do a console log after this and I say hello from after exit and I run the file you'll see that this this does not get logged because it exits the process now we can also Pro um register
+
+
+02:04:33
+process event listeners with the on method so for instance and I'm going to go above the exit so it actually runs we can say like process. on and exit is actually an event we can listen for and then we get the code in this call back so let's say console log and then we'll put some back ticks and we'll say about to exit with code and then we'll pass in the code okay so let's run the file and we see about to exit with Code Zero because this event was fired off when we ran this all right now there's there's still
+
+
+02:05:16
+a ton more modules I mean there's the debugger modules there's um you can write you can create streams you can run tests I this could go on and on but I think that this just gives you a good idea of what is included with node.js at its core um like I said a million times you're going to be using packages you're going to be using Frameworks and libraries this is just what it offers at kind of a base level so this is this was more of just a learning experience not really practical and and how you would
+
+
+02:05:49
+actually build projects so I'm going to start working on my my Express crash course I'm going to revamp that and uh you know modernize it a little bit but that's it for now guys thanks for watching I do have uh a node.js API masterclass course at traversy media.com and on udemy where we build a pretty extensive API for um for coding boot camps so you might want to check that out it is a couple years old but it's all still very relevant not much has changed as far as the syntax goes so you
+
+
+02:06:22
+might want to check that out and I also have that vanilla node.js uh rest API video I think that's a good good place to go from here as well but either way thanks for watching guys I appreciate it and I will see you next time
+

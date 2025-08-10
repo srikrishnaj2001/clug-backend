@@ -1,0 +1,52 @@
+
+00:00:00
+hey guys how's it going welcome back to another video and in today's video I'm going to be showing you guys how to deploy a react vit application using versel as the hosting platform this is a continuation of my series of videos where I show you guys how to deploy different types of react apps into different Platforms in a very quick and easy way so in order to start deploying your react V application you need to have that application with you I have here an application that I didn't build
+
+
+00:00:30
+I got this from a public repository which if you want to uh check it out I'll put it in the description but this is what the application builds it's just a simple dashboard uh UI and uh all the code is inside of this project so the first thing we want to do is we want to have an account on both versel and on GitHub so we want to have a GitHub account and a versell account uh ideally you will want to connect your GitHub account to versel so you should go to ver.com login I'll put the link for all
+
+
+00:01:02
+of this in the description and you want to click on continue with GitHub after you authenticate with GitHub you'll be prompted with an overview containing all the projects that you have in this account and if this is the first time you're creating an account with versel you'll not see anything over here but what we want to do is we want to click on add new and then click on Project now when we get to this point you'll see that it will ask us to import a git repository and because I connected my
+
+
+00:01:28
+GitHub account with versel it is automatically fetching all the repositories both private and public that I have in my uh GitHub account so what we want is we want to actually push a new repository for our project so I'm going to come over here and I'm going to just call this react uh V deploy and uh I can make it private I can make it public I'll make it public just so you guys can see it and I'm going to click on create repository then I'm going to grab all of this over here
+
+
+00:02:02
+and I'm going to deploy this uh or push this code into that a git repository so I'm going to open this up I'm going to run git init to initialize a git repository inside of this project then I'm going to run git add dot to add all the files into it and I'm going to just paste all of these uh things that I copied from GitHub inside of here so that it can push everything to GitHub now that it's done pushing let's go back over here let's refresh this page and we should see that yes it has been pushed
+
+
+00:02:37
+again uh this I pushed this from this person you guys should check them out uh but when we're done with this we should now see this new G repository appearing as an option in verse cell so I'm going to click here to import and uh it's going to prompt up this uh page over here we want to choose the framework preset to be V so we'll go down here we'll find wherever uh it says V and we'll choose it then it's going to ask us to choose our root repository we're not root directory we're not going to do
+
+
+00:03:10
+anything on that uh then our build commands in case you're using different build commands uh one thing that is important though is environment variables so if you have any environment variables in your project right now you want to put them over here because uh if you don't then those environment variables will be available uh in your local development but they won't be available in production so you want to put all of them over here it is safe to do so so I wouldn't worry about doing
+
+
+00:03:37
+that and on top of all the ones you've had you also want to add an extra environment variable called V base path and we want to pass the value as an empty slash and on top of that we want to go back to our code over here and we want to go to our V.C config.js or TS whatever you're using and inside of here we want to add a new property called base now this base will have uh a value of process. env. vbase path which is that thing that we passed in the uh versel deployment but uh if that's not existent then we want
+
+
+00:04:19
+to pass a value that is equal to our GitHub repo name so you go to your GitHub repository and you copy this part of the URL over here and you just paste it inside of here and we want to push this again so I'll say get add dot get commit fix and I'll say get push and uh we should go back over here go to verell and we'll click deploy now it should start deploying our application we should wait a second to see but everything throughout the process of deployment will be shown over here together with all the logs and
+
+
+00:04:57
+everything that might happen one thing to point out though is if you have typescript in your application uh any typescript errors that might be occurring will prevent a successful deployment so make sure that you fix any type issues or typescript errors before you try deploying perfect as you can see uh it just finished deploying it didn't take longer than 30 seconds and we can click on continue to dashboard what this will do is it will prompt us the dashboard for this project now this will
+
+
+00:05:26
+include things like all the deployments that you've had Analytics uh insights about the the speed of of your application and stuff like that obviously I'm using versel free version here but you could upgrade to Pro for a lot more features now to actually check out if your app is deployed just click on the link that they provide for you and you should see that if you click on visit uh the app should be available now you guys can go to this app over here again I didn't build this uh this is not
+
+
+00:05:55
+a real app but it is available publicly and it is deployed for anyone to to use now there's other parts of deployment in case you want to deal with like setting up your own domain and stuff like that but those are pretty easy to uh figure out inside of verel you should see here that uh they have a pretty good UI for this so uh and it's not the point of the video the point of the video is just deployment so I really hope you guys enjoyed this video If you enjoyed it please leave a like down below and
+
+
+00:06:22
+comment what you want to see next subscribe cuz I'm posting every week and I would massively appreciate if you could help support the channel and I'll see you guys next time [Music] [Music]
+

@@ -1,0 +1,640 @@
+
+00:00:01
+[Music] hey what's going on guys welcome to my updated JavaScript crash course for beginners so I did a video about three years ago on JavaScript fundamentals and this is the updated version which includes a more modern syntax and just better overall structure now I have a lot of JavaScript courses and tutorials on my channel but this is definitely the first one to watch if you are looking to learn JavaScript okay so this will get you started with the basic syntax and all the fundamentals and I'm gonna go
+
+
+00:00:35
+over what we'll cover in this crash course in a minute so I first just quickly want to talk about what JavaScript actually is and I want to mention that if you're brand new to this some some of what I'm about to say might sound very confusing but the truth is you don't really need to understand all this right now in order to start learning how to write JavaScript so I just want to explain what what's possible with the language what it is so if this sounds like gibberish don't
+
+
+00:01:00
+worry about it you'll come to learn this stuff later on and we're not gonna spend too much time in the slides anyway so javascript is a high-level interpreted language and what high-level means is there's a lot of abstraction meaning that you don't have to deal with things like memory management on your machine stuff like that like you would with a low-level language such as C or C++ and interpreted just means that the program is is executed directly without having to run through a compiler so for
+
+
+00:01:30
+instance when you write let's say Java which is not related to JavaScript by the way sometimes beginners get the two confused but Java is a completely different language Java is actually a compiled language which means when you write your code you actually have to run it through something called the compiler in order for it to run on your machine javascript however is a scripting language and it's interpreted ok JavaScript also conforms to the ECMO script specification in fact you could
+
+
+00:01:58
+say javascript is Ekman script however there are some other implementations of equus script as well such as J script action scripts there's some others as well but they're not very popular javascript is definitely the most popular part of the specification javascript is also multi-paradigm which means that you can write your code in many different ways or many different paradigms for instance you can write object-oriented code or functional code there are languages where you have to write it in a certain way but javascript
+
+
+00:02:29
+is not one of those languages okay javascript is also the language of the browser or the client your web browser displays HTML markup with CSS styling hopefully you know at least the basics of those but if you want interactive aspects on your page like let's say form validation alerts things like that javascript is used for that stuff okay so it's the language of the front end meaning the browser but you can also run JavaScript on the server for more powerful things like interacting with
+
+
+00:03:00
+databases and stuff like that and that's done by using a JavaScript runtime called nodejs which is way beyond the scope of this tutorial however I do have a ton of nodejs videos on my channel including a crash course so if you want to check that out later on you can do that alright so why learn JavaScript what are some of the reasons to pick JavaScript as a language over some of the other ones so as I mentioned it is the language of the browser so if you want to do client-side programming meaning code that runs on your client
+
+
+00:03:34
+machine you'll need to know JavaScript so languages like Python PHP c-sharp Java these are all great languages but they're all server-side ok they run on the server they don't run right in the browser like JavaScript does they're very powerful but they they can't do things like you know slideshows and little widgets in the browser and stuff like that unless they run some kind of library that actually generates JavaScript for the browser ok you can also build very interactive interfaces
+
+
+00:04:05
+with JavaScript frameworks such as react angular view Jas and these are all these frameworks are all highly in demand and again you can build server-side and full stack applications using nodejs you can even build mobile apps with technologies like react native and native script and even desktop apps with a framework like electron so these are reasons why javascript is my favorite language because it's just it's absolutely everywhere it's also very fast powerful and it's fairly easy
+
+
+00:04:36
+to learn so this is what we're gonna go over in this crash course and remember it is a crash course so it's not gonna be too in-depth it's not gonna be too long it's enough to get you started with all the fundamentals syntax so we'll cover things like data types variables arrays objects loops conditionals functions some object-oriented programming and even stuff like Dom selection and events so I'll show you how we can do things like grab on to HTML elements like buttons and add click
+
+
+00:05:06
+events change things up in the Dom which is the document object model things like that we'll even do some basic form validation so as this is a crash course that you will need to do some further learning after this I do have a 21-hour course on udemy called modern JavaScript from the beginning I'll put that promo link in the description and then of course I have hundreds of free videos on YouTube these are some of the ones that you might want to look at and I'll put links to these in the description as well so
+
+
+00:05:34
+for instance I have a four-part course on the Dom using JavaScript with the document object model object-oriented programming using classes videos on the fetch API so you can make HTTP requests to back-end API s and then they have a whole vanilla JavaScript playlist full of small projects where we build just little applications in the browser and then I also have a bunch of crash courses on frameworks like react and angular and view so definitely more stuff to check out after this video all right so that's it for the slides let's
+
+
+00:06:07
+go ahead and jump in and let's start to learn JavaScript all right guys so we're gonna get started and I'm gonna go a little faster than usual just because there's so much to cover in terms of just the fundamentals of JavaScript so I have my text editor open I'm using Visual Studio code which is what I would suggest however you can use whatever text editor you want I'm also using an extension called live server that will allow the browser to refresh when I save the page so for instance if I just take
+
+
+00:06:36
+this I off and I save you'll see that it'll auto reload I don't have to click the reload button so that's helpful in will speed things up a little bit so let's go ahead and add some JavaScript to this very basic HTML file you can see I just have the head and then in the body I have a header with an h1 so you want to put your JavaScript at the bottom right above the ending body tag okay you almost always want to put this JavaScript at the bottom because you want your HTML and your CSS to load
+
+
+00:07:06
+first so let's go ahead and put a script tag here and there's two ways to do it you can put the JavaScript right on the page by putting it within script tags or you can do it a second way which is the recommended way and that would be to put it in a separate JavaScript file so that's what we're gonna do but I'll just show you real quick that we can put it right on the page here so I'm gonna do an alert which is a function that is actually part of the window object and it just adds a pop-up with whatever you
+
+
+00:07:37
+put in here so I'm putting a string of hello world and if I save the page will automatically load and I get a little pop-up that says hello world all right so I'm gonna go ahead and get rid of this because I want to include my JavaScript from these this main J's file so I'm just gonna add a source attribute here and say I wanna load main jas okay and if I go to main j/s it's completely empty now since I'm in the JavaScript file there's no need to put script tags or anything like that we just type our
+
+
+00:08:08
+JavaScript so if I just go ahead and put that alert back say hello world and save and you can see that that runs all right now as far as alert you don't really want to use that for debugging or outputting values or anything really because it blocks the rest of your script from running it's just very inefficient so what you want to use is the console okay every browser has what are called developer tools and you have a JavaScript console where you can output and you can also actually run
+
+
+00:08:42
+JavaScript in the console so in chrome you want to go to your menu more tools and then developer tools I know you guys can't see this but there's a selection for developer tools and there's a bunch of tabs here you want to choose the console okay if you're on a different browser I'm not sure the exact menu option or keyboard shortcuts but on Chrome you can also open it with command option I on a Mac you can toggle it that way or f12 on Windows so we can actually execute JavaScript from here I can say like
+
+
+00:09:14
+alert 1 and you can see that that runs we can clear the console with clear and then some parentheses and then we can also output to the console from our script by doing console dot log save that and you'll see that it loads HelloWorld so we're gonna be dealing mostly in the console in this course because this is about learning the the basic syntax so we're not really dealing too much with the Dom with the with the user interface until the end when we get to things like events elements selecting
+
+
+00:09:47
+elements and stuff like that all right now there's other methods attached to this console object as well as log as a method okay so it's a method that runs off the console object if we search the MDN documentation for console mdn is the Mozilla developer Network and it's the best documentation for JavaScript so if we go down to methods you'll see the console has a bunch of stuff on it so we can do like console error console warned if we want to put warnings we can add we can have tables in the console we can
+
+
+00:10:23
+run assertions so it's great for debugging all right so just to give you an example if I - console dot error and just say this is an error and save you'll see that now it's red and it also gives us gives us the look the line number and gives us a link to show us where the error is okay and it shows us this little red X so we can do that let's go back to the console we can also do a warning so we can do console dot warned say this is a warning run that and now we get now it's just yellow
+
+
+00:11:04
+all right so there's some other ones as well if you want to check the documentation out but I'm not gonna spend too much time on this where for the most part we're just using console.log all right so let's clear that up and let's talk about variables and how to set them in javascript is basically three ways to do it we have var let and Const okay now var has been used since the beginning of JavaScript however you don't really want to use it anymore now that we have Latin Const because var is
+
+
+00:11:33
+globally scoped so if we have let's say a conditional like an if statement and we set a variable and then outside of that block outside of that if statement there's another variable with that same name that can be a conflict and it can cause problems so for the most part you don't want to use var anymore okay letting Const we're added with es6 or es2015 and ES stands for xmas script so that was a huge update to javascript that gave us a lot of new functionality a lot of which I'm going to show you in this
+
+
+00:12:05
+crash course now the difference between let and Const is with let you can reassign values so I'll give you an example if I say let H equals 30 and we're just going console.log and I have a shortcut in my vs code settings so I can just do CL for console.log so if you're wondering why that works for me and then I'm just going to console.log the age and you can see we get 30 now since I used let I can take that age and I can set it to something else okay so now it's set to 31 now if I use Const
+
+
+00:12:38
+here and save I'm going to get an error it says type error assignment a constant variable Const is short for constant which means it can't be changed it can't be directly reassigned all right so this begs the question when do we use let when do we use Const now this is different for everybody some people will just use let what I do and what I find a lot of other people do is always use Const unless you know you're going to reassign the value I think this makes your code more robust more secure less
+
+
+00:13:12
+prone to errors just use constant less you know you're going to reassign it so an example of of something I would really be like a score in a game so I would do something like let score maybe just initialize it and then something happens and then we want to change the score directly so score may equal ten and then I'll go down here you know console.log score now we get ten now we can't do this with Const okay even if we don't reassign it I can't even initialize it with Const
+
+
+00:13:47
+you see we get this error missing initializer because you have to add a value if you use Const okay but for the most part you're not going to directly reassign your values like this and when you're dealing with arrays and objects and stuff like that you can change the values within the array or object you just can't reassign the entire thing and I'll show you more of what I'm what I mean later on all right so now that we know how to assign the variables with Letton Const let's talk about datatypes
+
+
+00:14:19
+okay what types of data can we assign to these variables now we have primitive data types which means that the data is directly assigned to memory okay it's not a resource so we have strings we have numbers boolean no undefined and symbol okay now symbol was added in is in es6 and we're not gonna go over symbols it's just it's beyond the scope of this tutorial it's not something that's that common so we're not going to go over those over symbols but let's create some variables
+
+
+00:15:01
+that that are these some of these data types so let's create a name and I'll just set that to John so that's a string strings can can have double or single quotes I prefer to use single quotes also when it comes to semicolons they're not mandatory we're not gonna get an error if I save that there's nothing wrong with that however I use semicolons and for most of the time I think most developers use them in JavaScript so that's a string let's create a number we'll do age okay so a number is just a
+
+
+00:15:36
+number and with no quotes around it let's do a boolean so we'll do like is cool and set that to either true or false that's gonna be a boolean no quotes you put a quote quotes around it's gonna be a string let's do No so do Const actually I wanted one thing I wanted to do is a decimal so rating equals 4.5 now even though this is a decimal it's it it's not if there's no float or decimal data type in JavaScript it's just a number okay and I'm gonna show you how we can
+
+
+00:16:15
+actually test the types of these in a minute so let's do now we'll do X equals null and what null means is basically empty it's it's a variable but there's nothing in it okay so if now we also have undefined which we can explicitly define so we can explicitly define undefined or we can just initialize something but we have to use let so if I just say let Z like that with no value that's going to be undefined as well now if we want to test the type we can console.log and we can do type of and
+
+
+00:16:48
+just put in the name of the variable so let's try name and now down here you'll see that that's a string okay if we try age we get number if we try rating we get number because remember there's no there's no technical floats or decimals or anything like that is cool we get boolean X this is kind of a gotcha so we get object and you're probably expecting null now this is actually an error and it's a little hard to explain so I'm just gonna pull this up real quick and
+
+
+00:17:23
+just search for J s null is object all right so actually wait a minute let's do type of I know it comes up in Google there we go so in the first implementation of JavaScript values were represented as a type tag and the value with the type tag for objects being zero and null was represented as the null pointer as a result null had zero as a type tag hence the bogus type of return value so as you can see here that that return value from the type of we just did is bogus meaning it's it's not true it's
+
+
+00:18:03
+not really an object it's null okay so kind of a hard to explain definition but it just think of this is just wrong next is undefined so let's do why okay that's undefined Z should also be undefined so those are the main primitive data types okay now of course we have arrays and object literals and stuff like that but those are objects those aren't primitive data types so let's let's look at strings okay so I want to talk a little bit about strings and actually I want to keep two
+
+
+00:18:41
+variables here name and age and let's look at concatenation so let's say I want I want to either console.log or create a variable with a string that has variables inside of it so something like my name is and then the name variable and I am and then the age variable if I just run that it just spits out the text so there's a few ways to do this concatenating the way I'm going to show you is kind of the older method I'm going to show you a better way in a second but what we could do is where we
+
+
+00:19:17
+want the variable we could end the string and then use the plus sign to concatenate on the variable same on the other side use the plus sign and concatenate the rest of the string same thing where we want the age variable will stop the string concatenate and since we're at the end we just get rid of that and save and now again my name is John and I am 30 so this is kind of the old way of doing it it's it's a real pain in the ass if this is a real long string with a lot of variables so what
+
+
+00:19:45
+we have now with with es6 or es2015 our template strings okay our template literals so we could do console.log and we want to use instead of quotes backticks okay so if we use backticks this makes it a template string and we can simply do my name is and wherever we want to use a variable we just uses a syntax so money sign and then curly braces and just put in the name of the variable so my name is and I am and then the age variable save it we get the same thing alright and we could assign this
+
+
+00:20:23
+to a variable if we want I could say like Const hello equals get rid of this parenthesis and then we could console.log hello all right so we can do that next thing I want to show you is a couple string properties and methods let's get rid of this as well so I'm going to just create a string let's call it s and we'll just do hello world alright now if we let's say we want to get the length the number of characters in the string we could use the length property so a console.log s dot length
+
+
+00:21:02
+okay a property doesn't doesn't doesn't have parenthesis if it has parenthesis it's a method so let's just console.log s dot length and we get 11 if we add an exclamation we get 12 okay so that gets the length we can also set it to actually I'll just go like this if we want to change the case we could do a method called to uppercase since it's a method it needs parenthesis a method is basically a function that is associated with an object okay so we get hello world we can also do to lowercase let's
+
+
+00:21:41
+see we also have substring so if we want to pull a substring out of the string so let's do sub string and this takes in basically two indexes where you want to start and end so we'll start at zero and let's end at five so if we look at this string the first is 0 1 2 3 4 and then the space is 5 so it'll actually stop before 5 so it should this should give us hello so let's save and we can see we get hello and you can tack on other methods as well like we could do dot to uppercase and save and it ran
+
+
+00:22:20
+substring got hello and then made it all uppercase so you can you know chain these on to each other let's see another thing we can do is split a string into an array so we have a method called split and then as a parameter this takes in whatever you want to split by if you want a split by letter you would just put empty quotes without a space so go ahead and save that I know we haven't gone over arrays yet but you'll see we get an array with 12 values and we have the letters or each character in each value okay
+
+
+00:22:56
+including the space now this isn't very handy but a lot of times what we'll do is let's say we have like a form where we're adding a blog post and we're adding tags you might have like you know technology computers maybe I don't know IT code something like that and let's say you want to take that string and create an array from it now as a separator in this case we would use comma space because in between each word is a comma space so I'll put that in here like that and then I'll save and
+
+
+00:23:34
+now you can see we have an array with four values and we have each word in each array value here all right so that's pretty handy because then you can insert that into a database and you can search to it and stuff like that so that's it is it does come in handy all right so let's see let's move on to a raise okay so a raise let's raise and I didn't go over comments obviously comments are double forward slash so a raise or if you want multi-line comments you can do this about the lips
+
+
+00:24:16
+multi-line comment and we would end it with asterisk forward slash alright so arrays are basically variables that hold multiple values okay so there's a couple ways to create arrays however one of them isn't used that much I'm going to show you that way first and that's using the array constructor so let's create a variable called numbers and set that to new array okay so when you see this new keyword and then something after it this is a constructor okay so we're constructing an array and we can pass in
+
+
+00:24:56
+actually let's just put in some numbers all right and then we'll go down here and console.log numbers and save and we get an array with five values one through five all right so that's using the constructor but for the most part I'm going to get rid of that and create a new one let's glue fruits for the most part you're just gonna set brackets and then you can create your array so let's do like apples oranges pears pears and then we'll go ahead and console.log fruits
+
+
+00:25:35
+save and there we go now in JavaScript you can have multiple data types within the same array so I could put a number in here I could put a boolean whatever I want and that's fine in a lot of languages you have to have the same data types in your array in fact there's there's quite a few languages where you actually have to set then the number as well so we would have to set this to be three values which can be kind of a pain so JavaScript gives you a lot of freedom and another thing I didn't didn't
+
+
+00:26:07
+mention is javascript is not statically typed so we don't have to like let's say we're creating a string we don't have to do like colon string or anything like that now there is something called typescript which is a superset of JavaScript so it's basically JavaScript with some added features and static typing is one of those so if you want to do this I would suggest taking a look at typescript all right so we have our fruits now what if we want to add on to this or I'm sorry what if we want to
+
+
+00:26:36
+access just one of these okay like oranges so I'm gonna just do let's say console.log fruits and we'll open up some brackets and let's put a 1 in here so if we check that out we get oranges now even though oranges is the second one the reason that we get it from one is because arrays are zero-based okay so it's zero one two okay remember that arrays are always zero based in every language so if we wanted to add on to the end we could do fruits so we know we have zero one two so we could do fruits
+
+
+00:27:17
+3 equals and then grapes and then we'll console.log fruits and save and you can see grapes got added now notice we used Const ok like I said before you can add values to the array you can manipulate it you can use methods on it using Kant's the only thing you can't do is take the array and reassign it like this then we get an error okay so that's why you can pretty much use Const you know with arrays and because you there's not going to be many times where you're going to directly reassign it you're
+
+
+00:27:51
+just going to manipulate it okay so if you want to add to the end like we just did I'm doing it this way isn't really the best way to do it because you might not know exactly how many values are in the array so in that case you can use the push method so we can say fruits dot push and push a value on to the end so let's do I don't know mangoes and save and now you can see mangoes has been added to the end okay no matter how many are in the array if we wanted to add on to the beginning we could use unshifted
+
+
+00:28:29
+say fruits dot on the shift and let's say we wanted to add strawberries and save and now you'll see that strawberries is on his at the beginning alright and there's a lot of different array methods another one is pop if you want to take the last one off you could do fruits dot pop and you can see mangoes is there but once I save mangoes is gone it just pops the last one off another thing if you want to check to see if something is an array you can do I'm sorry you want to do array dot is array and then pass in
+
+
+00:29:10
+let's pass in fruits and save and you can see it gives us true all right if I were to put let's say a string in here and save we get false so if you ever want to check to see if something as an array you could put this in a conditional and get a true or false value all right now if you want to get the index of a certain value you can use index of so we could say fruits dot index of and let's say we want the index of oranges save and we get two so we have if we look at that you can see that
+
+
+00:29:46
+two is the index of the oranges value all right so I think that that's going to be it for a raise like I said there's a bunch of other methods so it's not it's something that you definitely want to look into my you to me JavaScript course we go over a lot more we learned how to like concatenate arrays and stuff like that but these are just some pretty common methods so now we're going to talk about object literals okay so object literals are basically just key value pairs so let's do
+
+
+00:30:17
+something simple like a person so a person has let's do first name so we'll say John it's a string to the last name so and we can do other types like we can do age 30 we could even put an array we could do something like hobbies and set that to an array I'll say music movies and sports and then we can also do embedded objects so we can put an object within an object like a dress and say street 50 main streets let's do City Boston and state all right now let's say we want to first of all
+
+
+00:31:17
+we'll just console.log the whole thing so person and it will show us in the console if you were to alert this show you what happens you're just going to get this object object okay so alert is not a good way to to do this kind of stuff so this will show us the values okay now if we want to access a single value we use the dot syntax we can do person dot first-name alright and you can you can log more than one thing if I fuse a comma we could do person dot last name and save and it'll give us
+
+
+00:31:51
+both okay so you can separate different logs with commas now let's say we want to get this value right here movies so I mean obviously if you've worked with JavaScript before you know how to do this but if you're brand-new take what we've already learned as to how to select values from arrays and from objects and see if you can get movies to print out in the console if you need to pause it go ahead and do that so what you would do is just say person and we want hobbies so dot hobbies and we know
+
+
+00:32:24
+that movies is in the one index of that array so we'll do one and save and we get movies okay if we wanted to get let's say just the city and that's in this address object we would do person dot address dot city can we get Boston all right so that's how we can do that let's see we can also use destructuring so if we wanted to create variables you know we want these as actual variables we could do const and then open up some curly braces and we can actually pull stuff out like first name last name and then
+
+
+00:33:04
+say equals person so think of this not as assigning something but pulling these out of this person object and if I do console.log first name you'll see we get John so we can pull different things out now if it's an embedded object like an address what we could do is let's put a comma here and we could do address and then go like this city okay so if we go ahead and log city we get Boston now destructuring is kind of advanced it's again it's part of es6 it's a new feature or relatively new but yeah we
+
+
+00:33:52
+can do that so let's see what else did I want to do oh we can also add properties so I could say like person dot email equals John and Gmail and if I console.log person you'll see that now an email has been added okay so you can directly add properties as well now a lot of the times you're going to be dealing with arrays of objects so let's go ahead and create an array of to do's so we'll say kant's to do's arrays use brackets and then we want each value in the array to be an object
+
+
+00:34:30
+we'll give it excuse me we'll give it an ID we'll do text so just the text of the to do say take out trash and then we'll do and is completed and that will be a boolean so we'll say false actually it's to true I'm going to show you something a little bit all right now I'm just gonna take this and copy it down twice and let's change the IDs so we'll do two three and we'll change this to let's say meeting with boss and dentist appointment okay and I'm gonna change this one to false
+
+
+00:35:15
+all right so we have an array of two dues if I were to console.log two dues and save you'll see we have an array with three values which are all objects all right now if we wanted to grab let's say this text meeting with boss if you again if you're brand new to this what I want you to do is try to print this out in the console okay so you know you know how to select from an array you know how to select from an object so just print out this meeting with boss all right so what you would do is take two dues and
+
+
+00:35:47
+we know that it's the second value in the array so that's the one index and then we just want the text property okay so we get a meeting with boss now I want to talk a little bit about Jason Jason is a data format and it's used a lot within you know full stack development and using API is when you're sending data to a server you usually send it in JSON format and receive it in JSON format so what it's very similar to to object literals okay so I'm gonna grab this whole array just as brackets these
+
+
+00:36:24
+brackets and I'm actually going to I don't remember the exact URL I'm just gonna say Jason converter and it's this one right here so this is free free format or comm slash Jason formatter and I'm just gonna paste in our array and say format Jason and you can see that the syntax of jason is very very similar the only difference really is that we have double quotes around all the keys and we have double quotes around the strings okay so no single quotes in Jason that will give us an error all
+
+
+00:37:00
+right so let's say that we want to convert this into Jason within our script so maybe we want to get it ready to send to a server or something like that so we would do let's actually create a variable and we'll call it to do Jason and there's a method we can use called Jason dot stringify and we could just pass in to do this okay and then we'll just console.log the to do jason value and you can see that we get a jason string okay so this is how we would send data to a server alright so
+
+
+00:37:38
+we'll be working more with more with this in a little bit I want to go over loops I'm gonna keep the - duze array because I'm going to show you how to loop over that but first of all let's just look at some simple for loops or a simple for loop for loops are they exist in many different languages so if you have experience with a different language you might you might already know how to do this but basically we just say for and we pass in three parameters the first is going to be the
+
+
+00:38:05
+assignment of the the iterator or the variable so I'm going to say I equals 0 and then we use semicolons to separate these next is going to be the condition that needs to be met so we'll say I is less than 10 and then lastly is just the increment so I plus plus will just add one to this I variable so what's going to happen is whatever we put in here is going to run until this is true all right so I'm gonna go ahead and just do a console log of I and save so what happened is it ran it started at 0 it
+
+
+00:38:46
+went did an iteration it got to 1 because of the increment went through again got to 2 and once it gets to 9 this condition is no longer true ok because we're saying I has to be less than 10 if we wanted 10 included we could do less than or equal to 10 because then that's still true when it's 10 and it stops there all right now we could do whatever we want in here we could put a template string in here and just say for loop number and we could go ahead and put the I variable save and now we
+
+
+00:39:22
+get for loop number and then each each iteration number alright so that's a for loop we also have while loops which are pretty old-school as well the difference with a lot while loops is we set the variable outside of the loop so we'll say let I equals zero and it will say while and while just takes in the condition so I'll put the same condition as long as I is less than 10 and let's do a console.log actually I'll just copy this one and we'll change it to while loop get rid of that now you want to
+
+
+00:40:04
+make sure that you increment the I if you don't this will be a never-ending loop because this condition will never be met okay so it'll just keep looping and looping so you want to make sure you do an I plus plus which will increment it by 1 so I'll save that and now we get while loop 0 2 while loop 9 okay because we did less than 10 so that's a while loop and a for loop so pretty pretty simple next thing I want to do is show you how to loop through arrays now we could use a for loop actually let me
+
+
+00:40:36
+just grab this for loop so we could use a for loop we could just change the condition to as long as I is less than 2 dues dot length because length will give us the number of items in the array I showed you that we could use lengths on a string but we can also use it on an array so in this case it'll be 3 right so it's gonna loop through as many - dues as there are and then let's say we wanted to log out the to do text we could do to do and then the index would be the the I value okay so the the
+
+
+00:41:16
+iteration and then we could do dot text and save and I'm sorry it should be - dues okay we want to actually use the name of this variable now this isn't really the best way to loop through an array we have other methods such as a for of loop so to show you that you can do for its structured kind of similar but much much more readable so we could say simply let to do from I'm sorry not from of to do's all right now this is the name of the array okay so it's this variable this
+
+
+00:41:58
+could be anything I'm calling it to do because that makes sense I could call it T or anything else and then if we console.log to do that gives us each one okay if I want just the text I could do to do dot text and we don't have you know the ugly-looking index like that we just simply do to do dot txt if we want the ID you can loop through and get the IDs so that's one way to do it now we also have what are called high order array methods which is the way that I would suggest to to do
+
+
+00:42:30
+any kind of iteration with arrays and I'm going to show you a couple of them I'm going to show you for each which just loops through them map which will allow us to create a new array from an array and then filter which will allow us to create a new array based on a condition so let's start with for each so we just take - duze whatever the array is and let's do dot for each now these high order array methods they take in as a parameter a function okay so we pass in a function like that and then
+
+
+00:43:05
+this callback function takes in it can take multiple parameters but the first one is going to be the variable that you want to use as each item or in this case each to do so let's do a console log of to do dot text and save and you can see we get well looping through and we're getting the text for each to do alright and these look much better with arrow functions which I'll get to in a little bit but yeah so that's a for each now a map let's get rid of this actually I'm just
+
+
+00:43:38
+gonna change this to map because these are all formatted the same way okay they take in a function you pass in whatever variable you want to use here now with map it returns an array so I'm actually going to assign let's say to do text because what I want to do no pun intended is loop through and then return an array of just the text right here just the text values so I could just simply do a return and then to do dot text okay so this is going to return a whole new array of just the text so if I
+
+
+00:44:17
+console.log to do text and save you can see now we have just a regular array no object or anything we just took the to do text and returned that for each one okay so that's map we also have filter so let's get rid of that just change this to filter now let's say we only want to return the two dews that are that are completed that have this is completed true so we could return let's do let's return the to do dot ID okay where the ID is equal to not ID let's do is completed so is completed is equal
+
+
+00:45:08
+true true and then let's go down let's actually change this to to do completed it makes more sense and then we'll console.log to do completed and save and you can see now we have an array of two values and both of them are they're both the ones that are completed now we can actually chain on other array methods so let's say we want to also map and just get the text like we did before so I'll tack on to this let's get rid of the semicolon and do dot map pass in a function
+
+
+00:45:48
+to do and let's just return to do dot text so go ahead and save and now you can see we have just an array of the text but it's only the ones that are completed okay so this these are very very powerful this this is functional programming it's very powerful you can really manipulate data pretty much however you want okay and you can do some pretty crazy stuff so it's definitely something to look into I do have a video dedicated to a couple of these high order array methods if you
+
+
+00:46:20
+want to check that out but yeah so let's move on here I don't think we need this anymore so I'm gonna get rid of that and I want to move on to conditionals okay so let's start off with just basic simple if statements so we'll create a variable called X and I'll set it to 10 and we'll just say if I just want to test to see if X is equal to 10 now I'm gonna do I'm gonna start off with a double equal and then should also show you what triple equal means as well all
+
+
+00:46:57
+right so we'll do if x equals 10 then let's just console.log obviously we could do anything we want but I'm just gonna say X is 10 and I'll save and we get X is 10 now as far as the equal sign go if we use double double equal this will not match the datatypes it's just the value so if I change this to a string and save this is still true okay this is still equal to this in terms of the double equal now if I add an extra a third equal sign and I save you'll see that we don't get X is 10 because what
+
+
+00:47:34
+it does is it also matches the datatypes this is a string this is a number so this is not going to be true so if I get rid of these quotes and put this to a number then it's true now different developers will will treat this differently myself I like to always use triple equals because I for the most part always want to match the types sometimes developers will pick and choose when to use double in triple I just always used triple so let's uh let's do an else a lot of stuff and just generally in programming is
+
+
+00:48:10
+preference so let's do else and let's do a console log and obviously if this isn't true then X is not ten okay so I'm gonna go up here and change this to 20 and save and we get X is not ten so that's those very simple if-else we can also add an else if if we want to do an extra condition and we can have as many else if as we want so we would do else if let's just move this up here and let's say we want to test if X is greater than ten so in here we'll just do a console log and we'll say X is
+
+
+00:48:53
+greater than 10 and then else so if it's not 10 and it's not greater than 10 that means it's less than 10 so X is less then 10 save so X is greater than 10 if we make it 10 we get X is 10 and if we set it to let's say 4 we get X is less than 10 so very simple else if now we can also do multiple conditions so let's say we wanted to have another variable called Y you know this isn't very practical but it's just I just want something simple so you can get the hang of the syntax so we'll set that to 10
+
+
+00:49:35
+and let's say if X if X is let's see you say if X is greater than 5 now I want to check to see if if one of these are true so I'm going to use or and/or is represented with double pipe characters so if X is greater than five or Y is greater than ten and save actually you know we'll do is just get rid of this stuff here and we'll just say X is more than five and or Y is more than ten and if I save we don't get either because X is not greater than five and Y is not greater than ten
+
+
+00:50:35
+however if I just change one of these to be true if I make Y eleven this will run because one of these is true it has to be or so one or the other now if we use end which is represented with double ampersand and I save it doesn't work because now they both have to be true okay so now if I change four to six which is greater than five now it works okay so you can use and and or and here as well which is much better than nesting if if statements because you could do something like you know if X is
+
+
+00:51:09
+greater than 5 and then put another F and then if Y is greater than 10 you could do something like that but this is much cleaner so that's a simple conditional now we do have something called a ternary operator which is basically like a shorthand if statement and it's used a lot to assign variables based on a condition so an example would be let's do const say x equals 10 and let's say we want to create a variable called color and i want i want it based on if x is greater than 10 so i'll put
+
+
+00:51:57
+the condition here so if x is greater than 10 then okay so this question mark is actually the ternary operator and it represents then so if this is true then let's set the very the color variable to red else which is represented with a colon then let's set it to blue okay so if I save that actually we should probably console log that out so it's console.log color and we get blue because x is not greater than ten it's equal to ten so if I set it greater than ten and save now we get red so it's
+
+
+00:52:38
+kind of a weird example but this is the format of using a ternary operator you of the condition if if it's true if it's not true all right so now I want to talk about switches which is another way to to evaluate a condition so let's set actually we'll just leave this will evaluate the color so right now it's red right so let's do a switch and we're gonna evaluate whatever the color is and the way that we do this is we set cases so let's give it a case of if the color
+
+
+00:53:16
+is red and then we put a colon here and then whatever it is we want to do I'm just gonna do a console log and say color is red and then you want to just break okay so we want to put a break then we'll put another case let's say if the color is blue then we'll do a console log and we'll just say color is blue and then we want a default case as well so if it's not if it doesn't match any of the above so then what console.log and we'll say color is not red or blue all right so if I saved that we get
+
+
+00:54:03
+color as red now if I change this to nine that should turn it to blue I'll say we get color as blue all right if I were to change this to something else this color - let's just say green and save we get color is not red or blue okay so that's a switch so now we're going to move on to functions okay so I'm going to create a function with the function key word and let's do let's just do add nums so just be an addition a function that adds two numbers so inside the parentheses we can
+
+
+00:54:44
+put parameters okay so I'm going to put let's say num1 and num2 and then let's do a console.log num1 plus num2 because we can do any kind of basic math now if I save this nothing happens because we haven't called the function so we have to go down here and say add nums and pass in our parameters so let's do five and four and save and we get nine okay so we're passing in five is num1 four is num2 now what happens if we do just add nums we get na n ORN and what this means is not a number okay so it should be a
+
+
+00:55:26
+number but it's not now with with functions we can set default values for our parameters so for instance num1 let's set it to one we'll just set them both to one okay so if I save this now we get to I didn't pass anything in but it's going to use these default values okay and if I pass something in like five and five that's obviously going to overwrite the default values and we get ten now for the most part you're not going to console.log in the function you're usually going to return something
+
+
+00:55:59
+from it so in this case we would return this addition problem so we want to get rid of that now if I save nothing's gonna print in the console because we we haven't logged anything if we want to log it we would just wrap this whole thing in a console log like that okay now as far as arrow functions go there very handy and they clean things up quite a bit they were introduced in an es6 also known as es2015 so if we wanted to turn this into an arrow function what we would do is instead of using the keyword function we
+
+
+00:56:42
+would name it as a variable and then we would put an equal sign here and then after the parenthesis we would put what's called a fat arrow you don't want to do a - like that you want to use the equal sign alright so we could do that and if I save we get the same thing we get 10 okay we just call add nums now what's nice about this is if it's just one expression actually I want to put this back to a console log because I want to show you if we did a console log here and just get rid of that and save
+
+
+00:57:23
+now since we only have one expression meaning we don't have like you know variables being assigned or any other lines anything else happening we don't even need these these curly braces we can just do this all in one line like that and if I save that still works all right now if you want to return something this is even better you don't even need to use the return keyword so we could just simply get take away the console log like that and put it down here and save and we get ten okay so no need
+
+
+00:58:03
+to do return in fact if you do this it won't even work you can't you can put your parentheses back like that and that will work but you can just get rid of the parentheses and the return and just slim it down a lot now if you want what you if you only have one parameter we have two here but if you only had one you don't even need the parentheses so we could do like num1 and then let's just say we wanted to return num1 plus five all right and then we'll just pass in one value here and save and we get
+
+
+00:58:38
+ten okay so you can see this really cuts things down and it's great to use with like four each so if you did like to do is dot for each or any of the array methods you could pass in to do use an arrow and you could do like console dot log each to do so something like that so they're really nice another thing they have what's called a lexical this so when you use the this keyword which we haven't talked about the scoping is a little different I'm not going to get into that though because it's just it's
+
+
+00:59:11
+beyond this this course and this we've already taken up a lot of time but just know that it has an extra advantage when it comes to using the this keyword in certain situations alright so now I want to move on to object-oriented programming now we've already looked at object literals however we can construct objects using what's called a constructor function now there's two ways to do this we can use constructor functions with prototypes and we can also use es6 classes which I'm going to
+
+
+00:59:44
+go over after this so let's say we want a person object so we're gonna say function person with a capital P when you create a constructor function it should have it should start with a capital and as far as parameters you want to pass in the properties you want to be able to set so let's do first name last name and let's do date of birth now when we pass these in we want to set them to properties of the of the objects so we do that with this so we say this dot first name equals the first name
+
+
+01:00:21
+that's passed in let's say this dot last name equals the last name that's passed in and then this dot do B equals the DOB that's passed in and then down here we can what's called instantiate an object okay so we're going to instantiate an object with the constructor function I'm probably not spelling stuff right but it doesn't matter so does instantiate an object we can create a variable I'll just call it person one and we'll set it to new person okay remember we did new
+
+
+01:01:01
+array earlier that was a built-in constructor I mean there's a bunch of them I'll show you some other ones as well but we created a custom person constructor and this is going to take in a first name last name and what date of birth so we'll just do like 4-3 1980 all right so that we actually just created a person object so we can console.log person 1 and save and you'll notice that we have a person object with which looks just like the object literal however it's it's prefixed with the actual name
+
+
+01:01:42
+of the object which is person ok now we can create as many people or persons as we want we could do person to just pass in different values like Mary Smith change this up okay and if ID console.log person 2 and let's say we wanted to get the first name just do first name and we get married all right now let's um let's take a little side route for a second here and talk about dates because right now I passed in the date of birth is string however we can turn this into a date object by using the date
+
+
+01:02:24
+constructor so where we set it up here we pass it in as a string and I'm gonna set this to new date and then surround that string all right so now if I go down here and I print out the person's date of birth so DOB you can see we get an actual date object so Friday March 6 1970 and if we put in a time we could actually put in you know hours minutes seconds that would show up as well so when you have a data object there's a bunch of methods you can call on it so for instance we can do dot and in vs code they'll
+
+
+01:03:00
+actually show up here so for instance we can do get full year put on some parentheses and we get 1970 so we can really do different things with dates and format them in different ways now I'm gonna go ahead and let's just we'll just get rid of this for now and I want to show you that we can actually add methods which are basically just functions to to this person object okay so I'm gonna say this dot and let's do get birth year and I'm gonna set it to a function and I'm gonna return from this
+
+
+01:03:41
+function this dot do because I can access the the objects properties using this and then let's use get full yeah get full year all right so now down here I can say person to person one and we can call this method get birth year so if I sit actually we need to log it though save and we get nineteen eighty okay so you can create functions like this let's do one to get the full name so we'll do this dot get full name equals function and let's just return we'll use a template literal here and we'll do this
+
+
+01:04:35
+dot first name space another variable this dot last name alright we'll go down here and we'll say let's just copy this down and let's run the method get full name and save and we get John Doe alright you could put absolutely any functionality one here and you can integrate the different properties for each object alright now I want to talk a little bit about prototypes because this isn't the best way to do it if I were to console.log person one and save and let's take a look down here so we have
+
+
+01:05:21
+our properties first name last name date of birth however we also have the functions right in the object now notice this right here this proto this this is a way that we can see prototypes which are is another object but we can attach methods and properties to this to the prototype and you can see we have a constructor in here now what I would like to do is not have the functions with every object instance because we might not need to use these so we want to put these in the prototype so the way
+
+
+01:05:55
+that we can do that is go under the function and use person dot prototype dot and then name it so we'll say get Berthier equals function and I just want this line here just want to return the the birth year the full year of the date of birth and then I can completely get rid of this okay we can do the same with get full name we can say person dot prototype so we're going to add on to the prototype a method of get full name which is a function loops and we want to grab this put that right in there and
+
+
+01:06:42
+then get rid of that all right so I'm now able to call these methods so I can do a console log and say person to dot get full name just like I did before and it works Mary Smith and if we look at the console log of the of a person notice that you don't see the function here just right in the object but if we look in the prototype there we have get full name and get birth here along with the constructor all right so that is basically object-oriented programming in es5 so pre classes with es6 b also
+
+
+01:07:23
+called es2015 I call it es6 but it doesn't really matter what you call it so with es6 classes were added to javascript now it's important to know that with classes it does the same exact thing under the hood it does this exactly it adds the the methods to the prototype so everything will look the same however it's what's known as syntactic sugar okay which means that it's just a prettier way to write it but it does the same thing under the hood alright so I'm gonna leave this stuff
+
+
+01:07:56
+here and I'm gonna replace this with a class with methods okay actually I'm gonna do it right under it because I'm just gonna copy some stuff from it so to create a class just say class what we would do is say class and then call it will call it person and just like we created a constructor function up here we just add in a function here or method I should say a method is a function inside of a class called constructor and this is going to take in the same stuff that this does the properties and we're gonna assign the
+
+
+01:08:35
+properties just like we did here okay and then any method that we want to add to this class such as get Berthier or a get full name instead of using this dot prototype syntax we can simply put it in here so we can say get birth here and I'll grab the functionality here okay and then let's say we won't also want get full name and we'll go ahead and grab this and pass that in there okay now this is doing the same thing this is just a prettier way it's just it's using classes which are included in a lot of
+
+
+01:09:24
+other programming languages so it it allows people that are coming from other backgrounds to to be familiar with this rather than dealing with prototypes so I'm going to now just completely get rid of that and all the instantiation and stuff like that it all works the same I'm gonna save this we get the same result so we called person to get full name we instantiated Mary right here and then if we look at person we have the same properties and if we look in the prototype we should we have get Berthier
+
+
+01:09:56
+and get full name okay so adding these methods to the class added them to the prototype just like they did before so that's why it's called syntactic sugar you're doing the same thing you're just doing it in a different way that's a little prettier and a little easier to write and read all right so I mean you don't have to use classes but I mean I prefer them just because they're easier to write I think I think they're more organized so that that's pretty much the basics of
+
+
+01:10:25
+object-oriented programming so let's get rid of this and now let's move on to the Dom so as far as save that clear that up as far as what I want to work with I have some predefined HTML and CSS that I want to add and what I'm gonna do is put a link in the description for you to copy it if you want to follow along so let me just grab this real quick okay so I'll go over in a second at least the HTML the CSS isn't really important so I'm gonna create a file called style dot CSS and just paste that
+
+
+01:11:09
+in and save and just reload should get rid of that error Dom j/s oh that's wrong that should be main okay so I want to keep my console open but I'm gonna move it down a little so we just have a simple form here and if we look at the HTML we still have our header we have a section with the class of container that's pushing everything into the middle we have a form that has a background we have this h1 we have an empty div of message and I'm gonna deal with that later and then we have two
+
+
+01:11:46
+labels and inputs one for name one for email we have an input submit button and then we have a ul with the idea of users that's empty and we also have this this commented out unordered list of items and the reason I have this here is just to show you how we can manipulate stuff in the Dom okay so the Dom is the document object model it's basically that like a tree structure of your your whole document so your HTML tags and stuff like that I do have a four part crash course on YouTube called
+
+
+01:12:21
+JavaScript Dom crash course so if you want to learn more about what we're what we're gonna talk about check that course out it's for videos that are like 30 or 40 minutes long so there's so there's a lot of there's a lot in it we're just gonna cover the basics here so let's jump into mange a s and I want to talk about selection ok so selecting things from the Dom we can actually take elements HTML elements and put them into variables and stuff like that and work with them so as far as selectors go we
+
+
+01:12:58
+have single element selectors and we have multiple element selectors so as far as single element selectors we have document okay so these are going to be on the document object actually before we do this let me just show you something real quick so in the browser let's do a console log in the browser we have the what's called the window object I'm just going to console.log window and the window object is the the parent object of the browser okay and you can see it actually has the alert function now when we did alert we
+
+
+01:13:42
+just did did it like this so I say alert one that runs however this is actually part of the window object so I can say window dot alert and that also works since window is the the very top level we don't actually have to do window dot for anything that is in window all right and you'll see that there's other stuff like for instance let's see show you here local storage so that's a way to store stuff in your browser that's part of the the window object you can get like the inner height there's properties
+
+
+01:14:18
+like inner height and or with the fetch API is in the window object which is right here so the whole fetch API to make HTTP requests the document is what I want to show you though this is the this is what makes up the the dom the document object model alright and you can see there's all types of properties and methods and stuff like that so document is is what we want to use to select things from the document so I'm gonna say document dot and one selector that is that is used to grab single
+
+
+01:14:57
+elements is get element by ID which has been around for quite a while and we can pass in an ID if we look at our HTML I'm gonna close up the CSS if we look at our HTML we have a form that has an ID of my form so let's say we want to grab that we can just pass in my - form because that's the ID and what I'll do is just console.log this okay now if I save that you'll see that it'll actually log that element down in the console alright and we can even assign this to a variable so
+
+
+01:15:34
+we can say Const form equals take this last parenthesis off so we can sign whoops we can assign that to a variable and we can console.log form and save we get the same thing all right so we have document dot get element by ID let's see I just want to put back the console.log another one is query selector which is is much newer than get element by ID now for a long time for a long time people use jQuery which is a JavaScript library that made it easy to select other things than ID so things like classes tags
+
+
+01:16:18
+themselves pretty much anything and query selector works just like jQuery for the most part in terms of selecting single elements so we could select anything if we look here if we want to grab let's say the container it's a class right so we'll say dot container and save and you can see that it's gonna log that we can actually use a tag so if we do like h1 and save it'll give us H 1 now like I said it's a single element selector so even if there's more than one h1 it's only going to select the fur
+
+
+01:16:58
+one okay now there's multiple multiple element selectors if you want to select more than one thing so for instance down here I'm going to uncomment this unordered list of items so item 1 item 2 item 3 so I want to select all of these I - all of these list items okay so I'm going to do let's do console.log document dot and I'm gonna use query selector all so query selector all is meant to select more than one so let's pass in dot item and we'll save and what this gives us
+
+
+01:17:39
+let me comment these two out what this gives us is something called a node list which is very similar to an array in fact we can run array methods on it we can do like for each's and stuff like that I mean you'll see each one has different methods and properties that we can use on it now there's other ones as well however I would always I would recommend to always use query selector all these other ones are older for instance we have get elements by class name which of course can only be classes
+
+
+01:18:14
+so we could just pass an item not dot item because it's going to be a class no matter what query selector all you could put an ID a class a tag anything this is just going to be item so I'm going to save that I forgot document so what this gives us is something similar it's not an old list it's an HTML collection okay now the difference with this is an HTML collection you actually can't use array methods on you have to manually convert it to an array if you want to run array methods on it
+
+
+01:18:55
+okay but again I wouldn't use this I would stick to query selector all now in addition to get by class name we also have get by tag name and we can just put in tags like let's do Li and we'll comment that out we'll save and again we get an HTML collection okay so you generally want to use query selector and query selector all sometimes I'll use get element by ID but generally I don't use these alright so that is how we can select things from the Dom actually let me show you how we can loop through if
+
+
+01:19:31
+we if we take the items let's actually grab that and we'll say Const items set it to that so we're gonna get the items and we can do items dot for each and we'll pass in an arrow function for each one we'll call it item and let's console dot log the item and save and you'll see that we're just looping through and grabbing each of the list items alright so now I want to look at manipulating the Dom or changing things in the Dom and when I say Dom I just mean that the
+
+
+01:20:12
+user interface here so let's grab let's grab the UL right here with the class of items okay so it's a single element that I want to select so I'm going to use query selector so I'll say Const ul equals query I don't know why I keep forgetting document been using react too long so I want query selector because a lot of this stuff I mean once you learn a JavaScript framework you probably use that for this kind of stuff because it's a lot easier than doing it with vanilla JavaScript so
+
+
+01:20:53
+query selector but you still should learn this stuff so let's say items so we're grabbing the the UL with the class of items and we can call methods on it such as remove okay so if I do ul remove and I save this notice that the the UL is now gone the whole thing is gone okay so this is just one method there's a lot of different methods you can use let's say we want to let's get rid of that or comment it out let's say we want to get rid of the want to remove the last item
+
+
+01:21:25
+here so I could do ul dot and I could use the last right here it even pops up the last element child property and I could say dot remove call the remove method on that and now item three is gone okay we can also edit content so let's do ul dot this time we'll do first element child okay so we're grabbing the first li actually we don't want to do that and I'm gonna use the text content property here and I'm gonna set it to hello and save and notice that the first list item
+
+
+01:22:06
+here now says hello so what I've done is I've taken the UL which I grabbed from the Dom I've chosen the first child element which is the first li and I changed the text content to hello so we can change anything we want from JavaScript now let's say we want to grab the second one so we could do ul and we could do children which is I believe a node list so we can select by index so I want the second one so that's going to be index one and in addition to text content we also have inert
+
+
+01:22:45
+that we can use and we'll set that to Brad and I'll save and you can see now that is set to Brad so let's let's grab the last one so again I'm going to use last element child and let's say I want to put some HTML in here we have inner HTML and I'll set that to let's put in an h4 and say hello and save and now you can see it's an h4 actually that's doing h1 there we go so if you want to add HTML dynamically you can do it with inner HTML ok so let's see let's let's deal with let's
+
+
+01:23:31
+change some style so we have a button here if we look at our HTML it has a class of BTN so I'll put that in a variable say Const B TN equals document dot query selector and we want the class of BTN ok and then I can take that BTN and do dot style and I can change any CSS property I want let's say I want to change the background so I want to change the background to red so I'll save whoops why did that change this should be style I don't know why that happened so style dot background equals red and
+
+
+01:24:15
+there we go it can change the style now you might be saying why would I do this we have CSS but you can have events and functions and you can make this dynamic so you can have like click on one thing and have the color of something else change or have the size change or anything at all so you can really manipulate things in your user interface in real time so and I'm going to show you about events in a second actually we'll take a look at events now so I'm gonna just get rid of this and let's
+
+
+01:24:48
+take that actually I want that button element so I'm just gonna grab that and let's do button dot now if we want to create an event listener we do add event listener and this takes in two things the event we want which in this case I'm going to I want to click I'm just gonna save this to bring all that stuff back so the first is going to be the event the second is going to be a function that you want to run when this event happens so when the button is clicked I'm actually gonna use an arrow function
+
+
+01:25:22
+you can just you know put in a regular function but I'm gonna use an arrow function and and when you use an event it takes in an event parameter so I'm going to just use a here so we'll do an arrow open some curly braces and if I do a console.log and say click and save and then I'll open up my console here click notice that it flashes really fast and it just it goes away the reason for that is this is a submit button and when you submit a form it actually submits to the file so if you have either a click on a
+
+
+01:26:01
+submit button or you have a form submit you have to stop the prevent I mean you have to prevent the default behavior so the way that you do that is you take that event parameter and you call prevent default okay you call that method and that will stop it so now if I click now we just get click it doesn't flash and go away because the form is no longer actually submitting all right so let's actually take a look at the event object so hold click shows us the event object which has a bunch of stuff on it
+
+
+01:26:35
+I'm even gives you like the position of the mouse and stuff like that but if we look at target so right here target this this will give us the actual element so if I do a dot target and they click it again it'll actually give me the element that the event is on which is the button okay and we can get things like the class so I could say give me the class name class name save and then I'll go ahead and click and we get BTN all right you can also get the ID if there is one there isn't an ID on
+
+
+01:27:14
+it so we're not going to get anything but you can get all the different attributes of the event you click all right now let's do something kind of cool so let's say when we click we want to change some stuff up so I'm gonna do document dot query selector and let's grab the form so it has an ID of my form and let's change the background so I'll do dot style dot background and let's set that to set it to CCC which is a slightly darker gray so if I save this and I go when I click on this button
+
+
+01:28:01
+wait a minute my form I don't know why this keeps changing to that problem must be an extension I have or something so let's click that and you can see it changed the background color we could we could even add a class so in my style CSS I have a class called BG dark which is just about a dark background in a white text so let's add this class to the body when we click this button so I'm going to grab the body with document dot query selector and remember we can put anything we want in here we can put
+
+
+01:28:45
+the body tag and to add a class we can do dot class list dot add we can also remove with class list dot remove and I'm gonna add the class of BG dark okay so now if I click on this it for us to change the form background and then it changed the body background to darken the text to white alright so I mean this is this is useless but it shows you what you can do in terms of making your your user interface interactive okay we can also change text if we want let's do like I'm just going to save this to
+
+
+01:29:25
+clear it up let's do ul dot actually we don't have ul defined any more so we'll just have to do query selector and let's do dot items and we'll do last element child and let's add HTML will do inner HTML equals h1 hello so now once I click this if you watch the last item here it turns into hello okay along with all the style changes and we have other most events as well so if we want to do like on a hover you can do mouse over so if I save and I just hover over the button it changes if we
+
+
+01:30:20
+do Mouse out and I'll hover over and then when I exit that's when that event fires okay so there's different events I mean you can look up in the in the mdn documentation all the different events there's also input events as well that you might want to look at but we're running out of time here so I want to actually make this a functional little tiny little application where we can add a user grab the values and then output the users down here so I'm gonna comment out those items again and we're gonna
+
+
+01:30:55
+create a little a little form script here alright so I want to grab a bunch of stuff from the Dom and put them into variables so let's say Const my form so that document dot query selector ID my - form I'm just gonna copy this down a couple times I also want to grab the the name field so this input has an idea of name so I'm going to call this name input we also want the email input which has an idea of email and then we also want that remember that message class which is just an empty div I'm going to grab that
+
+
+01:31:44
+as well and I'll call this msg and then I also want I'm going to create a variable called user list and I want to select the ID of users which is also an empty div so if we look here we have this I'm sorry it's not a divot to UL because what I want to do is add a user and add it as a list item to this ul okay and we have our message right here for any errors or anything all right so we're grabbing this stuff from the Dom now we want to listen for a submit event on the form so let's do my form dot add
+
+
+01:32:20
+event listener and the event we want to listen listen for is a submit okay since it's on a form element we can use submit and we don't actually have to put the function in here we can call it we can name it so we'll do like on submit so on submit and then down here we'll create a function called on submit takes in an event parameter since it's a submit we want to prevent the default okay and just to test this out let's do a console log and let's grab the name input now if I just do that I just want
+
+
+01:33:01
+to show you something real quick if I put something in the name input like Kevin Smith and I submit it gives me the actual element now I want the value so if you have an input set to a variable like this you can do dot value and now if I put in Kevin Smith and I submit I get I actually get Kevin Smith alright so I want to do a little form validation I don't want this to submit unless that all both fields are filled out all right so let's do a console log actually no it's let's not do that let's do an if
+
+
+01:33:40
+statement and let's check for name input so name input dot value so if that is equal to an empty string or email input dot value is equal to an empty string then we want to give the user a message that says they have to you know add the add the fields now we could do a standard alert like this we could say please enter fields and we'll do an else and just do a console log and for now we'll just log success okay so we'll save that and if I try to submit we get please enter fields if I
+
+
+01:34:33
+do enter the fields submit we get success now I don't like using the standard alert I know I think it's ugly looking and again it stops your code and it's just it's not something you really want to use these days so I want to put a message in here so we have this message variable that is assigned to that message class and the Dom so I'm going to take that message and I'm gonna I'm gonna do an inner HTML I'm gonna set that to please enter all fields okay so now if I do that we get
+
+
+01:35:15
+please enter all fields now I have a style of error a class of error in my stylesheet so I want to add that to it so right before I put the HTML I'm gonna do msg dot classlist dot add and I want to add the error class so now if I do it again you'll see that we get that styling okay now I'm going to take it a step further and I want this to disappear after three seconds in JavaScript we have a function called set time o which takes in a function so we could either type do a regular function
+
+
+01:35:54
+or I'm gonna do a narrow function and no parameters so just put an arrow like that and then I'm gonna say msg which is our class and use dot remove which will completely remove it from the Dom now set timeout takes in the second parameter of the time in milliseconds in which it should you know it should this should fire off so I'm going to do three thousand which is three seconds so now if I go ahead and submit we get our error message after three seconds it goes away all right so that comes in
+
+
+01:36:29
+handy so that's all set now if we enter the name and email then what do we want to do we want to create basically add it as a list item into this ul right here so the way that we can do that is first create an element so I'm going to do Const Li and I'm going to use document and there's a method called create element because we can just create elements out of nowhere and insert them into the Dom so I'm going to create a list item all right and then I want to add a text node with the input values so I'm going
+
+
+01:37:11
+to take that list item and I'm gonna use append child okay basically I want to add something inside of it and what I want to add is a text node so document dot create text node and in here I could put anything I'm going to use a template literal a or a template string and I'm going to put the name input dot value and then let's do a colon and then let's put the oops I'm gonna change that okay and then let's put the email so I'll say email input dot value all right so we
+
+
+01:37:54
+have our text node now this isn't going to do anything yet because we need to actually append the LI to the UL so we have the user list variable that's set to the UL up here which is right here set to that idea of users and I'm gonna call appendchild once again which just adds something into it and I'm going to add in the Li okay and then the last thing I want to do is clear the fields and we can do that by taking the name name input dot value and setting it to nothing and we'll take the email input
+
+
+01:38:34
+dot value set it to nothing and that should work so let's go over here and let's add we'll say Kevin Smith Kevin at gmail and submit there we go let's add another one let's say Brad Travis see Brad at Gmail and now we can add users I just have these these demo users from other applications all right so that's an example of how we can manipulate the DOM and we can have an interactive application now this is all just in the UI if I reload those users are going to go away they're not getting saved
+
+
+01:39:07
+anywhere so if you want to have an application where you save data you're gonna have to well there's a few things you could do you're probably gonna have some kind of back-end that interacts with a database so something like nodejs or PHP or Python or something like that that's connects connects to a database and then what you do is send requests from your front-end using something like the fetch API okay or Ajax and I do have an Ajax crash course I have a fetch API crash course so if you want to look more
+
+
+01:39:41
+into that you can and then we also have something called local storage where you can actually store data in the user's browser okay so it would be relevant to that user it would only be stored on their browser so that's something else you could look into but you know this is this crash course is getting quite long so we're gonna go ahead and stop here because we've gone over all the fundamentals the basic syntax of JavaScript so like I said before I have literally hundreds of videos on my
+
+
+01:40:14
+youtube channel to check out the vanilla JavaScript playlist check out the udemy course I'm gonna put a link for just $9.99 in the description we build all types of projects so that's it guys hopefully liked it if you did please leave a like and I will see you in the next video
+

@@ -1,0 +1,1412 @@
+
+00:00:00
+well hello Internet and welcome to my full course on postgres in this one video You're basically going to get a 1 000 page book crammed into one video in the description underneath the video there is a table of contents where you can jump around and learn everything you want there's loads of examples in this video and also there's a link to a transcript as well as all the code used here and I have a lot to do so let's get into it all right so the installation is actually covered at the end of the video
+
+
+00:00:30
+so you can jump to the table of contents if you want to see that first but the big question is why use postgres well postgres is an object relational database that is just as fast as MySQL however it adheres more closely to SQL standards and it excels at concurrency postgres is also Superior at avoiding data corruption and postgres also on top of that provides more advanced data types and allows for the creation of even custom data types operators index types and so forth and postgres is normally the best option when
+
+
+00:01:07
+extensibility scalability and data Integrity are the most important to you now just as a general overview a database is data that is structured into rows and columns kind of like a spreadsheet and to receive or change data in a data base you send commands that are called queries and the database in turn returns a result based on that request databases contain many tables of data organized into rows and columns like I said and each column is going to represent one type of data that the database stores each row is going to
+
+
+00:01:48
+then contain multiple pieces of data specific to each entity you are describing so for example we store information here as you can see in this slide in regards to students and each individual value is going to be stored in what is called a cell and then you're going to have primary keys and they are used to define unique entities in your table as you can see here the one or the column labeled ID provides a unique value associated with each student now we are going to be working with our database using PG admin and everything
+
+
+00:02:26
+is exactly the same on Windows Mac and Linux there's actually only one difference between the windows and Linux versions and the Mac versions and that is that the Linux and Mac versions are going to have an extra database called users that's it everything else is the same so whenever you first open up PG admin you're going to type in some type of password and my password is turtledove never use that because I use that in all my tutorials okay and you just log in here then you're going to go
+
+
+00:03:01
+over to servers now the very first thing we're going to want to do here is we're going to want to create a new database so just go into databases actually before I do that I'm going to show you how to change the theme so you're just going to go into actually let's go into runtime and I'm going to zoom in and increase this the fonts everywhere so we can just go like this and zoom in here or you can just hold down your control and zoom in like that also so it's a little bit bigger and easier to read and
+
+
+00:03:32
+I know that everybody prefer a dark theme so you just click on file preferences go down to themes and you can click on dark and save and refresh and reload and there you go now you have that and then if we decide well they went and changed let's go and zoom in here so you can see this better okay so we're going to go over to servers and we're going to go to databases and we're going to right click on this we're going to say create database and we're going to create a new one and let's call this
+
+
+00:04:03
+sales CB2 and owner postgres you don't need to do anything else here with this and you can just click on save all right and that is going to give you a brand new database that we're going to be able to work with and down inside of schemas over here you're going to see all the functions we're going to be creating we're going to be creating tons of functions and tables and all that but we haven't created anything yet now if you want to go and open up the query tool which of course you're going to want to
+
+
+00:04:33
+you're going to want to go to your database and right click on it and come down here to Quarry tool and click on that and there it opens and this is where you're going to put your queries in and this is of course where you're going to get the output from your queries now of course whenever you are going to start creating a database which we're going to create a really large database that's going to track orders for a company you want to think about things like and you want to make sure
+
+
+00:04:58
+that one table is going to represent one real world object or one real world group so for example customers orders sales items sales orders all those different things are all going to have their own separate tables columns are then going to store one piece of information like a name an address a state then you have to start thinking to yourself how do different tables relate well of course if we have a sales order we're going to need to relate our customer table over to our sales order table and maybe a
+
+
+00:05:35
+sales person table over also to that sales order table and this will make more sense as we create our databases and the real goal here in designing a database is to reduce the use of redundant data now one way to go and create a database is to use a real world example so on the left side of the screen here you can see an invoice which is going to represent our shoes store which is what we're going to base our entire database on and you can look at it and you can see what things do we have here that we would like to put
+
+
+00:06:10
+inside of our table well let's first off look at customer and that would be under our bill to so we have such things as name so we have first name last name and we have email so we have that inside of there company Street you can see we're just basically placing in all the individual different things that we would like to track and then once again where you see ID serial primary key this is going to represent the unique identification number for said customer and I'm just going to jump over now and
+
+
+00:06:45
+create this and then I'll explain what all of these different data types mean like variable character this means this is going to be a string of characters that is going to be up to 30 characters in length and so forth and so on but we'll get into that as we build our database so we're just going to go in here to our core tool and I'm going to say create and let's zoom in here even more so make sure you can see this okay so I'm going to say create table and we'll start off just by creating our
+
+
+00:07:18
+customer table and then we have to just go and place in all the things we want so we want to track the first name variable number of characters remember this is just a string like in other languages not null means that if they decide they want to create a new customer we are not going to allow them to leave this piece of data empty they have to give us a first name they also have to give us a last name so we're going to say variable number of characters and then we're going to say 30 again not in all
+
+
+00:07:52
+and I'll get into the more specifics of the data type after I create this we also said we want to email so and you just want to estimate the maximum length of an email that you may get so I'm going to say it's 60 just to put something inside of here company and again I'm going to have this also be a string make sure you spell everything right otherwise that'll cause all kinds of problems so we'll say variable number of characters and let's make this 60 as well and then we have our street
+
+
+00:08:26
+and again very whole number of characters you're going to use variable number of characters a lot whenever you're working with databases and not and all and then we also want our city and we're basically just copying everything that we had from our little order sheet so it's very very simple and do not put commas like that yeah get rid of that got ahead of myself a little bit not null then put a comma and get rid of this one also okay and the we're gonna basically make everything a required field just to keep
+
+
+00:09:09
+everything very simple and state I'm going to this is based in the United States so this is what we'll be working with this time I'm going to use a character because I only am ever going to have two characters for my state and then we can have a zip code and there are very specific data types used by postgres that you will get well acquainted with and I'm going to use basically the maximum size that I need no more than that phone number this is going to be a variable number of characters and 20 and again not null
+
+
+00:09:50
+that means required and then I'm going to have maybe you want to offer a special to the customer on a birth date well there is a date data type also and let's go and just put null inside of there for that value because maybe we don't you know get that I'm going to have our sex of our character which is going to be one individual character and I'm going to say that that's going to be not null and then what else do we want well date entered maybe we want to go and get the time stamp for whenever this customer
+
+
+00:10:32
+became a customer so we would know how long they've been with us and maybe an anniversary date or something along those lines and then you're going to have cereal and we're gonna have this marked as a primary key a unique identification number and serial just briefly is going to be serial like that is going to be an auto incrementing number so an integer that's Auto incrementing incrementing and that just means that every time you add a new customer it's automatically going to handle that for you and after
+
+
+00:11:09
+we go and create our table we just come up here and click on execute and if it says create a table everything looks good here then you can come down inside of here but you're not gonna well sometimes you see it sometimes you don't so let's move this over here it does have our customer table inside of there if it ever doesn't you'll ever look for something and it's not there just right click here and click on refresh and then you will see it but you can see there is our customer table and we can right
+
+
+00:11:37
+click on it and click on properties and it's going to show us some information about it and you can direct directly change the table inside of here so here is the column so if you decide you want to change any of these or get rid of that null ability or make something a primary key or a default value you can do that directly inside of this tool which is very useful and we'll get more into all of these other specific things here as we continue but for now we're not going to do anything and we're going to say yes
+
+
+00:12:08
+we're happy with our table we do not want to update anything now what I want to do is go over a lot of these different data types because they can be slightly confusing all right so first off you're going to have your character types and up here you can see that what I'm basically saying is I want to store a maximum number of five characters you can also just create a variable number of characters this is a data type and this is going to store any length of characters you can also like I did
+
+
+00:12:37
+previously to find what I consider to be my maximum number of characters and then you're going to also have the text data type which is also going to store any length of characters in regards to the numeric types there are many you have serial and these are basically whole numbers that auto increment like I said before every time you add a new customer it automatically if you have one customer you have another one now all of a sudden the ID if it's marked serial is automatically going to become 2 and 3
+
+
+00:13:05
+and 4 and always you're always going to use these for your identifications with your primary keys and there are different types of Serial mainly you're going to use just the regular serial data type but there's also a small cereal and you can see the ranges of values this is the minimum this is the maximum and these are unsigned integers other data types you also have your integer data types and these are whole numbers only so you're not going to have any fractions of these but these are signed and you can see the
+
+
+00:13:38
+minimums as well as the maximums for all of these different data types as well then you have floats these are numbers with decimals here four data types you're going to have decimals and you can see here how many digits you are going to be able to hold inside of them and then how many values after the decimal and this is the data type decimal then you're going to have another one which is numeric and you can get real values you can have double precision and you can see here the number of places of precision after the
+
+
+00:14:11
+decimal place for all of those and then you could also just simply use float which is exactly the same as our double up here you're also going to have Boolean data types they're either going to have true false or null values sort of because true can also be represented with one a t a y a the word yes or on and false can also be represented with zero f and no and off but I highly recommend that you use true and false because that will save you a lot of headaches in the future and of course
+
+
+00:14:42
+Boolean types can also have no value or null you're going to have date time data types and here we have date and just so you understand and no matter how you enter your date it is automatically going to be translated into the year first then the month and then the day so this is the way it's going to be stored so it's going to be stored maybe differently than you previously entered it then you're going to have times and if you would come in here and Define a time just like this with pm and then you
+
+
+00:15:17
+have your two colons here time without time zone this is going to be how it's stored you're also going to be able to store in multiple different time zones so this would be UTC format you can see how I am going and changing all of these and how you can put your different time zones inside of here so Eastern Standard Time Pacific Time universal time and so forth and so on all right and that was how we'll lay those out but it's better to see these in the real world than to worry too much about them we also have
+
+
+00:15:48
+time stamps they're going to have date information as well as time information and you can see exactly how those are going to be stored and also we're going to have intervals and they are going to represent a duration of time so you can have one day like this and you can also come in here one day one hour one minute and one second and you can see exactly how they would be stored inside of our database and what's cool about intervals is that you can actually add and subtract intervals from different date
+
+
+00:16:20
+times to play around with those Concepts there are other different data types you're also going to have currency binary Json range geometric arrays XML uuids as well and on top of that you can even make custom data types all right so now let's come in here and actually insert some information into our customer table how you do that is you go insert into and you list your table that you want to insert data into so I'm going to say customer and then you can come in and say first name and just list
+
+
+00:16:53
+out all of your different columns and I went and did that for you to save a little bit of time you can also just go down to the next line that's perfectly fine but if you look at this you're going to notice that there is one column that is missing and that is ID why is that well ID is auto incrementing so that means this first customer that we enter is going to automatically be assigned the ID of one and then the next one gets the next one then you're going to say values and inside of here what we
+
+
+00:17:26
+can do is go and list all of the information on our customer so let's say that his name is Christopher and his last name is Jones and all of the additional information on Mr Christopher Jones let's go down to the next line well you can just keep going like this that's perfectly fine okay so we have all of our information you may notice here however I have current timestamp well anytime you want to get the current timestamp like right at the moment that you create Christopher Jones you just type in
+
+
+00:18:04
+current time stamp and it goes and gets that for you and then you're going to end all all of your quarries with a semicolon and then of course you can go and run it and you can see that it was inserted over here now what we can do is we can come over to our customer and right click on this and then we can go View and edit data and we'll say all rows and it will automatically come in here create the query it actually creates the query for us and it is going to display that query information down
+
+
+00:18:35
+here in our table area alright so cool stuff and we'll get more into select believe me but this is basically anytime you want to go and get information from a table you say select the star represents anything customer represents the customer table and then order by says that we want to order by whatever the ID is so the unique identification and this is going to be in ascending order you could also do descending order but that doesn't really matter in this circumstance because we have one customer at this moment all
+
+
+00:19:11
+right so we're done with this we can just come over here you can see the little X and close that out and now we're back inside of here now I said we can create custom data types so let's go and create some how you do that is you say create and type and I'm going to say that I want sex type and I want it to be set so that it's either M or F and I'm going to create it as an enumerated type then that just means it has a set number of values and I'm going to say that it either needs to be M or F
+
+
+00:19:47
+that is going to be tied into our database there it is and we can go and run this and you can see create type is down here successful and if you want to go and find it you just come over here to types and Sex Type shows directly inside of there and we can come over here and go properties and definition and you can see the different types that are allowed you can also go and let's say you decide to add some more you can do that all that you want all right let's close that well now that you went
+
+
+00:20:17
+and created your new sex type and you want to assign it to our customer table how do you do that so you got our customer over here and we have our columns so let's open up customer just to look at it just to make sure all right so we have all of our columns but we have our sex type down here and it is listed as a single character we do not want it to be a single character and we can go inside of here and change to whatever different type that you would want but let's just go and use queries
+
+
+00:20:45
+instead because I prefer use inquiries it's fine get rid of that okay so how we go and alter that table is we say alter table and customer the table that we want to alter and then you're going to say alter column and we're going to say sex which is the name of our column down here and then we're going to say type and let me make this uppercase doesn't matter if they're uppercase or not and I'm going to say that I want it to be Sex Type now and then I'm going to say
+
+
+00:21:22
+specifically using sex colon colon Sex Type oops and make sure you style everything perfectly all right so got that set and run it Corey return successful okay good I'm then also going to want to track our sales people because it's going to be important to be able to you know know who sold everything and basically what I'm going to do is I'm going to use almost exactly the same Fields except I'm going to use date hired instead of date entered here and I'm going to use a create table just like I did before so
+
+
+00:21:57
+just in the interest of time here is our create table for our sales person you can see again first name variable number of characters not null you can see here is something different default if you ever want a default value placed inside of here if none are provided you just say default and whatever you want placed in there by default you can also see everything else is exactly the same so there's really nothing to explain here and another thing you can do is sometimes whenever you're issuing
+
+
+00:22:26
+queries you might have multiple queries on your screen at one time time and you only want to execute that one query you can just highlight it and hit this right here and you can see the table was created and let's come in here and is it showing no it is not so let's come up here and let's go to this guy right here and refresh and now you're going to see here is our customer and then let's get rid of all that and here is our sales person and all of their information specific to them now thinking about
+
+
+00:22:59
+tables once again now what we're doing is basically looking at a description of a product which will be a shoe in this specific situation and by looking at this information about the individual products we Define is this specific shoe going to be a business shoe or is it going to be a casual zoo or an athletic shoe and whenever we see things like that and that is normally a good idea that we should separate this Lodge the business athletic or casual out into a separate table we can also see here
+
+
+00:23:35
+information like our brand and the individual shoe name so a brand is Allen Edmonds the individual shoe name is Grand View we see information like we have size we see that we have a specific color a price potentially a discount a potential weird tax rate and then we're also going to want to chart the quantity of those numbers of shoes now whenever we go in here and we decide that we want to pull this part out we would of course have to create another table and in this situation I'm going to call this product
+
+
+00:24:09
+type and it's just simply going to have a variable number of characters which is going to have business casual or athletic and then it's going to have an ID assigned to it so let's go over and create that table let's just come back inside of here and let's create a table and let's leave this here and let's change this to prod type so product type like this and then what are we going to have inside of it well we said we're going to have a name and it's either going to be business athletic or casual
+
+
+00:24:44
+and variable number of characters 30 looks like that'll work not null and then let's come down here get rid of all that stuff it's also going to have a primary key and guess what pretty much everything was done for us let's run that and we have another table that was created and of course we're going to want to come up here and refresh this just to verify that everything is as we expect so there's refresh looking over a microphone that's why I'm moving around a little bit weird and uh this is down
+
+
+00:25:12
+in schemas again let's open up schemas and tables and now you can see here is our product type and if we go into properties you can see columns and there is our information so that's good stuff we don't need to do that because we didn't change anything all right good all right so now we have our product type but we actually want our product as well well how are we going to Define exactly what type of we want we're going to look at our invoice again so if we look at our information specific to our
+
+
+00:25:41
+products we can see here we have Brooks which is going to represent the supplier then we have glycerin which is going to represent the shoe specific name or glycerin 17 in this circumstance we're going to have quantity so we're going to want to put a quantity inside of that as well however I am probably also going to separate out the quantity and the the things that make the shoe specific so this is very generic we're going to have a type ID which is going to be athletic business or casual we're going to have a
+
+
+00:26:17
+name which is going to be glycerin 17. we're going to have a supplier which is going to be Brooks then we're going to have a description of the shoe so that those are going to be things whenever you're creating tables you want to have your tables be things that will not change so you want to be as specific as possible possible but not too specific so what I'm going to do is I'm going to have this information on the shoe the description and the name and then what I'm going to do is I'm going to create
+
+
+00:26:44
+another table that is going to have things like quantity color size which and also price and also all these other different things which are going to be more specific to that type of shoe so let's go and create those guys as well before we move on I actually notice there's something completely different here I didn't cover okay so this is actually a reference to the ID down here for the product type table now whenever we are using IDs from other tables these are going their primary Keys down here
+
+
+00:27:17
+but up here they are actually referred to as a foreign key and a foreign key is used to identify one of a group of possible rows in another table so if we create a product table and we want to store a value from the product table we can reference that information using a foreign key and whenever we create a foreign key it is going to have an integer type not a Serial type and we can't use serials because postgres will automatically assign a value for a Serial type it's not what we want so
+
+
+00:27:54
+make sure that you have this marked as integer references and then product type ID if you're referencing an ID in the product type table so now let's go and actually create this product table and here you can see it so here is our product that's the name of our table type ID this is the foreign key that is going to reference our product type table ID it's going to have a name it's going to have a supplier a description you can see here we're using the text data type and once again for the ID
+
+
+00:28:23
+you're always going to be using serial for that and we can come in here and we can also create that now what we're doing here with this specific table is this is just going to describe what we call the quality of an item now if I were to list quantity here it would make it hard to look at this as a single item and quantity should be kept in a completely different table and of course we're going to create that as well and anything that gets in the way of being able to model an individual object
+
+
+00:28:56
+should almost always be put into another separate table so let's go and actually create that as well so there's some things here I need to leave so we're going to have our item specific information so I'm going to call this item and then we're going to have a product ID so we're going to so like this and product ID integer references and this is going to reference a product ID and the circumstances is how we're tying the product table to the item table and what specific things are we going to
+
+
+00:29:32
+have inside of here well we're going to have a primary case let's go and get rid of all this and then from referencing our order table what do we have inside of here well we are going to have our quantity a size a price maybe a picture and then I'm probably going to separate all of the discounts and taxes outside of here so let's just go and plug all this in here so you don't have to watch me type it out so here we have a foreign key that references the product table we're gonna have a size which is going
+
+
+00:30:02
+to be an integer not an all for every single thing here we're going to have color we're gonna have picture we're gonna have price and we're also going to have our ID of course of course we'll go and run this and we've created that table and of course we can come up here and verify that this is created by right-clicking on this and refreshing and then come down inside of tables and we can see all of our tables and here is our item table also this brings us to our next table so we're also going to
+
+
+00:30:31
+want to have a sales order table and if we look at the information we have here what do we have well we have a customer information so we're going to have we already have that stored in a separate table which is good so we're just going to have a foreign key referencing that customer table we're also going to have information on the sales person that actually sold it so we're going to have a reference to the sales table that is created we may want to also have a time stamp for the time the order was taken
+
+
+00:31:02
+you can see here time and date there's a purchase order so of course that's going to be in the table we're going to have credit card information so we'll get the credit card number as well as expiration month the expiration day maybe there's a secret code and also the different potentially different name that is on the card and then of course we'll have an ID so that we can reference all the information on our sales orders so once again we're going to come in here and
+
+
+00:31:28
+we're going to create this table and you can see it's called sales order it has a customer ID foreign key salesperson ID it also has time order taken purchase order credit card number uh credit card expiration month day you can also see that I'm using the smallest data type possible for all of these and name on the card and so forth and so on and we can run that as well and you can also see that we were able to create that table now there's one thing that's missing and that one thing is going to
+
+
+00:31:57
+be our potential discounts and our tax rates as well as our quantity and also the price for all of those items so of course we're going to create another table and it's going to be called sales item it's going to have a reference to our item foreign key it's going to have a reference to our sales order ID and then it's just going to list in all of the other different information that we need and there is all that information as well so we're going to create a table called sales item is going to have an
+
+
+00:32:28
+idea item id foreign K sales order ID also foreign key and then it's just going to have the specifics on that uh specific transaction and we'll run that and we also created that table now it's very important to understand how all of these tables are going to be interrelated and what you can see here are how the different foreign keys are going to allow us to merge our data whenever we start issuing queries it will become really clear how to use these different keys but basically the
+
+
+00:32:59
+product type is going to be linked to the product so here is how those link that ID goes right here the product is going to be linked to the item which is a more specific version of a product and then both the item and the sales order are going to be linked to the sales item Table and there are going to be many different foreign Keys linking tables but I think that in general this is enough to cover at this moment now I'm going to show you a whole bunch of inquiries for doing all kinds of things
+
+
+00:33:28
+let's say you would want to add a new column so all you do is you say alter and the table that you want to add at column two and I'm going to go and say that I want sales the sales item table is what I want to be working with and I want to add a new column and it's going to be called day of week and it is going to have a variable number of characters let's say it is 8 because that makes sense and and there you go so that's going to allow you to add a day of the week column to our
+
+
+00:34:04
+sales item table so let's go and run that and we were able to alter that and this is going to be sales items so let's come up here and let's refresh this refresh and sales item and we're specifically targeting the sales item table so let's look at the properties and let's look at the columns and day of week is in here and you can see that there is our information exactly as we entered it okay so let's close that let's say that you would like to modify a column or change it in any way well
+
+
+00:34:40
+you're going to be using alter table again let's stick with sales item makes sense and let's get rid of the rest of this all right so there that is and we want to set it to not null for example so just reference the table you then say alter and column and all of this is on GitHub we're going to be using day of week again and I'm gonna set it for not null right like that and we can run this and it will come up here you can see that it's successful all right then we decide that we want to change the name
+
+
+00:35:15
+of a column so how do we do that we're going to use sales or alter table again with our sales item except we'll just get rid of this and we're going to say rename column and we'll say day of week maybe somebody says we don't like that and we want to change it to something that is shorter that makes more sense so we're going to say weekday there that is and run it and you can see we did that as well and then also you may want to drop a column altogether you might be like why did I even do all that
+
+
+00:35:48
+well we're going to say alter table sales item and we're just going to change this to drop column and they or this is now weekday remember we changed that so let's get rid of that and let's run that and that is now gone so if we go into our sales item table and property and columns then you can see that weekday doesn't even exist so that is how we go and do all that stuff let's that okay so what's that go and say we want to add another table to this so this is going to represent our
+
+
+00:36:25
+transaction type so we'll say create a table and transaction type and then after that come down here we'll say name variable number of characters is going to be 30 and let's make this not null payment so that looks like something we might want so character and we'll put this as 30 as well and not null as well and then of course what did I forget I didn't forget it I just didn't type it yet okay so serial whoop cereal like that and this is going to be our primary key and there we are we just created a brand
+
+
+00:37:16
+new table I'm using a habit of highlighting things but in this circumstance because there's only one query I don't need to now let's say we would like to rename that table well guess what we're alter table again and what's it called it's called transaction type and we want to rename it to just simply try transaction well there that is and let's run that and it's successful so that's how we can do that let's say that we would like to create an index based on a individual
+
+
+00:37:52
+single column well we'll just come in and we're going to do let's get rid of this we'll say create index transaction ID on transaction the name of our table so transaction and we want to make a unique index on our name column let me do this and run that okay that was also successful um let's say we can also come in here and actually create an index based off of multiple different columns so let's just create index again and we will call this create a transaction ID two just for just to put something
+
+
+00:38:38
+inside of there and we could say on transaction but this time we want to be based off of not only the name but also the payment type and these are all columns inside of here you can run that and now we created another one so this is going to be okay good stuff another thing that we might want to do is we may want to delete data in a table well to do that we say truncate table and transaction like that and run it boom and the table has been truncated and then on top of that that just deletes all the data inside of a table
+
+
+00:39:19
+if you want to actually get rid of a table altogether you come in and just say drop table transaction run that and now it doesn't exist and if we come over here and we refresh this there it is and refresh you can see that that table name transaction doesn't even exist inside of here let's come in and let's go and add in some more data because then we'll be allowed to start really doing some cool Quarry things so what I want to do is for our product type table remember I wanted the
+
+
+00:39:54
+different product types to be either business casual or athletic so how I can enter those in is I say insert into and then you list whatever your table is called it's called Product type and what am I going to insert inside here name that's it nothing else and values and I'm going to say that I want business business like that and there that is and then I'm gonna do and do this for multiple different types so let's go like this and like this and we will also remember the ID is
+
+
+00:40:31
+automatically put inside of there so we'll have this be casual whoops let's keep everything consistent casual and also this one right here is going to be athletic athletic with a lower T like that I can run this and run this and boom and then we can come in and check out that information and how we can do it is say select star represents everything from the table called Product type like that and if we just highlight this and run it you can see it's going to give us information that we just entered so
+
+
+00:41:12
+there's business because it was entered first it gets the id1 and then we have casual and athletic on top of that all right so good stuff another thing that's interesting to know is that you can also insert multiple rows without defining the column names if you put the values in the same order as our table data so why don't I demonstrate that so let's come in inside of here and what I want to do now is I want to enter some of our product information if you don't remember that's the supplier the
+
+
+00:41:42
+individual shoe name and a description for the shoe so what we can do is we can say something like insert into product so here is our table name and the values that we want to enter all right and then inside of here we're going to say that let's look at it so what do we have here so we have remember you have to put them in exactly the same order so we're working with a product table let's come over here and let's look at our columns so we have the product type which in this circumstance is going to be
+
+
+00:42:15
+business so let's say this is one that is the ID for business over inside of product type and then we have our specifics so we can say something like Grand View is the specific shoe name so that's the name then we're going to have our supplier and this is going to be Allen Ed men's and then we're going to have a description for said shoe and there is this really long description for our shoe and you can see that just as long as you have the type ID which we do name supplier description and remember we
+
+
+00:42:55
+never put in our ID we have all that information we do not need to do anything else and there that is and what I'm going to do here is just go and paste in a whole bunch of these and there you can see all of our different shoes that we are going to be selling and remember there's always a semicolon here at the end but you could see that if we go and put this inside of here all in the right order and run it that it went and successfully entered all of that information and then we can come in
+
+
+00:43:22
+and verify that it did that by just coming in and saying select everything from product like this and if we run that you're going to see that we have a listing for all of our shoe names as well as our suppliers and descriptions and it auto created all of the IDS for all of that information now I'd like to come in and enter in some customer information but maybe somebody was looking at your database table and said you know what I'm not sure if you have the right data type for customer so let's come in here
+
+
+00:43:56
+and let's look at it so we go and look at properties and columns and we're looking at them and here we have small int well we think that maybe that smart person was correct and we go back and we check our notes and we find out that yes indeed small int only has a maximum value of three two seven six seven well if you don't know about U.S zip codes this this is too small so what we're going to have to do is we're gonna have to change it to an integer yes this is overkill but we're gonna have to change
+
+
+00:44:28
+it from small int to integer but we know how to alter tables and maybe for just practice you could see if you could alter that table based off of what I taught you previously if not I will show you and there's a lot to learn here so don't worry about it if you didn't get it we're just going to say alter table and what table are we altering our customer table and then we want to alter what we want to alter a column what column we want to alter the zip column and what do we want to do we want to
+
+
+00:44:58
+change its type to an integer and we can do that and we can run it it's successful and if we come in here to customer and properties and columns and zip you can now see that it is an integer not a small int so now we need to enter in all of our customer information and I'm not going to waste your time by having you watch me type all that in I'm just going to plug it in okay so what do we have here well we have all of our customer data we have our first name last name emails we have the company they work for the address we
+
+
+00:45:34
+have the city state ZIP phone number birth date sex date entered and all of those additional values and instead of current timestamp I actually put a real date inside of there and also remember semicolon at the end all right if we enter all that information run it you can see it was successful and we can verify it was successful by coming in and saying select everything from what customer like that and run it and boom there is all of our customer data all looking really good now what we need to do is
+
+
+00:46:12
+come in here and insert our sales people but before we do that what if we made the same mistake with our ZIP code with our sales people so we'll have salesperson down here let's go and see so we'll go properties columns and zip yes we used a small int again so we were being dumb we didn't realize what we were doing so let's go and fix it but now see after I showed it to you multiple times see if you can go and change the zip to from a small ant to an integer otherwise I will show you alter
+
+
+00:46:45
+what are we doing we're ordering a table what is the table's name it is called sales person what are we doing we are altering a column and what is the column's name zip what are we specifically altering the type and what do we want it to be we want it to be an integer and we can run that and that also worked all right so now after we have all that set now we can enter in all of our sales people data so let's go and grab that we don't have that many sales people let's paste them inside of
+
+
+00:47:17
+there and again it has all the relevant information for it and remember you don't need all of the different column names if you put it in order but I just did that just to be descriptive and there we are we inserted all of it and we can come in and we can verify that so we'll say select everything from sales person and like that whoop everything from salesperson and highlight this so we just execute that part run it and there is all of our sales people information okay so we're getting a lot of
+
+
+00:47:53
+information in here that we will then start running a bazillion queries on but what we'd like to do now is we'd like to insert some information into our items table so where is our items table here it is let's look at what we got inside of here let's look at our columns okay so we have our product ID we have a size we have a color picture I'm this is going to be a character I am just going to have that be coming soon and put that inside of there normally what you would do is put a URL to you know location for
+
+
+00:48:25
+the image price and ID all right so let's go and put all of that information in whole bunch of stuff okay paste it inside here and here we have our information so we have in two values and this time I'm not putting in the column names and if we just go and look at item and columns you can see we have our product ID we have our size we have the color we have coming soon where we will have our pictures and then also our individual price make sure you put a semicolon at the end and let's go and
+
+
+00:49:00
+run that guy also there it is and now to verify that all that is in there we can just say select what everything from where and that is going to be item and run that and now we can see is all of our item information so what else do we need to do well we're going to need to go and put some information into our sales order table another thing that may have been brought to our attention is our purchase order number in specifically with our sales order somebody's like I don't know if that's big enough well let's look so
+
+
+00:49:40
+we got our item and we are going to go into our sales order information and we'll look at properties and columns and purchase order number is set as an integer okay well how big is an integer let's go and close that here we can see here is our integer information and those are a lot of different orders but we're planning on selling just more than 2.1 million shoes we want to be selling this big of a number of shoes so yes before we enter any information yeah it's probably better to go and actually
+
+
+00:50:16
+change that into a big into also and why don't we do it in a different way this time so we'll go sales order and we'll go properties like this and columns and it was purchase order number right let's come in here and let's change it into a big int instead and say save and it's going to automatically go and change that into big integers for us instead so now what we want to do is we want to go and insert all of our sales order data so here is our sales orders and here is our columns so we have all of this data
+
+
+00:50:51
+that we're going to put inside of here and there it is okay so what do we have inside of here well again we're not going to put the column names because everything's in order we're going to have our customer ID our individual sales person the time the order was taken the purchase order number credit card number and of course these are not you know real credit cards um and uh the name on the card and all of that other stuff I just randomly generated all this information and plugged it inside of there okay so there
+
+
+00:51:20
+we go got all that and let's run that again and we can see we placed all that in there that is sales order let's come in here and just do select all delete that and we'll say select everything from and it was sales order on that and boom here is all of our sales order information now another thing we have a lot of our tables populated however we do not have anything in sales item do we so let's select everything from sales item like that run it and successfully run but there is zero
+
+
+00:52:02
+rows affected there's nothing okay so we're gonna have to put some information in regards to our sales items so what type of information do we have in our sales items let's get rid of this and let's get rid of that let's go sales items here they are and here is the columns so I have an item id a sales order ID and then we have specifics like quantity discount tax rates sales tax rates and then of course an ID as well so let's go and plug all of that information in here as well plug it
+
+
+00:52:34
+inside of there and run it and again that was successful let's go and get rid of all this let's go select all delete and then let's go like this and select everything from and this is sales item sales item right like that and run it and you can see here is all of that additional data so good stuff all right so we populated all of our tables with data and now it is time to start doing some really interesting things what I'd like to do now is start talking about pulling that data and in useful and interesting ways
+
+
+00:53:12
+using a never-ending plethora of different query commands all right so here we're going to start off by just covering select yes I know you saw it before and from and where and order by and limit and and just work up from there now of course let's just do another select this is how we're going to be able to select everything in our sales item table and oomp and there you can see all of the different pieces of data inside of there now where is going to be used to define which rows are included in a
+
+
+00:53:49
+result based off of different conditions so for example let's say you wanted to show all sales with a discount greater than 15 or something all right but first off you're going to need to know about all oh did I tell you how to use comments in PG admin I don't think I did this is how you do a comment just two dashes and there is a comment and you can also do multi-line comments by moving forward slash and multi-line comments like this okay there you go so I got that covered well you're
+
+
+00:54:26
+gonna have some different conditional operators you need to be aware of so let's come down inside here and here they are so you're going to have your equal sign and less than greater than less than or equal to greater than or equal to not equal to and also you can use this more traditional not equal to as well so let's say that we want to come in here and we want to do exactly what I said we want to go and find sales items where a discount is greater than 0.15 or 15 so you could do something
+
+
+00:54:59
+like select everything from and where are we getting it as you can tell it doesn't matter where you put your your code at all is going to work here so we're going to say we're going to get information from our sales item table and where and we're going to say that we want to do discount greater than 15 percent and we can run that and you can see here it is I just hit F5 instead of clicking up here I just did that in the beginning of the video I'm not going to do it anymore so you can see there you get
+
+
+00:55:30
+your different results uh out there on the screen and your discount rate is going to be serious I don't know if you can see this but it's 16. let's move it up here a little bit 16 19 18 and it fits the condition so very very important First Step then you're going to also have what are called Lodge Cooperators they're going to be allow you to stack your different conditional statements and they're very easy to remember you're gonna have and you're gonna have or and you're going to have
+
+
+00:55:59
+not so in this situation let's say that we would like to go and find all all order dates for all orders in December of 2018. well we can do that so we'll say select and everything from and let's get information from sales item this time and our condition is going to be where um well let's do let's just change that let's say we want to get everything from just when our sales item was taken so that is time order taken and we are going to get rid of this part right here and let's say from let's keep
+
+
+00:56:46
+these on separate lines a little bit more complicated sales order is where we're going to be pulling them from that table and let's stack some conditional so we'll say where time order taken that is greater than and then let's throw a date inside here so I'll say 2018-12-01 [Music] and time order taken and this will be less than and we'll do 2018-12-31 okay so there is that's going to give us everything in December 2018 and let's just go run out and you can see that we have two of those that took
+
+
+00:57:34
+place and of course we could go and put additional information so we have our sales order let's go and get rid of that get rid of that and where is sales order sales orders over here and columns and let's say we wanted to get that and we also wanted to get our customer ID get that as well and now you get your customer ID so you can of course pull multiple different pieces of data both from the sales order table and I'm going to show you here soon exactly how you can go and get multiple different pieces
+
+
+00:58:09
+of data from multiple different tables guess what you're going to be using foreign keys to do that let's talk about order by now so let's get this out of here and uh let's say we want to get everything so I'm going to say select everything and I'm going to say from whose sales item this time and I'm going to say where the discount is greater than 0.15 and then I want to order change the order how they uh our output on the screen so I'm going to say order by and I'm going to say that I want to order
+
+
+00:58:48
+them by the discount so let's run it and you can see that we're able to pull that also so we have our discount so you can see who is getting the greatest discount so it starts at 0.16 and goes down to what what is the biggest discount here 19 oh somebody got a 20 discount okay so that is another way of using order by um another thing you can do is let's say we wanted the greatest order up here at the top and of going from lowest to highest we just come in here after discount and say
+
+
+00:59:22
+descending instead and now you will get exactly what you want there is your 20 percent is the greatest amount of discount another thing is sometimes we want to limit the number of rows in our results so let's say you wanted to just get like the top five or the top 10 or something along those those lines so we got order by discount descending and then you can follow that up with limit you can put whatever you want here so I just want five of them and it will just give me the top five that's it I could
+
+
+00:59:56
+do the top ten or anything after that and you couldn't get the the results you can get the name the phone number and state um let's go into another query here now let's go uh something like select and let's say that we want to have the first in in the last name game combined into one field we can do that with concat so we'll say concat and first name and then we will put a space there and then we'll say that we want last name and you could use an alias for this so you could say
+
+
+01:00:35
+as and let's just refer to it just as name and let's say that we also want to get the phone number and the state and now we want to whoops from and where we're going to be pulling this information is from customer so customer like that and let's say that we want to just get this customer information for people that live in Texas or something like that so I'll say where state is equal to and Texas like that right and whoops what I do from cos to oh Tomer customer there we are because
+
+
+01:01:21
+dumber and we'll run it again and now you can see we get just customers from the state of Texas and that this column has been renamed as name and also it has our people's names a first and last name all in one field so that's very useful another thing you can do is you can perform calculations so let's say and there's tons of functions we can use here and we're going to be touching on a lot of them over the course of this video so let's say we want to get the total value of all business shoes that
+
+
+01:01:55
+are in our inventory so we're going to say select and what do we need for business shoes well we need our product ID and we want to sum the price so I'm going to go sum and I'm going to go and get all of the prices and I'm going to call this as and I'm going to change the name of this column to total and where are we going to get this from where we're going to go from item where and let's sort of wear on another floor here so we'll say where product ID product ID one is actually equal to our
+
+
+01:02:37
+business shoes and uh let's also say that we want to group them by the product ID which is going to then give us our sum for just the business shoes so we'll say group bye and product ID and there we go and this is going to give us our total value of our inventory for our business shoes clearly you know a store would have way more products than this but I'm just trying to keep it easy to understand another very useful keyword or command is distinct you can use distinct to do things like eliminate
+
+
+01:03:20
+duplicates so let's say we wanted to get a list of states we have customers in for example we could say something like select and distinct and we're going to say what we want to be distinct is the state from customer and then we'll say that we want to order right state customers in California Georgia Illinois New Jersey and Texas um let's say that we wanted to find all states where we have customers but we do not want to include California well we're going to still say select and
+
+
+01:04:04
+distinct state from customer all that's still good but we're going to put in a where Clause we're going to say where state is not equal to California you decide we don't like California all right so there it is and now we don't have California um of course we can also come in here there's the other version of not equal to and use that instead if we would prefer another little tool here is uh in we could also go distinct state from customer and let's say that we just want
+
+
+01:04:43
+states that are listed so we could say state in and we could list the the people we want so let's say we want just California we like California again and New Jersey we could do that and run it and there is California and New Jersey um another thing uh well let's just cut to the chase here it's going to be extremely important for us to be able to get data from multiple different tables and we're going to be able to get results from multiple tables with either inner joins outer joins or unions now
+
+
+01:05:19
+the most common join is going to be your inner join and and with it you join data from two tables in the from clause and with the join keyword and the on keyword is going to be used to define the join condition so let's say we wanted to do something like get all items ordered ever and sort them by ID while listing their price so I'm going to say select and I'm going to say Item ID and price from and item and I want to do an inner join with sales item so we're joining the item and the sales item tables here and
+
+
+01:06:08
+I'm going to say how they want to be joined is they share a key so I want the item ID to be equal to the sales item ID and then I want to order bye Item ID there it is and we can go and run this as well and this is going to show all of that additional information so here are our IDs and here are going to be these are going to be the items that are ordered so that is the reason why we have some items in our inventory that were not ordered and this is going to be the listing price for all of those
+
+
+01:06:56
+different orders so just to reiterate we're going to use our join condition to find IDs that are equal in the tables item as well as sales item let's look at those so we have sales item and columns and then we have the item and columns so we have here the product ID and this was right right yes so we have item right here and we are joining with our item item id this guy right here is going to be joined with other which is sales item and you can see here is the item ID so here it is a foreign key here it is a primary key and
+
+
+01:07:42
+these joins like I said are normally done using primary and foreign keys in the tables and whenever we join tables while checking for equality between a common column this is called an equal joint so let's come in here and let's do an examples let's do uh Item ID and price once again from item inner join sales item and we'll do on sales items sales ID and let's also go and stack this so let's say we want to go and get uh let's do an and on this we'll say and or maybe it makes more sense to put it
+
+
+01:08:23
+up here I don't like to keep these lines too long we can stack these and say something like price is greater than 120 or something like that along those lines and there you can see we got that additional information now what I'd like to do is take it up another notch and I want to join three tables so I'm going to get the orders and the quantity and the total sales so just to show this in picture form what we're going to be doing is we're going to be using the sales order so this guy right here so
+
+
+01:09:02
+we'll have sales order and we're also going to have our sales item and then we're also going to join to our item and what we specifically are going to say is that we want to go to our sales item area and we want to get our sales order ID and we want to make sure that it matches up with our sales order ID down here so this guy is going to match with this guy as this arrow is displaying and then we also want to go to item over here and we want to make sure that this item id down here is going to match up
+
+
+01:09:41
+with our sales item Item ID so sales item Item ID is up here so this guy is these two are going to be connected through this ID here and then this ID is going to connect to this one and then we're going to join all of them together and be able to pull out all kinds of interesting information so what are we going to do let's just start from scratch so we'll go to select like this and I'm going to say I want my sales order table dot ID and I also want my sales item table and I want to get
+
+
+01:10:21
+quantity like that and I'm also going to get the item dot price and um let's go and get the quantity and multiply it by the price so let's go in the next line so I'm going to say sales and item I'm referring to the sales item table and the quantity stored there and I'm going to multiply that times item table price and then I'm going to give that a name of total so now we need to Define how we are going to be matching up all of these different tables so I'm going to say
+
+
+01:11:02
+well I want the sales order and I want to join it to the sales item table and how I want to join them is where I have sales item equal to 90 that's going to be yeah sales item Dot and sales border ID is the name for this and I want it to be equal to the sales order dot ID and what I'm referring to here I have I have all this information the table information in a chart and I'm looking at it but it looks like this okay so this is how we are going to be merging so just to make the reiterate to
+
+
+01:11:53
+make sure this is understandable I want to use my sales order table and I want to merge it with my sales item table so what I'm saying is I want these to be matched the sales order ID and the ID for the table sales order and that is all that I did there okay but I said I want to merge three tables so what do I do well I just put in a new join and what table I want to join to them and then they just need to match up a primary key needs to fit perfectly with a foreign key so I'll say on item dot ID
+
+
+01:12:29
+equal to and I'll say sales item and item ID and that's why it's good to keep your names logical as well and then what I want to do is I want to say order buy and this is going to be the sales order dot ID and if we're on that boom you could say that everything comes up so let's just bring this up here so you can see it a little bit better we have our IDs we have our quantities and we have all of our prices and you can see in a couple situations here there's more quantity so that's going to be
+
+
+01:13:08
+double the the total amount of money that we have on those okay all right so what I want to do now well let's talk about some arithmetic operators because I think they're kind of important except they're going to be very easy to understand we are going to have the ability to add subtract divide you can also do integer division with div and you're also going to be able to get the modulus which is going to be the remainder of a division which is going to be a very important later on those
+
+
+01:13:41
+are pretty straightforward okay so what do I want to do now well you can also Define the join conditions using where but this isn't necessarily considered best practice but I'll cover it anyway just so that you know if you ever see it okay so let's go and do something like Item ID and price and we're going to be pulling that from item and sales item and I'll say where the item dot ID is equal to sales item and item dot I oh nope nope item underscore ID whoops ID there we are
+
+
+01:14:29
+okay and then I'll say and the price is going to be greater than one hundred and twenty dollars and I'll also say I want to order them by the item ID and we're gonna run it and you can see here they are okay so another way of using where but like I said not necessarily the greatest of ideas to do this but it can be done now another type of join is what is called an outer join and outer joins are going to return all of the rows from one of the tables being joined even if no matches are found and uh so let's go and
+
+
+01:15:12
+create them well basically let's talk about something else basically a left outer join is going to return all rows from the table being joined on the left and a right outer join is going to return all rows from the table that's on the right and it's common practice to avoid right joins um so you're more than likely going to be using a left join if you do this at all let's just go into an example so you can see what it looks like so I'm going to say select name at my supplier and I also want to do
+
+
+01:15:45
+price and I'm going to say from product and I'll do a left join with item and then I have my condition so I'm going to say on and the condition is always the same it's going to be connecting with foreign keys and more than likely unless you use where which I told you you know don't really want to do so I'm going to do this is product ID is the name of that and then the other one is the product table with its ID I like to do I always have my primary keys with the same Name ID just because it
+
+
+01:16:21
+makes it very easy I see this I know this is the primary key and I know that this is my foreign key and then guess what this product ID looks almost exactly as that and it's very understandable I can see exactly what's going on and let's just say we want to do something like order by and name and run it and pull this up and you're going to see that we get our name and we get our supplier and we also get our price inside of here and you can cycle through you can see our limited number of shoes
+
+
+01:16:53
+that we have available very sad shoe store but uh and like I said I'm just keeping it simple all right so that is how we can do that type of join or an outer left join and let's talk about cross joins now so let's come in and as you're going to see I don't use the the other ones that much but I want to cover them now basically a cross join is going to include data from each row in both tables so what let's say that I want to go and grab information from the item and the sales item table
+
+
+01:17:27
+and so we'll say select sales order order order ID like that and the quantity and the product ID and I'm going to say from table item and I'm going to do a cross join and with the sales item table and I'm going to say that I want to do an order by sales order Heidi and run it and you can see here that we get our sales order IDs our quantities and our product IDs as well um another way is to combine tables is with what are called unions and unions combine the results of two or more
+
+
+01:18:24
+select statements into one result now one thing that's important to remember is that each result must return the same number of columns and on top of that data in each column must have the same data type so let's do something a little bit more interesting here let's say we want to send birthday cards or something to all of our customers and sales people for the month of December could we do this yes we could so we'll say select and we'll do first name and last name and uh we need our location also because
+
+
+01:19:07
+how else are we going to send this information and let's get our birth date as well and let's go and get this from our customer table all right now if we want to go and just get the month out of a date data type what we do is we say where and extract and we're going to say month from and the birth date and you can also get the day and year and in very similar ways and I'm going to say equal to 12 in this situation and then I'm going to do a union between these and you just do
+
+
+01:19:50
+another select and I'm going to say first name last name let's just go and copy all of this so let's copy that throw this here again you're not going to use unions very much whenever we get into the part of the tutorial where I am really doing real world stuff you're going to see that I don't use the unions and the outer joins and all this stuff all that much so I'm going to say from uh sales person and where and I'm gonna do another one exactly the same so let's just copy this and paste
+
+
+01:20:32
+this down inside of there and then let's say that we want to do an order by so order by and it's going to be ordered by the birth date like that and run it and you can see that we got all of our pertinent information for our employees that were born in December and this is employees as well as customers I guess this is kind of a real world thing that's something that you might want to do um let's go and get this out of here also okay so we talked about previously previously how null is used when a value
+
+
+01:21:10
+is not known well we can use is null uh to search for potential problems so for example null results where they should not exist so let's say we want to search for items with null prices we don't have any but I'm gonna just do it anyway just so you can see and so let's do product ID and price at least I don't believe I have any well I guess we'll find out so we'll say in our item table where the price is equal to null like that and run it and you can see that we don't have anything so we
+
+
+01:21:49
+could also come in here and say price like this is not null and run that and you can see everything comes back and total rows is 50. another thing we got is we can work with regular Expressions to search for simple string matches or really complicated string match so let's say that we wanted to match any customer whose name begins with an M how could we do that well we could go select and first name name and from our customer table where the first name is and we could use there's a couple different commands and
+
+
+01:22:34
+I'm going to show you all of them so I'm going to say similar to and if we want to match for names that begin with m just throw an M inside of here and then you throw the percent sign inside of here and that percent sign is going to match for zero or more characters so basically anything afterwards and you can see there we got our information in all of these first names begin with the letter M another thing is we have a lot of different commands let's uh let's do first name last name from customer and
+
+
+01:23:08
+then let's say something like we want to match for somebody who has the first name begins with a and then has five characters after it there is another regular expression character underscore like this and if is going to match for any single character so one single character so we said that let's try to match for I think I have an Ashley inside of here so I'm going to say where first name and instead of using similar to I'm going to use like so I'm going to say like everything else here is the
+
+
+01:23:42
+same let's change this to a and then I'm going to do five underscore so one two three four five like that and run it and yes indeed I do have an Ashley inside of there so that's going to match for exactly that but if I put in another underscore inside of here that's looking for a name who gives with a and then has five uh five no six characters after it obviously run it you can see we get no results and we can take that off of there and see if we have any no we don't have anybody like all right so that is
+
+
+01:24:10
+how we can use like um another one let's go and let's say we want to return all customers whose first name begins with a D or whose last name begins uh let's make it even more complicated whose last name ends with an N so let's do first name last name customer and let's do first name and let's get rid of this part and let's use similar again so I'm going to say similar two and I'm going to say that the first name is going to begin with a d and then it's going to have how many characters
+
+
+01:24:46
+doesn't matter just a bunch of them or the last name is and I'll do similar again two and then I said I wanted the last name you can have that be lowercase but okay last name ends so I'm going to put any number of characters in front of it and then an N at the end of that run it and we said that first name is going to begin with a d well there's a Daniel and it's going to end with an end or or end with an N well you can see here we know why that match because it's a d here there's no D but Brown ends with an
+
+
+01:25:24
+n and that's the reason why all those matched up um let's go and take a look at some regular Expressions here and give you a very good overview of them all right so here's some regular expression patterns now I showed you the underscore you can also use a DOT for any single character you could use a star for zero or more you could use a plus for one or more you could use this carrot symbol here that represents the beginning of a string you can have the dollar sign represent also the end of a string anytime and I'm
+
+
+01:25:59
+going to demonstrate these in real world examples but it is good to know this because this is very very important let's say that you did not want to match for the letters A and B you just have your brackets and a carrot symbol and the closing carrot symbol and it will not match for a or b if you want to match for Amba then use that you can have all uppercase letters by just putting a dash between them and the same for lowercase as well as numbers and then you whenever you have your curly bracket it's here with an N inside of it
+
+
+01:26:29
+that's saying n instances of um which means you know a certain number of letters numbers whatever you want which are going to be represented by these or actual characters you can also do instances of between M and N so a maximum and a minimum and then you can use here's our or symbol here this is going to match either for the letter M or the letter N but I'm going to show you some real world examples so that you can better understand this concept all right so um let's say that we wanted to get the
+
+
+01:27:01
+first name that starts with m a so I'm going to do that so I'm going to say first name and last name fine I'm going to be working with the customers table as well and I'm going to say where the first name and here I am going to use another operator this is going to be our tilde because you don't want to leave that out this is going to allow us to search for regular Expressions so what did I say I wanted the the to match a first name that starts with m a so I'm going to put the carrot symbol inside
+
+
+01:27:32
+here representing the beginning of the name or the beginning of the string Then followed with M and A don't need to put any other information inside of it and it's going to give you Matthew Matthew all right um let's say we wanted to match names that end with e z so we'll go we still have our first name and our last name customer let's just change this to last name though just to be different so last name and here we use the carrot symbol to remember to reference the beginning
+
+
+01:28:02
+of a string now what we want to do is represent the end of a string so we said names that end with e z and then I'm going to put our dollar sign inside of there run that and now you get all the Martinez's showing up let's say we wanted to match last names that end with e z or son so again from customer where owned we could go last name and our tilde and we can just go easy and replace this little uh dollar sign here with our ore sign so we'll go like this and son and run it and now you get Martinez or
+
+
+01:28:40
+Anderson or Johnson or Wilson or Jackson and all of those different names now the cool thing about regular Expressions is whenever you learn them they're pretty much exactly the same with every other programming language so and I have tutorials on regular Expressions so you just search for my name regular expression and that will show up uh let's do another one though let's say that we want last names that contain w x y or Z so all of this stays exactly the same except we go and get rid of this
+
+
+01:29:10
+and inside of brackets and what we're looking for is all the letters w through Z inside of them run it and you can see there is our list um I think that's enough for now in regards to regular expressions and now I'd like to talk about group by okay so Group by we've already talked about it briefly but I want to get into more detail now Group by is going to Define how results are grouped okay pretty simple and uh we're going to use another operator count and what it's going to do
+
+
+01:29:44
+is return the total number of records that match and then we'll use Group by to return a single Row for each unique value so let's do an example here so let's say we wanted to find out how many customers have birthdays in certain months so that so we're going to say select and then we're going to use extract to get the month from the birth date and let's go and give this an alias of month and also I want to count how many total customers have a birthday in that in that month so to do that we just say
+
+
+01:30:28
+count and all of them and let's have this have a name of a mount or an alias of amount where did I say I'm pulling this from the customer table and how do I want to group them well I want to group them by the month the Alias here is our month and then I want to order them by the month as well and run it and we can see here for our customers we have what's the big month oh there's a couple of them so we have uh that would be March we have three and so forth and so on all right so that is
+
+
+01:31:09
+how we can use the group by and we'll be doing more with group five course another cool uh useful tool is having and what having is going to do is it's going to narrow the results based off of a condition so in this situation let's say we want to get months if more than one person has a birthday that month so we'll say select extract month from birth date as month and we're going to count all of them and uh let's say from customer Group by month and then we're going to
+
+
+01:31:43
+also come in and say having a count that is greater than one so we're only going to get people that have at least more than one person and there you can say that's exactly what we got all right good stuff um another thing is we have a lot of aggregate functions we've covered them already and basically an aggrav aggregate function is just going to return a single value from multiple different parameters and um let's do another one we've I've done counts one like I said before let's say
+
+
+01:32:19
+we wanted to go and get the sum price for an item so I'll say select and sum price and from item like this and you can go and get all of the prices for every single item you can also there's a whole bunch of them so let me see what do I want to do here um let's get let's get a whole bunch of different things so we'll do some price and we'll say something like as value and then let's go and get a count and let's get all of those oops and let's give this an alias of
+
+
+01:33:06
+items like this or maybe we want to put the count first so let's go grab that I think that makes more sense throw count here and then we'll have our sum let's go and let's say we wanted to do an average so I'm gonna go round these are all aggregate functions average is also an aggregate function and we'll do price and we'll go and divide by two in this situation say as average let's have a deconsistence as average and let's say we want to get the minimum price do that
+
+
+01:33:48
+does and make this minimum and then we'll you can also get our maximum price so we'll do price and again and then this will be labeled as Max and we're going to get all those from the items table so let's run it and there you can see we have 50 total items and the sum for all of them is 7231 the average price is 144.63 the minimum value for an item is 86 dollars and the maximum is 199. and that brings us to another concept which is very useful which are views all right so a view is extremely useful they
+
+
+01:34:30
+are basically select statements that uh that's result is stored in your database and uh let's make a really complicated view because we haven't made anything that complicated yet so what I want to do here is I want to create a view that contains our main purchase order information so I'm going to say create this is how you create a view you say create View and purchase order overview and that is the name for our view and I'm going to say as and then we're going to say select
+
+
+01:35:06
+equals order and purchase order number and the customer um company that let's go down to the next line let's go to sales item quantity quantity make sure I spell this right quantity there we are uh what else do I want let's do our product supplier and it might be useful I said I mentioned this before but to get the from GitHub the page that has all of my table data on on it and it's a little bit easier because that's what I'm referencing but I can't I don't really have screen real estate
+
+
+01:35:56
+to show it to you at the same time as I'm doing all this other stuff so I'm going to say product especially with this one product name I want I want to go and get the items price remember I have the the price information separate from the product um anything else I'd want uh yeah let's go into a total one thing to know though is you can't use total if you want this to be updated as the data changes but I'll show you a fix for that down below so we'll do sales but let's just do it
+
+
+01:36:32
+this way one to T and let's multiply that time our item price and then let's give this an alias of Alias of total and don't forget to put your commas inside or here whoop did I forget one yes I did so after company put another comma inside of there and um let's do another concat and you should remove concat if you also want this to be updatable but I'm for now I'm gonna have it be this way all right and then I'm going to say sales person DOT first name and then like this and we'll do sales
+
+
+01:37:20
+person like that dot last name and it just as a heads up what you basically would do is you just remove the total amount from this and remove the concat get all the rest of the information except for that and then call for that whenever you call for the view to show all right but either way don't worry about that if it doesn't make sense let's go and give this also an alias so I'm going to go and call this as and we'll do sales person like that and uh what else let's come down here we're gonna go from
+
+
+01:38:00
+and hmm we need to do anything with that I don't think so so we'll say from sales order and we're gonna just join some tables like we did before so we'll say join and it's going to be sales item is the other table we want to join then we need to have our condition for how they join so it's going to be sales item Dot oils order ID is equal to the sales order ID and um and of course you know this is just the tables joining together on sales order ID as well as the ID for the sales
+
+
+01:38:48
+orders and uh let's go and add another one so let's do another join let's join item onto this and how we'll do that is we're going to say Item ID is equal to let's make sure Item ID is equal to and sales item dot Item ID and I like to use this same format over and over again so if I am joining Item ID to sales item well I know I just put dot and item id after it I think that is so much easier so if I want to join sales order to the sales item well I just go and have my sales ID
+
+
+01:39:33
+for the sales order table and it automatically matches see everything just goes together really well um let's go and get that and after this let's Also let's do some more let's do some more joins here just to make this even more complicated so I'm going to say join join customer so let's also get the customer table into the mix here and again this is going to match up and I want to match up my sales order with the customer ID that is inside of it so customer ID equal to and the
+
+
+01:40:15
+customer ID exactly like that so I actually should have made this customer ID instead of cost ID but either way it's fine and um let's also join product so we'll do product like this and we need to say how so it's going to be product dot ID is going to be equal to the item Dot Pro ID and uh let's do more let's do another drawing and we'll say join sales person and on the sales person ID equal to the sales order dot sales person ID and that is just like that and uh I think that's it let's do an order by now
+
+
+01:41:16
+so we'll say order by and we're going to order by the purchase number so we'll say purchase order number okay so we have all that set up and let's run it is there an error anywhere it doesn't look like it returns successfully okay cool and then we have that view stored inside of here and you can see that it is stored here's views and we called it percher purchase order overview and you can see all of the column information that's inside of there and what's really cool is whenever the
+
+
+01:41:56
+data in the database is updated so will this view except for this concat and this total and if you wanted everything else to be updated what you would do is you'd have to separate this and put that inside of your quarries and another thing that's interesting is you can use the view in all the same ways you can use a regular table so if you want to be updatable another thing you can't do is you can never use distinct Union aggregate functions like concat um you also can't use Group by or having
+
+
+01:42:31
+I think that is every single thing you cannot use if you want it to be a view and if you want to see the results of your view you just go select like this and from and purchase order overview so there's this let's just copy that paste that down inside of there put that there select this and hit F5 and here you can see all of your awesome data all organized together in a really nice easy way okay so purchase order the company and the supplier the quantity the name all of that awesome stuff all right so
+
+
+01:43:13
+really good stuff now if we remove the total above so that it could be updated we can just calculate this let's just go and get rid of it and you can do the same with concat so let's come in here and let's do purchase order overview and let's just make this purchase order overview two or something and let's get rid of the total part so let's get rid of this yank that out of there and uh yeah let's just get rid of it okay so let's go on so let's go and highlight
+
+
+01:43:47
+this because we need to make this now so we'll say F5 and that was created and let's go and recalculate it using the total how you do that you just say you want to select everything but on top of that you want to add some additional stuff and what we're going to do is we're going to say Quantity times the price like that and then we can say as total like that and then let's go and throw the from on the other one and this is purchase order overview underscore two is what I call this
+
+
+01:44:23
+select it like that and run it and you can see we still get all of our same information but this now is updatable because well we'd have to also get rid of the sales person first name and last name we have to list those in separate columns because we can't use aggregate functions but other than that everything else would work the same and that would be really useful and if you would like to if you decide I don't like these views well you can get rid of them also you can just say drop
+
+
+01:44:54
+you like that and let's just let's just run it there we are okay and the view has been dropped all right so now we're going to get really into the meat of this tutorial and it's going to be built around actually creating functions and there's going to be different ways of creating functions first I'm going to talk about creating functions using SQL statements and then I'm going to go and cover PG SQL which is very highly influenced by Oracle systems so you can basically write programs just like you
+
+
+01:45:29
+would in any other traditional programming language basically the overview of an SQL function let's go and get it here so here it is and there you go so you are going to have create or replace function like this and these are going to be replaced so let's get rid of that ah okay get rid of that and let's get rid of this also so there's going to be a quote around this which we're going to cover how to get rid of that and why that's a problem so you're basically going to have create or replace function
+
+
+01:45:59
+whatever your function name is returns and if it's void that means that it's returning nothing otherwise you're going to put the data type you're returning inside of here as then inside of quotes but we're actually going to be using things called dollar quotes here very soon we're going to put all our SQL commands and then here you're going to Define that you're using the SQL language all right and I think this makes more sense it's by just going and creating some stuff
+
+
+01:46:28
+so what I want to do is I want to create a function here that is going to receive two values and it's going to return an integer and it's just going to add some values together so we'll have create or replace function and I like to start off my function names with FN and then I'm going to say add and inside of the parameter area you're going to show what values you're getting and I'm going to have this I'm just going to you can just go and put in int okay that represents you're going to get
+
+
+01:47:02
+two integers inside of there now later on we're going to actually put variables inside of there but I just want to demonstrate everything so returns and it does return something and I'm going to put the return statement down here because I like it here all right it what's it going to return it's going to return an integer so let's just throw it inside of here as and then you have your quotes inside of here and then I'm going to say select like that and if you want to get the very first value that was
+
+
+01:47:30
+entered inside of it you can put a dollar sign and a one and if you want to get the second value you can put a vowel or sign and A2 and there it is and it is going to return back this this Edition right here that we have so what we can do to actually execute this well first off let's run the function so let's run it and and what oh yeah this has to be two two dashes for this to be a comment but I'm just going to get rid of it all together because we don't need that comment there do a select all and run it
+
+
+01:48:02
+okay so I created my function and how you can say that you created there we're going to cover triggers later on that's something completely different let's get rid of this and let's go and close all these columns and tables and stuff okay so we got rid of all that stuff and if we go up here inside of functions you can see it created my function it's called function add ins and it gets two integers all right so if we actually want to utilize it we can just come in here and we can say select and then call
+
+
+01:48:34
+our function so function add ins like this and let's say we want to add four and five inside of there we can do so we can select this run it and we can see our result down here is nine all right so that is the basics um like I said and everything's going to show up inside of our function folder but I'm going to get rid of these quotes right now because you're never going to see them and I'm going to use something called dollar quotes and the reason why is very often we're going to want to use
+
+
+01:49:07
+these single quotes inside of our SQL statements and we can't do it this way so what we can do is we can actually replace those with dollar signs and I always like to put body inside of here so let's get rid of that and let's get rid of this and put body inside of there like that because you can have some different problems this is a basic dollar dollar quote okay I don't want that you can use it but there are circumstances in which that's not a good thing so what I want to do here now is I want
+
+
+01:49:42
+to go and just add in these values again just to demonstrate that yes indeed you can do this so I'll just leave this the way that it is and command and because we have create or replace function it's going to go and get rid of what we had before so let's just go and run that and let's go and select this and run it and we get our same result once again of course um another thing let's go and create a function that actually returns void so what I want to do here is I want to check if a salesperson has a state
+
+
+01:50:15
+assigned and if not I want to change it to the state of Pennsylvania so I'm going to go in here and let's just select this and let's call this something like update employee [Music] employee and state and here this is not going to return anything because it doesn't need to it just needs to perform an action then inside of here I can put my SQL code or SQL statement so I'll just input or tab in here and I'm going to say update sales person and set and I'm also showing here how to
+
+
+01:50:55
+do some additional SQL queries that I didn't cover elsewhere I don't want to repeat myself too much say where the state is null so I'm saying if the state is null I want to go in and make a novel okay so there it is and we can just select all this and we can run that and there we are we created another function inside of here it's not showing because this needs to be refreshed so let's go here and refresh and where is it functions right there and now you can see that that's been
+
+
+01:51:29
+updated and then what we can do is we can just go and select this right here copy and jump down inside of the select area which doesn't have any parameters oops I just realized I left those in there let's get rid of them there's no reason for that to be there and let's go and select this now it because I change the parameters you're going to have another function show up inside of here let's just run it okay so we got that and just to show you that it's going to show both of them even though
+
+
+01:52:00
+protect well there are two okay so let's do refresh and if we come down here in functions now you see that there is an update employee state with and without parameters but this is perfectly fine so I'm going to come in here like this and I'm going to show you how to drop all these functions as well here in a little bit so let's throw this inside of there paste that inside of there and this does not receive any parameters let's go over here select that and and you're going to see that null comes
+
+
+01:52:30
+back because there is no return all right let's do some more stuff okay so let's say that we wanted to get the maximum product price so again we're gonna just change some information up here so let's go like this and let's call this Max product price because that seems to be a good name and in this situation we're returning an integer I normally just use numeric because that works pretty good for me and it is going to represent a float value and we can get rid of this whole
+
+
+01:53:05
+entire thing right here so I'll get rid of that and I'm gonna go select and I'll use an aggregate function which is Max and we'll get our price and from item and everything else stays the same go like this run it and let's go and call this function so we grab this copy and paste this over here it's not receiving any parameters either so we can just select this like this and five and you can see the maximum price shows up right there all right let's continue making some useful functions so
+
+
+01:53:42
+let's come over here and let's say we want to get the value of our inventory so we'll say function get value and we'll put inventory inside of there and here that's going to be a numeric so we'll leave it a numeric select and this is going to be sum now so let's go and get total of all them for our item and you can also go and throw a semicolon there if you would like and let's go and select all this and F5 and we created it and then we can come down here and copy
+
+
+01:54:16
+this guy right here and paste it inside and go and get our total inventory value so like this and there is our total inventory value um let's say that we want to go and get the total number of customers so let's go get rid of this and let's call this number customers and this we can leave it as a numeric it's actually going to be an integer we'll leave it as a numeric why not and we'll say select and get rid of that and here we're going to use count and oops count and we'll just throw in our star inside
+
+
+01:54:56
+of here but we're getting this from customer so customer like that and again we can go run that and we can go and get this and we can use these functions and queries and everything if we would like throw this right here and select and run it and you see that we have a total of 20 customers our business is not doing that great all right so let's go and do a little bit more complicated let's say we want to get the number of customers who do not have a phone number so I'll get get number of customers and I'll say
+
+
+01:55:31
+no phone don't worry we'll be getting into more complicated things again leave it as numeric why not select from customer and here wear Claws and I'm going to say where the phone if I can spell phone phone is no like that and run us and we will get this oops let's go copy this first copy and paste this inside of here and then select this again run it and we see that we have telephone numbers for every single customer so that's pretty good take it up uh let's say that we want to
+
+
+01:56:13
+go and get a parameter this time so let's say I want to get the number of customers from Texas and using a name parameter and that name parameter is going to be Texas so this is going to actually get the number of customers from any state I'm just going to say that I just am interested in Texas so I'll get get number customers from State okay so it's going to get anything but inside of the parameter section put State and I'm going to say well let's make it state name because I'm
+
+
+01:56:49
+obviously going to be getting the state from the database and that would cause confusion and I know that it's two characters so I'm going to throw that in there and what's it going to do it's going to return a numeric so I'm going to go and count from customer where and then this part just needs to change so I'm going to say where state that they passed or that is in the database customer or the table customer and is equal to whatever name they throw inside of here so I got all that let's go and
+
+
+01:57:17
+select this and let's go and paste that down inside of here and then over inside of here the parameter we're going to pass is Texas and I don't remember if I ran that function or not to make it did I I did not so let's go and highlight it F5 and now we can run it and F5 and we see that we have 11 customers from the state of Texas um let's get first off let's go and say we want to get the total number of orders using a customer name and very often whenever you're doing things like this
+
+
+01:57:53
+makes a lot of sense the very first create or go and just use regular old X SQL to verify this is going to work so I'm going to say count like that and I'm going to count um get a total count here and I'm going to say from and I'll do sales order I'm going to do a natural join here so natural join with customer and I'm going to say that I'm interested in where the customer first name I'm just using specifics here in this situation and in my function I'll actually pass in this name so I'm going
+
+
+01:58:36
+to link this and Christopher is going to be the first name and then I'm going to say and the last name customer dot last name is going to be equal to Jones like that and there it is that's all I need to do and if this works then I know it's going to be easy to make my function work so select it run it and and I get one which is all I only have one Christopher Jones so it looks like it worked really well now what I want to do is I want to go and take this and put it up here inside of a function so I'm
+
+
+01:59:16
+going to say hmm I don't want to get let's say I want to get the number of orders from a very specific customer name so I'm going to say get number and let's get rid of this part right here and I'm going to change that to get number orders underscore from underscore a specific customer so I do not need to oh it's it's going to just be a variable number of characters inside of here so I'm going to say customer underscore F name like that and I am going to of course have to label this as
+
+
+01:59:55
+a variable number of characters then customer underscore and I'll make this L name L name and variable number of characters again so just so you see that because it's going to run off the screen here in a second do I need this part over here I don't think I can stretch it over there and move it out when I need it okay Urban lover characters what's being returned well it's going to get the number of orders so that's a numeric don't need to change that and then we have this part right here well I already
+
+
+02:00:23
+did it here so this works good so let's just go and highlight this and cut it out of there and we'll replace inside of here this then all we need to do is I like to keep everything nice and organized so let's go like this and the first name is going to be equal to the customer first name that they passed inside of it so go like this is equal to and paste this here and then the customer last name copy and now we have a function that we can use to search for any customers and that's all I need to do there so that I
+
+
+02:00:58
+know this works so I'm just going to go and copy this right like this and come down here and paste this inside of our select area and then what I'm going to pass inside of the parameters is Christopher and Jones so we'll say Jones like that did I run this I don't know let's just run it again just to be safe there it is it returns successfully run it again and we see that we have one order from said customer Christopher Jones uh let's say we want to return a row and this is actually called a composite
+
+
+02:01:39
+um and what do we want to return let's say we want to get the latest order so I'm just going to call this get and get rid of this part right here and I'll say get the last order this and and am I going to need any parameters uh because I'm just getting the last order nothing else and I'm going to say here returns and I'll call this sales order Nails order as and then I'm going to come down here and I'm just going to get rid of all this because I don't need it
+
+
+02:02:13
+okay so I'm going to say I want to select everything from what well this is returning a sales order so guess what I'm getting I'm getting a sales order so sales order like that and I'm going to say order by time order taken and I'm throwing descending inside of there and then do limit one there it is that's going to give me the last order so I can grab this copy I can paste this inside of here just that easily and I can go and get rid of this and I can run this and I can run this
+
+
+02:03:00
+it's going to give me the last order and it all comes out like this so there's all this information all the information I want but it's not in a table format so maybe I don't like it I want it in a table format so it's easy just put quotes or uh parentheses around this like that and then just go Dot and star like this and if you do that you can select it F5 and now you look at that everything is in a nice table format um what else could we get well we could go and throw any of the different column
+
+
+02:03:33
+names like time order taken and just get that individual piece of information all right so very useful stuff now let's say we want to be able to get multiple rows so let's say I want to get all rows uh for every employee inside of California well first off let's go and verify that I can do this with SQL so I'm going to say select everything and I'm say from and sales person like that and I'll say where the state is equal to California like that okay so I got this Quarry and
+
+
+02:04:10
+if this works I can use it in my function and it looks like it did all right so that's good stuff everybody's in the state of California wonderful okay so what are we going to do here well uh create or replace function again I'm getting the employees so I'm gonna get rid of those parts I'll say employees and I'm gonna make it so that it works for any state employees location and let's say a location and this will be variable number of characters they pass in and what is it going to return
+
+
+02:04:42
+well it's going to return multiple rows so in situation in which you want multiple rows you say set of like that and then what am I getting sales people well I'm using salesperson so I'm getting a list of rows set of rows from the sales person table so got all that and I know this works because I got it down here so let's just go and copy this cut it out of there and paste it inside of here there it is and the difference is I got my location here so let's go like this and location
+
+
+02:05:20
+and then I can go and copy this guy right here and let's go and uh what else am I getting so let's keep this format I like getting all that information and let's go and put a store here so I can get everything in a table format like that and in this circumstance I'm just going to say California of course I can do any state I don't know if I ran this or not doesn't matter I can just do it again Corey is good and run it again and you can see here we got all of our employee information four employees live
+
+
+02:05:56
+in the state of California and of course we could change that to wherever else we have those different people oh what else would I like to do here oh well I said that I could use these functions in quarries so maybe I should demonstrate that so what I want to do here is I want to get the names and the phone number from this function I'm only interested in the name and the phone number I don't want anything else so I can do select like this and I can say first name and last name and phone
+
+
+02:06:32
+and I'm looking for from and I'm getting it from this function right here so let's just go and get this function name and actually let's go and copy the California part also so there that is from paste that inside of there put that there and there we are don't run it boom and now we get just the names and the telephone numbers for all those employees okay so there is a rundown of how to create numerous different functions using SQL functions and up next I'm going to show you how to make PG SQL
+
+
+02:07:08
+functions all right so now we're going to get into pgsql and it is going to be very heavily influenced by Oracle SQL it's going to allow this is the biggest part of the whole entire tutorial here this is now going to allow us to Loop to use conditionals functions data types and much more and you can see the basic concept of laying out a pgsql function you go create or replace function just like we did before and then we're going to have function name all the parameters with their types returns and the return
+
+
+02:07:41
+types as here is our body tags again and then we're going to have begin with all of our statements inside of here and and then we're going to have the end of these dollar tags and then we're going to now Define our language as p l p q SQL so let's start off by doing a real world type of example here let's just get rid of this part here and let's say I want to get my product price by name well first I'm going to just go and create a query to see if that works so say select item price and then I'm going
+
+
+02:08:16
+to say from item and then I'm gonna do a natural join and I'm going to join with my product table and then I'm going to say where the product dot name is equal to and Grand View is one of them I know and then if this works then I know I can create my function so I'll just select that hit F5 and you can see here that yes indeed I was able to get a result 199 dollars and 60 cents great stuff now all I need to do is go and transpose this into the function so I'm going to have a function name so I'm just going
+
+
+02:09:01
+to keep this abbreviated function and I'm going to say get price product name like that and inside of here I'm just going to call this the the parameter name is going to be prod for product and then I'm going to have the type B here uh variable oh let's let's make this product name make it a little bit easier so I'll say product name and then after that I'm going to say this is a variable number of characters and let's move the returns down to the next page and this is going to be a numeric
+
+
+02:09:41
+because it's a price so I'll make that numeric as and then we get to the begin part so let's get rid of the statements here and actually put real statements inside of it so what statements am I going to put here and what else am I going to do well instead we're going to go and grab this guy right here and the whole entire thing let's just copy it out of there and let's paste it inside here now you can no longer use select and what we're going to use instead is return so we'll say return item price
+
+
+02:10:14
+from item stays the same natural join product again where product name is and now instead of Grand View this is going to be interactive and we'll be able to say product name and then you're going to have your end and everything else is perfectly fine so good stuff now what we can do is to go and actually utilize this function and we're going to be able to use this in all our other SQL queries as well is we're going to come in and say select and then paste in our function and then we will do Grand View
+
+
+02:10:45
+so Grand View like that and then we can select it and we can run it whoops something is wrong no function matches the get ah I forgot to run the function don't forget to run the function like I did okay so let's go and select this first and now we can run it and now we can select this and oops PL what did I do wrong there I see what I did I put a q inside of here instead of a g okay select that again and run it and there it is so that is a g not a Q and then let's select this right here
+
+
+02:11:26
+and let's run that and now we see we get our same results exactly like we expected all right so good stuff now what I want to do is talk about using variables in functions so let's go and do another example people here I think I just want to go and just have this be simple and just get a sum so what are we going to do we're going to change this function right here into get sum like that and then it's going to have some different variables inside of here so I'm going to have this be value one and
+
+
+02:12:01
+it's going to be an integer and value 2 which is also an integer you don't need the space there and what's it going to return it's going to return integer so let's put that in there as body begin and what are we going to do well what I want to do here is I want to have a declare block where I can put all of my variables inside of here so you go declare this is where you create your variables and I'm just going to have this be the answer which is going to be an integer exactly like that and this
+
+
+02:12:33
+guy right here is actually going to go before we have our begin block so we're going to copy that out of there paste that inside of there and let's just have it be at the same level of indention that's perfectly fine and then what we can do is let's just get rid of all of this and we can say answer and you're going to use this colon equal to assign this value and it's going to be value 1 plus value 2. and then quite simply you just say return like this and our answer and
+
+
+02:13:09
+there it is so we got all that created and we run it everything looks good and then we can come in here and grab this guy right there copy it and paste it inside here and then we can go and throw some values inside of there and see if it worked or not and I'm just going to say four and five seems good let's run it and boom and you see we get a value of nine so that works great so that is how we are able to assign variables inside here using our declare block now what I'd like to do is assign a
+
+
+02:13:46
+variable value with a query so what do I want to do here well let's say I want to get a random number and assign it to a variable so let's just come in here again and I'm going to say get random number that's a useful function and what it's going to have inside of here is it's going to have a minimum value can't put Min inside of there because that is a a aggregate function so I can't do that and we're going to say our maximum value both of them are going to be int and
+
+
+02:14:24
+then we're going to say what's it return it's going to return an integer again inside of the declare area we're going to have a random value which is also going to be an integer and then down inside of here where we put our statements I'm going to say select and I will call our random function like that and I'm going to multiply it times our max volume minus r min volume and then we say plus Min value and we're going to put that into our variable called Rand and then what we
+
+
+02:15:07
+can do is just come in and say return Rand exactly like that everything else here stays the same and it's also common put a semicolon after that but as you saw you don't need to and there we are so let's go and generate a random number so we can go copy and paste this inside of here and we need to Define our minimum and maximum and let's say something like 1 and 50. looks good and I know I didn't run this did I don't believe so let's run it everything seems to compile perfectly and run this get a
+
+
+02:15:45
+random value of 52 and we can run it again 25 45 29 19 and so forth and so on so that looks like that is looking very good okay in the next function what I'd like to do is I would like to get a random sales person name and what I want to do here is basically just go through an example where we store rows and variables and also I'll use the concat function okay so what are we going to do I'm going to say that I want to get a random sales person so let's say somebody calls they don't have a sales
+
+
+02:16:20
+person currently and we want to generate a random sales person for them to uh you know give them a potential sale so get random sales person returns well this is going to be a variable number of characters as and inside of declare am I going to want to put anything yes I'm going to want to have a random integer inside of there and what else am I going to do well I am going to use a record type to store row data so I'm going to do employee and this will be record and then down inside of here I am going to want to
+
+
+02:17:03
+generate a random value so I'm going to say let's say I have five employees I could have passed in the number of employees and all that but I know I have five employees so let's just keep this very simple I'm going to say 5 minus 1 and then I'll say plus one and there that is and we're going to store that into the variable that is called Rand then I am going to come in here let's go here and I want to get row data for a random sales person so I'm going to say select and everything from where
+
+
+02:17:41
+whoops from sales underscore person and I am going to say that I want to put those into the employee record where their ID is equal to my random value then after I do that I want to concat the first and last name and return it I'll say return and concat and I will get my employee first name and then I'll put a space between it and get the employee last name and there we go all right so got all that set up and let's see if we did a good job or not five look at that created the function
+
+
+02:18:33
+looks good and then we can come up here and just call this right here so copy and we'll paste this inside of here it does not have any parameters whoops oops what did I do uh yeah let's just paste that there there we are get random fun uh sales person and let's go and get rid of this and we'll run it and see if it looks like Orcs so we got Jennifer Smith and we got Jennifer Smith why are we getting Jennifer Smith ever up there we go Brittany Jackson Michelle yes it's totally random and looking good all
+
+
+02:19:08
+right so that is how we can go and get a row of data and we're just going to store it like I said before inside of a record type all right what would I like to do now I'd like to demonstrate in in out and out and these are going to be used uh in instead of returning types like we have done before so I'm gonna just do another one where it's just going to be a simple summation so I'll go this is going to be git sum whoops sum two and we're going to label this as a in variable so I'll say
+
+
+02:19:48
+in V1 and it is an integer and then another in V2 and it's also an integer and then we will have out which will be our answer and it's also an integer so then in this circumstance we don't need the return type so we'll get rid of that it'll just be as here is our body section we're also not going to need to declare anything so let's get rid of that and then this quite simply is going to automatically return our answer for us so we just go and assign the addition of these two values to each other and it
+
+
+02:20:30
+automatically is returned to us and that's it that's all we need to do for that and then we can come down here and go get and I'll just write write this in sum 2 like that and then we'll pass in 4 and 5 again just like we did before let's go and run this function boom everything looks like it compiled and we'll run it again and we see we get our answer all right so there is one example of using in and out the let's go and do a couple of them like let's say for example I wanted to get multiple out
+
+
+02:21:04
+values so for this what I want to do is I want to get my customer's birthday so I'm going to come in here get rid of that and I'll say customer birth day and I'm going to have an in variable which is going to be the month so I'll say um a month in month looks good that's an integer I'm also going to well let's get rid of the rest of these so get rid of that and I'm going to say out is going to be birthday month and that's also going to be an integer and then I'll have another out which is
+
+
+02:21:46
+going to be birthday day which is also going to be an integer so there's multiple out values this time um also what else would I like to do I probably would like to get a name or something so why don't we go and actually put these on separate lines so I'm going to put a comma inside of here and bounce down here and I'm going to say that I also want to get the first name so we'll say out and F name variable number of characters again out last name variable number of characters and we have as again body
+
+
+02:22:32
+stays the same begin stays the same but we're going to have to have a little bit more complicated type of statements inside of here so what would I want to do here first is I want to select my month and my day my first name and my last name so I'm going to say select and if you don't remember it how we go and get the month from a date is we say month from the birth date on file so we'll say birth date and then we'll say extract and we also want to get the day from birth date
+
+
+02:23:13
+birth date like that and let's go down to the next line I'd also like to get my first name and my last name and this all of these are going to go into you have to list the variables where they are going to be stored so I'm going to say into BD and pounds month and BD obviously the order matters and also F name and L name and they are going to go into all of these out values that we have defined up here inside of our parameters so and what are we going to do now well we're going to say from and we want to
+
+
+02:24:02
+get them from our customer table and then we have our conditionals so I'll say extract month from birth date so I'll say birth date and equal to the month that was provided to us in our in parameter up inside of here and let's say I just want to get limit this to one and also that this needs to end of course all right so did I do all that right it looks like it let's run it uh oh there is an error month from birth date and this is not closed off so that's the reason why I got that error
+
+
+02:24:51
+and let's go and run it again did I make that error twice no that doesn't look like I did okay so I just forgot that little parentheses let's run it again another error last name line seven so I have my first name and I have my last name here what did I do wrong um oh I don't I have an extra parentheses there's the one that was missing from before okay let's run it again and that time it worked okay so now to get it let's say I want to get the very first customer birthday who is has a birthday
+
+
+02:25:27
+in the month of December so let's go get rid of this paste that inside of there whoops forgot the FN part and I'll say December like this so there that is and we will select it and run it and we see that yes Lauren Wilson has a birth date on the 26th of December and that's great okay um another thing that we would like to do is to return query results so how can we do that and well how do I want to do it let's say I want to return salesperson data using a query so what am I going to call this I'm
+
+
+02:26:05
+going to call it git and I'm going to call it sales people and I'm going to get rid of the ins and outs and all this stuff let's not get rid of all of our parentheses though because that can cause some problems okay so do I need to pass anything in no I don't okay so what would I like to do here so I'm going to say returns and we say set of like we did previously whenever we had SQL functions and the set of things I want is going to be salesperson so we're going to be using
+
+
+02:26:42
+the sales person uh table and information to get these query results so what I want to do as body begin and here what we're going to do I'm just going to get rid of all of this code and I'm going to say return hurry like this very simple and then I can say select everything and let's go in the next line from the table name so this will be sales person like this and that is all that I need to do so I have that end there and all that looks good so let's go and copy this and then let's come down inside of here and
+
+
+02:27:25
+paste this inside of there and remember there are no parameters let's get rid of that and let's run our code just to make sure that it compiles everything looks good and I want to go and get my sales people now can you remember what the results were before not exactly what we wanted but you can see here is all of our employee information however it's all crammed together so how do we go and get it in table format just put parentheses around it just like we did before so dot and let's throw a
+
+
+02:28:00
+star there and this will give us all of our information in table format just like it did and let's say that I specifically want the street or something like that let me just go like this and go Street and we'll run it to get an individual cell and there we go we got all that also okay so let's go and continue to make this more complicated let's say we want to return specific data from a query using multiple different tables how can we do that what do I want to do let's say I
+
+
+02:28:33
+want to get the top 10 most expensive products well this is a little bit more complicated so I'm probably going to issue a query here first just to make sure that I can do it so I want to go and I want to get my product name and I'd also like to get my product plier and I'd also like to get my item price and I'm once again I'm referring to the code that I have on GitHub here to read the names off the table so it might help if you're watching this to get that it's free of course so I'm not selling
+
+
+02:29:15
+anything all right so I want to get this from item and I'm going to have to do a natural join with product so I'm joining the item and the product table anytime I do this I need to whoops yeah that's fine I need to go and do an order bye and I'm going to say that I want this to be the price and I'm going to say descending order and I said that I want the top 10 most expensive products so let's say limit and 10. does this work let's go and run it and it looks like it did looks like about 10 prod yes there's
+
+
+02:29:58
+10 products 1 through 10. all right and I also got the price exactly what I wanted okay so now I know that works and now I can create my function all right so what am I doing here I am returning a query using multiple different tables so so what am I going to name this I'm going to name this get oops get and of course you could go and have a parameter and that would say the top 20 or whatever but I'm just going to use the top 10 because that seems good expensive and let's make it a little bit
+
+
+02:30:32
+more descriptive let's say products now what we do is we say we're returning a we're going to still need our as part here but we're going to say returns table this time and then we Define what is going to go in the table let's bring the as up here like that and go here and put that there okay good and then we'll say Tab and what do we want to return we're going to return a name which is going to be a variable number of characters and we are going to return a supplier also variable number of
+
+
+02:31:11
+characters and this is our custom table we are returning with just the information we want in a numeric don't need a column after that then as body begin and we're going to keep the return Quarry part here and we're going to keep a lot of this so we'll say select and what are we going to get we want our product name and we want our product supplier so there that is and we want our item price so we got all the different parts we want what are we going to do we're going to use our item table we're also
+
+
+02:31:50
+going to be using a natural join here so let's get rid of that semicolon so we'll say a natural join and we're going to be joining with the product table obviously we need product and item we have item there's product and then I want to go and get the top 10 so that means order buy and this will be item dot price descending order and then finally limit 10. all right let's see if we did all of that correct so let's go and select this just this part right here and let's go
+
+
+02:32:32
+and run it and it says it returns successfully so that looks good and then we can go and just call our function so we'll go get this guy right here copy come down here and go and paste it inside of here just like this oops just like this don't need the parentheses I don't believe and in this circumstance yes I want this to be in table format so let's go and select this run it could not identify if and get 10 expensive products did I FN get 10 expensive prods yes I did that didn't I run this function I thought I
+
+
+02:33:14
+did let's run it again and let's go F5 yes create function looks good oh straight I don't want Street here I want to replace street with just a star and let's get this and run it and did we get it yes we got our name supplier and all of our products and they are in descending order so it looks like yes those are the top 10 most expensive products all right so now up next what I'd like to do is go and explore if else if and else so what I'm going to do here is I'm going to we don't need this right
+
+
+02:33:52
+now so let's get rid of that what I'd like to do is go and look at the current orders that we have by month and then shoot out like a little piece of information that says whether we're doing good order wise or bad order wise so what am I going to call this let's call this function and check month orders so there it is and of course we need the month so that we are searching for so we'll just call this the month and what are we going to return here well this is going to be much more simple let's get rid of
+
+
+02:34:31
+all of this stuff because all we're going to do is generate a message that is going to print out on the screen Urban rear characters as um in this circumstance I am going to inside of here before begin I am going to declare a variable and it's going to be total orders and that of course is an integer because we don't have fractions of a uh have a of an order so let's get rid of this and how am I going to check my orders well I'm going to say select and I'm going to use the function count
+
+
+02:35:09
+and I'm going to say purchase order number so we'll go get that and I'm going to be storing that value into the variable called total orders and then after that what I can do is I'm going to of course say that I'm going to get this from sales order like that and where and I'll go and get our month extract month from and time order taken and equal to the month right like that all right now what it can do is I can use conditionals to provide different output so I'm going to
+
+
+02:36:04
+say if total orders is greater than 5 then obviously selling five pairs of shoes in a month is not good but we have a limited number you know so this isn't 100 reality we're living in here I tried to keep it all very simple so what I'm going to do here is just say concat and I'll say total orders that is the variable that I'm working with here so total orders underscore like that and then I will I'm going to put a comma here and then after that I'm going to put in quotes orders
+
+
+02:36:48
+and I'll say that this is doing good doing good even though it's not but you know okay so after we do this we can then do else if and total orders and we'll say less than five well then we will shoot out we're basically going to do exactly the same thing so let's grab this copy and paste and there we are concat total orders and we'll say orders and we'll say doing bad and then after that we will say else and we will return another statement and we'll say something like on target so
+
+
+02:37:38
+[Music] Target all right I think I did everything right there and everything oh one thing you have to do very very important anytime you put if inside of here you have to end that if conditional block with an end if exactly like that and everything else is exactly the same so let's highlight this and let's jump up here and let's run it and created function successfully good and we can come in here and check our orders so we'll go and select all of these copy come down here and then to get them just
+
+
+02:38:16
+like before we say select and we pass in our orders and we'll say that we're interested in the month of December and we'll come in and we'll test to see if it works the message that was sent back is doing bad so not good it says four orders so I should have also put a space right here for all of these but that's okay I think you'll forgive me for that all right so there we have our uh if else if and else statements what I want to do now is I want to go and basically do exactly the
+
+
+02:38:54
+same thing but I want to use the case statement for it so what I want to call this we can just leave this be the same leave this be the same all of that be the same total orders also the same and select count purchase order number that's fine into sales orders that's fine from sales order also good where extract month time taken also good the part that needs to change is this part because we're going to be using case statements instead so basically case executes different code depending on an
+
+
+02:39:32
+exact value so what we're going to do here is just say case like that and then of course I'm going to do it up front I'm going to say end case you have to end a case statement block like that and I'm going to say when total orders orders is less than one then I am going to I should have kept the return statement but that's okay so I'll say return concat and we'll do total total orders underscore this is a variable and like this we won't make the same mistake we'll put a space in this side of there
+
+
+02:40:17
+instead so we'll say orders is equal to terrible all right so that's what we have for our first output and then let's come down here and then we'll say when total orders is greater than one we can go and stack these conditionals with a logical operator and inside of them multiple tool orders is less than five then and we'll go and use this again so let's go and copy it copy and come down here and say paste and we'll say in this circumstance that this is On Target so on
+
+
+02:41:08
+Target like that then what you do is if you want to have a default that if it doesn't meet either of those conditions then you say some languages actually use the fault but here we're just going to say else and we'll say orders and we'll say doing good all right so there's all that and we can go and select it and of course always have the end for your case let's run it said the function was created everything looks good here whoops I don't need this get rid of this little
+
+
+02:41:46
+guy there and check monthly orders is the name of it run it and check monthly orders and it says on target we have four orders and we are on target does that make sense with what we have yes on target all right good stuff okay so now what we're going to do is we're going to get into looping so the basic concepts of there's multiple different ways to be able to Loop but the basic idea here if I throw in some multi-line comments is this is the basic concept of looping you can have Loop you're gonna
+
+
+02:42:26
+have statements and then you're going to exit when a condition is true and then you are going to end your Loop exactly like that so let's go and think of something I can do maybe let's just do a a simple Loop test so I want to sum values up to a maximum number that is passed into my function so this is going to be function and I'm going to say Loop test and it is going to be passed in a maximum number which is going to be an integer returns it's going to return an integer in this
+
+
+02:43:02
+circumstance and what are we going to do are we going to declare anything yes we have to declare some things so I'm going to say this is J and it is an integer and it is going to get a default value of 1 and then we are going to have a total sum and it is also going to be an integer and we will have it start off with a default value of zero then we're going to go and loop some stuff so let's get rid of all that stuff right there and instead we're going to say Loop and then anytime you define a loop you also
+
+
+02:43:44
+have to end it so and loop just very good practice to do that up front and then what am I going to do I'm just going to continue adding values to sum so assignment operator is going to be total sum plus whatever J is J is 1 in this circumstance because that's what I said it was and then I'm going to say J colon equal to J plus 1. so we'll just continue adding 1 to it and then we have our condition so we're going to say exit when and J is greater than the maximum number and there that is end Loop all
+
+
+02:44:27
+that's good and we can grab this and this is function Loop test so let's go and first run it and then we'll go function Loop test like this copy and paste it down inside of here there it is and what do we want to do let's start with the value of 5 for example so let's go put 5 inside here and we'll run it and run it uh oh control reached end of function without return what did I do wrong here oh I forgot to say return total sum so after our end Loop I'm say return and what are we returning the
+
+
+02:45:08
+total sum exactly like that so let's run our function again F5 there it is and let's run this down here five and we see we get a value of 15 and that is exactly what we expect to get now I'd like to talk about the for Loop now basically with the for Loop you're going to have a counter in is going to be a command or keyword and then you're going to have your starting value two dots your ending value by then you can Define stepping so let's say you wanted to do every other value stepping is
+
+
+02:45:43
+going to be how much you add to this value as you cycle through your looping and then you're going to have your statements of course and then of course also your ending Loop so what do we want to do here let's go and get rid of this and let's say we want to go and just sum odd values up to a maximum number okay just to do something slightly different so what do I want to call this let's call this function for test there it is and we have a maximum number returns an integer all that's good
+
+
+02:46:19
+are we going to to declare anything well we don't need this guy now because this uh value we're going to be using as a counter is going to be built into our for Loop so not needed and let's go and get rid of say hmm what do I want to get rid of um let's go that's going to stay the same and we don't need this part right here and we are not going to be using this exit statement that's only used for our looping but we'll come after begin right here and I'm going to jump in and I'm
+
+
+02:46:58
+going to say 4 I in and they need to find the minimum value dot dot and the maximum value and we're going to say that we want to go and increment by two every single time Loop is going to stay the same total sum this is all the same this needs to be changed into an I however and the end Loop is also going to be the same so let's get rid of that so there's end Loop and we're also going to return a total sum everything else is exactly the same so let's go and run it there it is and then let's go and test it so
+
+
+02:47:39
+we'll just change this to function for test exactly like that and what do we want to do let's just leave it be the same way and run it and we see we get 9 as an answer exactly like we would think remember all we're doing is summing the odd value so that's the reason why it's less and one thing to remember is you can also count in reverse and to do that what we would do is we would say 4 I in reverse like this and the only thing is you would have to have your maximum number be first like this and dot dot like that
+
+
+02:48:18
+there's the two dots and one and this will actually give you exactly the same results as you can see because we're doing the same operation we're just doing it backwards so we can run that again and come in here and run that again and you see you get nine again all right so good stuff now what I like to do I'm going to show you a do block just to show you something a different way of doing things so this is a do block you just say do like that and then we can come in and have our
+
+
+02:48:49
+dollar tags and do another dollar tag like this and then we are going to come in and declare some values what I want to do now is I want to do basically I want to Output all of my sales people's names using a for Loop so I'm going to say declare and I'm actually going to print them out here as messages to my console just to show you something else different so this is going to be a record and if you made it this far into the tutorial please take a just a second to tell me in a comment just say hey I
+
+
+02:49:27
+made it all right and uh helps me a lot to know that somebody is actually watching these videos all right so they take a little bit of time to make so what I want to do is I'll put my first name and last name like this and I'm going to say from sales person and let's say I want five I think I only have five and I'll get an error if I have more than five so I'm going to say limit five and then I am going to come down here and I'm gonna say Loop like that and I'm going to Output a
+
+
+02:50:03
+message so I'm going to say raise notice like this and what you can do is inside of your quotes you can put this little percents on and it will tell you it will actually put the variable values inside of here so I'm going to use my record I'm going to get my first name and then you go record and last name and that will output that to the screen and anytime you have a loop remember you must end your Loop exactly like that and then we also need a final and for our begin statement we have here everything
+
+
+02:50:45
+else is looking good though oh and one other thing you need to Define your language so language and this is p l p g SQL and that's good so let's go and select this and let's run it and you can see right there in the messages section now it is printing out all of our employees names okay so interesting not just another tool we can use now what I'd like to do is cover four each and also why don't I cover arrays how do I just do this inside of a do block as well so basically uh the way of using for each with an
+
+
+02:51:27
+array is going to be this concept so let's get this up here dot dot like that and they're your basic layout for this so what do I want to do I want to print all the values inside of an array so let's just get rid of that because I don't think you need to see it because you're going to see it again in a second so we're going to have body we're going to have declare and we want to create an array inside of here so how you create a array is you just say I'm going to call this array one you define
+
+
+02:51:55
+what the data type is that you're going to be using you're going to use your array and then you're going to use your assignment operator array and you're going to put in whatever you want inside of here let's say one two and three in there that is and then I don't need record here so let's get rid of that bring this up here and I'll just have this be an integer named I alright so we have begin and here we're going to be let's just get rid of well I still need
+
+
+02:52:27
+the loop and I'm going to use a raise notice also but in this circumstance I'm going to use for each so let's just get rid of all that and type in for each and I I is a temporary holding cell for each value that we're going to pull from the array and uh so we'll say I in or like this and you have to say array and then whatever the array name is after that we have our Loop let's just leave the loop beer like that and then we'll have raise notice and we will just put that there and then this can just be
+
+
+02:53:04
+I it's going to Output all of those values so in Loop end for begin and end for the body and all of that else all that other stuff looks good and let's run it and you can see that it goes and outputs everything exactly as we would expect now let's talk about while Loops okay so what do I want to do with this while loop is I want to sum values as long as a condition is true so I'm going to say do body declare and let's go and get rid of all of this we're not going to be using arrays this time
+
+
+02:53:37
+just going to have this be a counter so I'll say default and it's going to have a value of 1 and I'm going to have a total sum int and default and this will have a value of 0 from the beginning and then for our while loop let's just go and get rid of this part we're going to be using a loop again we'll say while J is less than or equal to 10 we are going to Loop and while we are looping we are going to say total sum and the assignment operator equals the total sum plus J and then each time through we'll
+
+
+02:54:22
+use the assignment operator to increment the value for J and the loop then is going to end and then we will do a raise notice to Output this so we'll say raise notice and this and I'll put our total sum like that and there it is so very easy quick way this one of the way it reasons you use a do Loop is to just go in here and I do block I mean just to go in here and test code works pretty good another thing I haven't covered is continue so let's say we wanted to print the odd numbers from 1 to 10 for example well
+
+
+02:55:05
+what do we need to have here let's change this to I just for consistency reasons and have that be a value of one let's get rid of this right here and we're just going to do a simple Loop and show you how continue Works basically what continue does is it's just going to jump back to the beginning of the loop all right so that is it so we only want to print odd numbers from 1 to 10. let's go and get rid of this and let's change this to I and let's change this to I and then
+
+
+02:55:43
+we're going to Define when we are going to exit so we'll say exit and when I is greater than 10. then what we can do is we can say continue when and we'll use our mod function here so we'll say when mod and whatever the value of I is currently divided by 2 is equal to zero so that means that it is going to be an even number so that means if it's an even number it's going to skip back to the top of the loop but we've already incremented the value of I but what we're going to do now is
+
+
+02:56:28
+actually print out what will end up being only odd numbers because it won't get to this part because it you know it says it's even Okay jump back to the loop don't do anything else that is inside of this uh looping block so we'll say raise notice if it is an odd number and we're just going to say number is equal to and throw a percent sign inside of there and whatever the value of I is will print we are not going to have the raise notice down here this time then we end our Loop we end our whole entire
+
+
+02:57:04
+begin block and everything else is good it actually probably makes more sense to also indent this but I'm yeah you know we could indent this as well so we could say tab tab tab makes more sense looks easier to read but I think you get the point select it all run it and you can see it only prints on values I think now what we're going to do is go back to some real world examples I just wanted to demonstrate how the do block works okay what we're going to do this time is we're going to return inventory value by
+
+
+02:57:35
+providing A supplier name so I'm going to come in here and change this function name and let's call this get supplier value I think that makes sense and we'll change this to let's change both this because it's going to be a variable number a variable character okay so the supplier variable character and what are we going to do what's it going to return first well it's going to return terrible character we're going to concatenate the supplier's name with the actual value of the inventory for that
+
+
+02:58:13
+supplier so body also good declare we're going to declare anything yeah we're going to declare some stuff we're going to have our supplier name variable character and we are also going to have let's call this price sum and it's a numeric then down in the begin block we're going to get rid of all this and we're going to say select product Dot supplier and we are going to sum the item price and uh do we need to do anything with those yes we need to put them into our variables so we'll say into
+
+
+02:59:02
+supplier and into price sum and we are going to be pulling those from product and item and the condition is going to be where product supplier is equal to the supplier and let's also we need to group by the product supplier so that we can do that sum and then we are going to this is actually going to have a semicolon here then we're going to have our final statement which is what we're returning and we're going to concatenate our supplier name and with some text we'll have something
+
+
+02:59:59
+like inventory value and let's put this here and a dollar sign and then after that we're going to have our price sum like this there that is and body ends this ends all looks good let's select it let's see uh oh supplier is not a known variable into supplier what did I call it oh I called it supplier name I want to just call it so now let's just keep it consistent so let's say let's just change no no not because I have supplier other way or other places so we'll say supplier name this is fine
+
+
+03:00:42
+okay so we have all that the same let's go and run it again whoops hit the wrong button there we are Corey return successful and then we're going to say that we want to get a supplier value and I'm actually realizing I can't think of one um I think I have Nike Insider here so let's throw this here and like there that is and let's go and get rid of this right here and let's run it and let's see the total value of our Nike inventory and let's go and get this and
+
+
+03:01:19
+that's a lot it's 21 694 dollars okay so there you go and that is just a rundown of a lot of what you could do with PG SQL The Core Concepts and what I want to do next is talk about something called stored procedures all right so now we're going to talk about stored procedures and I'll give you a bunch of examples basically stored procedures can be executed by an application that has access to your database and uh stored procedures can also execute transactions which you cannot do with functions
+
+
+03:01:56
+procedures however traditionally can't return values but there's a workaround using in and out which I'll show you procedures also can't be called by select you can execute them with execute which I'll show you and we're going to be able to use parameters whenever we use that execute command um also you're going to be able to use call to execute them and also if a stored procedure doesn't have parameters it's called a static procedure and those with parameters are called Dynamic and
+
+
+03:02:30
+you can see the basic layout of a stored procedure very very similar to what you have with functions what I'm going to do here first however I'm going to get rid of this line and I'm going to come up here and I'm going to create a sample table that is going to store customer IDs with balances due so let's say that that's something that I decided that I wanted to do then I'm going to call it past do and inside of here I am going to have an ID of course and it will course
+
+
+03:03:04
+B cereal and it will be a primary key I'm going to also have a customer ID integer and not null and I'm going to have the balance that they owe our company and I'm going to say that this is a numeric and total length is six and two decimal places this is also going to be not null so let's go and create that table just select it and there we go oops what I do wrong uh oh I forgot the right primary key so primary key there we are now it'll be fine run it there we go okay so we have that set up and is it showing
+
+
+03:03:53
+over in our tables area probably not our functions aren't updated so yeah probably not so let's go and refresh everything here and let's go in schemas and let's look and look at all the functions we have now there's a lot of functions that's how many functions we created and uh more and are to come and tables and let's look and see past due yes it is it's right there all right good so we know we created that table and we're ready to go now what I want to do here is I'm just going to get some
+
+
+03:04:25
+information on my customers so I'm going to say from customer like this whoops and let's go and run this little guy okay so we got some customer information and uh what I'd like to do here is I'd like to get well I know I got a customer wanted to so let's go and place this inside of here so I'm going to say insert just throwing in some junk data so that we can play around with this and I'll say past do and customer ID is going to be passed inside and um balance events like that and I will go and throw
+
+
+03:05:14
+some values inside of it so I'll say values and one and we'll say one two three four five is how much they owe us and then of course two um three two four fifty and there we go and we can throw this into there as well there that is and then we can say select everything from just throw it on one line because it's simple past like this and just to verify that that information is in there I know it's in there there it is okay so we got that okay so now let's create a function here or a stored
+
+
+03:05:58
+procedure I guess I should say so what am I going to call this let's call I like to start stored procedures off with PR and I'm going to say I'm going to create a function that is going to be called debt paid and what it's going to receive is let's go and get rid of that let's get this there we are so get rid of that and throw this on the next line and tap this in I'm going to have past do ID and it's going to be an integer and I'm going to have the payment amount
+
+
+03:06:39
+and it's going to be a numeric as body all the same do we want to declare anything we don't want to declare anything I'm just going to leave that blank for now and down inside of my begin block where I'm going to put all of my statements I can move this up so you can see everything here all at once so this doesn't need to be on that line let's move it up just to have some space okay so what I'm going to do is I'm going to say that I want to update my past do table and I want to set the
+
+
+03:07:16
+balance the New Balance to whatever they paid so this is going to be a function that is going to allow the user to go and update that past due table and I'm going to say where the ID is equal to the past two ID that was set that was passed inside of here then what you need to do is after this you need to say commit to run this update and everything else ends exactly as you would expect so now what I can do is I can go and call this so I can get this and if you remember it was one two three see one two three four
+
+
+03:08:02
+five is how much customer one had as a balance we can then say call and there is the pr debt paid and let's say that they we want to pay off part of the ID for one and it's going to be ten dollars is how much they pay us so let's go and let's run that did I run this I don't know let's select it again and run it yep no I didn't run it and let's go and do this and boom okay so that all looks like that worked and now what I'd like to do is come in here and actually check
+
+
+03:08:38
+it so I'm going to say select everything from past two like that and let's go and run that to verify that it worked and you can see this used to be one two three and now it's one one three so yes indeed that worked out for us um let's also oh also if you would want to be able I said that if you would want to be able to do return values that normally is something that is not available to you what you could just simply do is just use an in out just like you did previously so I'll
+
+
+03:09:16
+just leave that to you to play around with so that is how we can return values all right so that's a basic concept and everything else is basically the same for working with these uh procedures as you had with functions except now what you're going to be able to do is actually update data and what I'd like to talk about next are triggers okay so basically triggers are going to be used when you want an action to automatically occur when another event occurs common events include things like using
+
+
+03:09:50
+commands such as insert update delete truncate and uh triggers can also be associated with tables and foreign tables or views and I'm going to show you a whole bunch of examples of course and basically triggers can execute before or after an event executes and triggers also can execute instead of another event and also you you can also put multiple Triggers on a table and they execute just so you know in alphabetical order and they can't be triggered manually by a user and triggers also can't receive
+
+
+03:10:27
+parameters and another thing to know is if you have a trigger that is row level which we're going to cover what row level means here the trigger is called for each row that is modified and if a trigger is statement level it will execute once regardless of the number of rows one thing that is really important to understand is when can you perform certain actions with triggers as you can see on this table it's going to show what triggers can execute based on when they are to execute so for example if a
+
+
+03:11:05
+trigger is to execute before if an event is insert update or delete it can perform action on tables if row level and on tables or views if at statement level don't worry if this doesn't totally make sense when I show you some examples it will now the pros of triggers is they can be used for auditing so if something is deleted a trigger could save it in case it is needed later they can be used to validate data make certain events always happen to maintain Integrity of data they can ensure Integrity between
+
+
+03:11:43
+different databases they can call functions or procedures and triggers are recursive so a trigger on a table can call another table with a trigger the cons of triggers is the triggers add execution overhead and also nested or recursive trigger errors can be very hard to debug and on top of that they are invisible to the client which can cause confusion when actions just simply aren't allowed see here the basic idea of using triggers and what I want to do here is I want to well basically what
+
+
+03:12:22
+happens is you're going to have a trigger function and it is going to look like this and then what you're going to do is to actually create the trigger you're going to have a statement that looks like this and in this situation remember I said before or after and I showed the table and we're going to have our events and your event is going to be normally either insert update or truncate this should be truncate truncate there we go on table and for each and you're going to see an example
+
+
+03:12:54
+and it's going to make everything make much more sense so let's just come in here and let's get rid of all this so what I want to do is I want to log changes to a table that is called distributor so let's say I have a table and it is called distributor and what we're going to do is we're going to update if the name of the distributor changes and save that as sort of a log file so I'm going to go ID and this will be serial and this will be primary primary p and it's just going to have a name and
+
+
+03:13:32
+we'll say variable number of characters and we'll have something like a hundred or something like that did I close off all this yes so this is going to create that table and you'll just have to Boom there it is we created our table successfully all right so now what I want to do is I want to insert some Distributors into this so I'm going to say insert into and distributor and I'm going to put whoops name that's all we're gonna put inside of there that's all this there
+
+
+03:14:06
+and values and then inside of here I'm actually going to use some real ones so here is a distributor name whoops comma and another one so J and the sales and let's throw in Steel City Clothing okay so there we go and those are going to be some values we can throw inside of our table and then change them and just to verify that they are all there I'm going to say select everything from distributor like that and let's run that and yes indeed they are all there okay so now what I want to do is I want to
+
+
+03:14:57
+create another table and what it's going to do is it's going to store changes to a distributor so let's get rid of that so it's going to have an ID it's going to have a distributor ID it's going to store the name and it's going to also store the date that the change was made create table and we're going to call this distributor audit like that and what it's going to have inside of it is an ID which is going to be serial primary key and it's going to have the distributor
+
+
+03:15:37
+ID it's which is going to be an integer of course this is going to also be not null we're going to have a name which is going to be a variable number of characters which is going to be a hundred and not null and we are going to have an edit date make this a time stamp and it'll be not null also and that doesn't matter if that's capitalized um let's throw this here and we can create whoops don't put the semicolon there it goes down here all right so we got all of that all set up and that is
+
+
+03:16:17
+correct right now actually no let's get rid of this put that up there there we are okay so I got that and run it and we created our distributor audit table which is going to monitor those changes all right so what we want to do now is we want to create our trigger function so remember this is create or replace function and I'm going to call this function log distributor name change and I am going to what's it going to do return trigger language p l p g SQL and we'll have this be as and
+
+
+03:17:12
+body all the stuff that you're well used to at this point body and then inside of here we'll have begin and then inside of there we will also have an end statement and I'm also going to probably yeah I'll show you some trigger information variables just to throw some extra stuff into this okay so I'm gonna go begin and what I want to do here is I want to check if a name change has occurred so how I can do that is I could say if new DOT name is not equal to the Old Dot name then
+
+
+03:17:56
+I want to insert that information so I'll say insert into distributor audit this is where we're going to save all of our distributor name changes and inside of here I will go distributor ID is going to be passed inside and the name and edit the edit date that has occurred and then I will throw in values and the values are going to be the old ID and the old name and the current time when this occurred which will be provided with now now anytime we have an if block what do we do we have to say end if like that
+
+
+03:18:52
+and um everything else there looks good and then after this what I'd like to do is also just show you some trigger information variables just so you see what they look like so and this is going to show up in messages so I'm going to say raise notice and if you want the trigger name to show up you just like this and we can go and get it by just going TG name and copy that and we're going to do basically the same thing for all of the rest of them if you want to get the table name that
+
+
+03:19:33
+we're working with here we can just go table name and this will be TG and table underscore name and paste this we could do operation so operation and this is going to be TG op and another one I'm just I'm covering most of them most of them you won't even care about so when executed we can go TG and win and what else we could do row whether it was a row or statement so we'll go row row or statement and let's go like this there that is and to get that you say level and um let's say we want the table scheme and
+
+
+03:20:34
+this is it this is the last one I'm gonna do you'll see what they look like so schema and that is table s-c-h-g-m-a all right so we cut all those different things and then what we can just simply do at the end here is just say return new and there we go and and we have our body section okay so we have that set up so here is our trigger function let's say does it execute oh got a problem here and actually this is not the error I should have put returns okay we'll select this again
+
+
+03:21:15
+come down here and run it and we created our function all right so now what we want to do is bind the function to a trigger so to do that you say create trigger and I'm have this be TR so that I know this is a trigger and say name changed so if the names changed we will have a log of it and then what we're going to do is I'm going to call the function before the name is updated because if I don't do that I can't get the old name so this is where before and after come into play
+
+
+03:21:52
+okay so before the name is updated down below we're going to go through all this stuff so I'll save it for update and on distributor and we want to run this on every row where an update occurs so to do that we say for each row and execute procedure and then we call our function we have up here so this is going to be the function name changed this guy right here so let's come up here and run that and put a semicolon at the end then we'll go and allow for all of our changes to be made so I'm going to say
+
+
+03:22:45
+update is distributor that I mean this this is separate I should put this on a separate line so this has nothing to do with this part that binds the function to the trigger this is something we're going to actually go in and update the distributor name and then we will see how the um New function is going to be updated so that it has that information so I'm going to say update to and I'm going to set the name to be equal to and I'll say their new name is western clothing I don't know I'm just
+
+
+03:23:27
+throwing something in there where ID is equal to 2. and we can command did I run this create trigger I don't think I did so let's go F5 nope create trigger there it is and let's update it and then let's test to see if it worked and you can see here are all of the uh pieces of information that I asked for down here are showning up inside of the message area so now that I have that set up I can go in and check my log so I'll say select and from distributor audit is it in there and select this and F5
+
+
+03:24:13
+and we can bring this up and you can see that yes indeed this is the old name that we had and this is when it was updated you could also put another field in here that would be the new name or whatever just by using new instead of old and that would work also another thing I'd like to talk about is conditional triggers um you can actually revoke delete on tables for some users just through the use of triggers so let's say that we want to set up our system in a way that is not going to allow people to update
+
+
+03:24:50
+the records on um on a weekend that's something that sort of sounds like something that might be useful so what I'm going to do is I'm going to say that I want to block weekend changes to our database so maybe we have people we don't trust on the weekends working and we don't want them changing our database so we'll say weekend changes like that returns trigger same language is going to be the same as body begin also the same this is going to be much more simple though so let's come
+
+
+03:25:22
+down here and let's go and delete all that and inside of here we're just going to say raise notice and we'll say no data base database changes allowed on the weekend like that throw that right there and then you have to return null like that and that's it that's all we need to do for this now we need to bind a function to this trigger so again this is going to be create trigger and we'll go and give it a more descriptive name that makes sense and this is going to be block
+
+
+03:26:09
+weekend whoops underscore changes and and we can call our function before the name is updated so we'll say before update and we will say that we also want to block inserts deletes and truncates how you do that is say before update or insert or delete say we can block all of them or truncate on distributor and we want to run this on the statement level for each statement statement and then we will go and do a block here so we'll say for each statement when here is our condition and we're going to say a weekend so
+
+
+03:27:03
+it'll be extract and we want to get our day of the week which is going to be a number day of the week like this from and we want to get our current time so we'll go current times stamp and whoops times stamp not stomp time or there we are there oops time stamp for current time stamp like that and then we'll say between and six and seven are the weekend dates inside of here so I got that all set up and then we'll say execute procedure and that is this guy up here and what it simply is going to do is just print out
+
+
+03:27:45
+that information huh and we can just go and call it paste that inside of there exactly like that and let's go and get this guy and run it I think we I don't think we did oops syntax error what's wrong with this I see I actually forgot to put a semicolon here okay and let's select it again run it function created good stuff and uh let's say equal to to my current day so that this will actually give me an error so this is currently Tuesday I'm going to make this uh three is that right I think
+
+
+03:28:24
+well let's just run it I think that's right two three no this would be this would be two yeah so this will be a two instead so let's go and run all of that instead there it is and I created the trigger and now that I created the trigger I can go and try to make this change again and it should block it and it does no debate no database changes allowed on the weekend all right and another thing that you probably want to be able to do is to delete triggers and how you can do that is very simple you just say drop
+
+
+03:29:00
+event trigger and then it will be the name we have here for our trigger which was TR block we can changes and we can take this and we can drop it all right so there are triggers and what I want to talk about next are cursors and basically cursors are used to step backwards or forwards through rows of data and they can be pointed at a row and then select update or delete and cursors get data and they push it to another language for processing operations that add edit or delete and cursors are first declared defining the
+
+
+03:29:53
+selection options to be used and then it's going to be opened so that it retrieves the data and then the individual rows can be fetched after that and then after use you want to close a cursor so you can free it up you know memory and such now to explain cursors what I'm going to do is I'm actually going to go and just create an example I'm going to do a do block here because this is going to keep it nice and simple and I'll go body like this and I'm going to say that I want to
+
+
+03:30:27
+declare and I'm declare a couple different variables inside of here I'm going to have a message and text and I'll have its default default be equal to nothing and then I'm going to have a record of a customer so I'll say customer like this record and I'm going to declare a cursor so I'll go cursor and customers and cursor like that and then I'm going to say that I want to assign this to 4 select whoops select for everything from customer and then we can go in and
+
+
+03:31:17
+actually Define our code what we're going to be doing here now you if you want to work with a cursor you need to open the cursor so we'll say open cursor customer and then we're going to Loop and we're going to fetch records from the cursor so we'll say Loop and fetch cursor customers into our record for our customer let's go and get rid of this and move this down here there we go and put a semicolon inside of there and then we're going to say exit when there are no more
+
+
+03:32:06
+customers found that's what that is actually saying then after we do this what I want to do is concatenate all our customer names together so I'm going to say message sign this to whatever our message is pipes here and I'll go and get our individual customer first name and pipe this together and then I'm going to go and throw a space between the first and the last name do another pipe and this is just going to Output all of our customer names so again customer Dot blast name and then let's say we want to put
+
+
+03:32:53
+commas around all of them there we are like that okay and anytime we have a loop what do we need we need to do an and loop but and then I am going to Output all of this information so I'll say let's just put it here we'll say raise notice and this will just be a list of customers so I'll say customers like this and uh let's go and throw those in there and then I can just get them because I have them saved inside of message call end and then let's close everything off all together
+
+
+03:33:35
+all right so got all of that set up and if we come in and we run it boom current cursor customer I got a cursor customer right here cursor customers I wrote customers there so let's go and change that to that run it again and there you can see we were able to jump in there and grab all of our customer names and output them now I'm going to do one more example this is the end of the tutorial been a long way but I think it's very important to understand the concept of using cursors with functions
+
+
+03:34:08
+and basically what I want to do is create a function that's going to return a list of all customers in a provided state so let's just get rid of all of this and just write everything from the beginning so I'm going to do create or replace function and function underscore and we'll say get customer by state and we'll just do c underscore state for customer State variable number of characters and what's this going to return well it is going to return text and the language that I am using PLP gsql gsql
+
+
+03:34:56
+as and throw in my body tags inside of here and another set of them right there and then I'm going to declare a couple variables so I'll have declare and I'll have this be customer names and this would be text and to start off it will have no value so there that is and I'm going to be cycling through customers again so I'm gonna go and need a record of each of the customers I am going to then Define my cursor and the query it is attached to customer by state cursor and parser state is going to be passed
+
+
+03:35:47
+inside of here for this query and I'm going to say 4 and let's go down select this and I'll go first name asked name and State and I'm going to be pulling this from the customer table I will get if it has a match to whatever the state was that was passed inside of it okay so I got all that set up okay now I can come in here and store right and everything else we'll go begin and we'll go end like that and let's move this down here so we can fit more code inside of it now of course I need to open my
+
+
+03:36:37
+cursor so to open it I just get open cursor customer by state why don't I just copy this so I don't have any typos inside of it oops cursor customer by state cursor customer by state there it is and I need to pass in see state and then there that is after I have that all set up I'm going to create a loop hands we do an end Loop of course like that and then inside of here what I want to do is I want to move my row of data into the record that I have right here so to do that I'm going to use a
+
+
+03:37:24
+fetch cursor customer oops I have that still saved don't I yeah I do and we'll put that into our record for our customer and then I'm going to continue looping until nothing more is bound so I'll say exit when not pounds and then after I do all of that I want to concat the customer names for each of the rows so I'll say customer names and assign to that customer names and we'll do a pipe go and get our record of our current customer we're working with That We're looping through
+
+
+03:38:12
+and get the first name for it and we'll put a piper and a space and another one there and then we'll go and get that a record again and get the last name and then we have to put another pipe and then we have to we'll have everything separated with commas just like we did before and then this ends our Loop and of course after we end our Loop we have to close our cursor so we'll say close and cursor customer by name do I still have it in there yes I do so let's paste that inside of there and then after we do all
+
+
+03:38:54
+that we can say return and it'll be all of our customer names based off of the state that we said we wanted this ends the body ends and then let's say we wanted to get all of our customers from the state of California we'll go select and let's come up here and get this function right here so let's grab that copy jump down here paste that inside of there and then we'll paste in California and there that is and of course we have to select all of this all of it and run it do we have any errors no we
+
+
+03:39:34
+did not and then let's go and run it and we'll get a list of customers from California and there we are and here they are so there you go okay so now I want to cover installation no installation is large it's very very simplistic so basically no matter what your operating system I'm using Windows here obviously so you're going to want to go to the postgresql.org files you just type in postgres and download you're going to see this page right here then you're going to want to pick the latest version
+
+
+03:40:09
+of postgres and you're going to be sent to a page like this again you're going to want to pick whatever of the operating systems that you are currently using I'm clearly using Windows and then this is going to open up and you just basically next your way through the whole thing so just next and you can Define where you want it to be set up and click on next and then you're again going to select just make sure you do not select stack builder in this situation so everything else should be
+
+
+03:40:37
+checked and click next and then you can go and select your the directory you want to store your data in again next and then you're going to define a password that you're going to be using so go into that's basically an Administration so click on next after you enter that in then you're going to want to set your Port which is going to be 5432 and click on next and then I just leave this as default location let's or look to default Locale that is and then basically everything's
+
+
+03:41:09
+just going to install for you and there you go you have basically everything set up now click on next and then after everything has been installed you're going to see a message that looks like this then what you're going to want to do is you want to find PG admin it's currently version 4 and you're going to want to open that up and right here you're going to set your master password so just type in whatever your password is and click on OK and then you're going to enter a password
+
+
+03:41:35
+for your user so just come in here click on OK and you can enter it again and click on OK and then you're going to see PG admin pop up just like this just like we worked with in the tutorial so there you go guys that is basically a vast majority of anything you're going to do with postgres outside of some Administration and such I mainly focused in on the programming aspects which I believe are what most people come to my tutorials or my channel for and like always please leave your questions and
+
+
+03:42:08
+comments down below otherwise till next time
+

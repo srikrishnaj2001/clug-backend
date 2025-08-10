@@ -1,0 +1,616 @@
+
+00:00:00
+what's going on guys welcome to my expressjs crash course so this is a revamped updated version of the one that I did about 5 years ago I also just revamped my node.js crash course you can find a link to that in the description node.js is a JavaScript runtime environment and if you're brand new to node I would definitely suggest that you watch that one first it's going to give you a better understanding of what nodejs is and how it works but if you're ready to dive into Express let's get
+
+
+00:00:29
+started [Music] all right so we're going to be covering a lot of stuff in this video we're going to spend just a few minutes in some slides to talk about what Express is and what it's used for then we'll jump into uh uh Express project and we'll look at things like creating routes the request response objects middleware error handling and more so let's first establish what Express is so Express is a minimal and flexible noj s web framework that provides a robust set of features for web and mobile applications
+
+
+00:01:06
+and it's used for both server side applications as well as apis and microservices I would say that it's most used for building backend apis that are consumed by front-end Frameworks and you've probably heard of the M Stack which is mongod DB Express react node.js there's also the mean stack the mevan stack where you can swap out uh react for angular or view or really any front-end technology that you want even just vanilla JavaScript so it's a very popular framework in fact I would say
+
+
+00:01:38
+it's the framework for node.js there are others I'd say there's even Frameworks that are more powerful but Express has really established itself as the go-to framework for node.js and it's used by huge companies like IBM Uber Nike and a bunch of others it's also a really popular option for smaller projects and start UPS so Express simplifies the process of handling HTTP requests if you watch my node.js crash course we started to build an API from scratch just using the HTTP module and you saw how
+
+
+00:02:13
+difficult and and how lowlevel it was well Express gives us a ton of tools to work with to make building apis and just working with HTTP much easier and express is a very fast and unopinionated framework which I just want to spend a couple minutes on so when it comes to web Frameworks you have two types you have opinionated and unopinionated and opinionated framework is one that has a lot of rules and conventions that you need to follow so there's there's basically recommended ways of doing
+
+
+00:02:46
+things and it's very structured it's it's going to guide you in in a certain direction they also come with or they usually come with a lot of bells and whistles out of the box things like authentication CIS uh database ORS and some examples of opinionated Frameworks are Ruby on Rails jeno laravel uh if we're talking about node.js in particular nestjs and Adonis are opinionated Frameworks for node and I would say in general opinionated Frameworks are more popular I think node and express is is really the only
+
+
+00:03:22
+exception I can think of where the most popular framework is a minimalistic unopinionated one so opinionated Frameworks are extremely flexible and there's not really a right way to do things you can structure your application however you want and use whatever libraries you want you can use whatever database you want it's very minimalistic and it's up to you to to decide how you want to structure your application there's not as many rules to follow but you also don't get as many uh
+
+
+00:03:53
+as many features or bells and whistles out of the box but you do get the necessities and of course you can install other packages for the functionality that you need so there's definitely uh pros and cons to both I would say it's really features versus Freedom depends on one what means more to you for that project so there's a few things that you should know before you jump into Express you should have a good understanding of JavaScript obviously all the fundamentals as well as all the the es6
+
+
+00:04:22
+features Arrow functions destructuring promises a syn await um you should have a basic understanding of node.js you don't have to know a lot in fact I would say watching my 2-hour crash course is plenty before you jump into Express you should know how to use npm how to install packages and in many cases you'll be working with Json data but you can also use a template engine like ejs or pug and I'm going to actually give you an example of that later on um but yeah you can build both server side
+
+
+00:04:52
+applications as well as Json apis microservices Etc and if you're learning let's say the M Stack it doesn't really matter which order you learn the Technologies if you want to learn react and you want to learn the front end first that's fine or you could do nod and express first and then learn react what's really important is that you you know JavaScript before you jump to either one of those front or back end now as far as what we're going to do here obviously we're going to set up a
+
+
+00:05:21
+server we're going to look at routing how to handle requests we're going to look at the request and response cycle and the request response objects to see how we can get things like the response body how we can get the headers um things like that we're going to look at custom middleware so middleware functions basically sit in between the request and response and you can do all sorts of things we'll create some custom logging middleware we're going to look at crud operations so create read update
+
+
+00:05:49
+and delete we're basically going to create a full crud API uh at the end we'll look at template engines we're going to use the ejs which is embedded JavaScript um cuz you can render HTML Pages directly from your server as well it doesn't have to be Json data we're going to look at error handling creating custom error handling middleware thirdparty npm packages controllers so I'm going to show you how we can actually clean up our code and and take take our code out of the route file and
+
+
+00:06:19
+put it into a file that has a bunch of controller methods fetching data from the front end so I'll give you an example of how we can create a static file server and we can basically have frontend JavaScript that will make a request and fetch data from our Express API and we'll look at environment variables we look at a lot more too but these are the the the core things that I want to go over all right so that's it for slides let's jump in and get started okay so this is Express js. this is
+
+
+00:06:50
+where you can find the documentation there's some guides here on routing and middleware and you can use this as kind of a supplement to this crash course so to install Express just like any other package you can just install it with npm so we'll get to that but we're going to jump into vs code or open whatever text editor you use and go into some empty folder where you want to create this project now this isn't uh um an actual project that we're going to be working on um like I do in many of my videos
+
+
+00:07:22
+we're just going to kind of explore uh we will be building a crud API it'll be ad Json API that will create read up update and delete posts but we're also going to look at loading HTML files we're going to look at using template engines creating middleware error handling uh all kinds of stuff all right so just open up a folder and in our terminal since this is a nodejs project and obviously you have to have node installed if you don't just go to nodejs.org so the first thing you're
+
+
+00:07:52
+going to want to do is create a package.json file and I'm not going to explain every single little detail like what a package.json file file is because you should know that if you don't just go ahead and watch the node crash course so we're going to run npm in knit and I'm just going to do dashy so we don't have to go through the questions and that will create the package.json file with all the defaults okay now to install Express as you saw on the homepage we can simply run npm install
+
+
+00:08:21
+or I and then Express okay and that will get added as a dependency as you can see right here it also creates the node modules folder now at this point I usually like to create a dog ignore file and what that'll do is it'll whatever you put in here it will not be pushed to your git repository and you never want to push your node modules folder so you pretty much always want to create this and I'm also going to putv in here just in case we have an environment uhv file usually you don't want to push that either
+
+
+00:08:55
+because that's usually where you have things like API Keys things you don't want to share all right so let's create an entry point and I'm going to call it server.js and typically the convention I like to use is if I'm creating an API or like a M Stack application where I'm serving Json data I'll call it server.js the entry point if I'm building a node app that uses a template engine like ejs then I'll call it appjs that's just kind of what I like to do but obviously you
+
+
+00:09:27
+can create you can call it whatever you want so let's go ahead and bring in Express and I'm using the commonjs syntax which is like the the native node module syntax later on I'll show you how you can switch it up if you want to use uh es modules and you want to use the import syntax but for now we'll just go ahead and use the require and we're going to require Express and then we want to initialize Express into a variable called app and then app variable or this object this is basically what we use for
+
+
+00:10:04
+everything to create routes to use middleware to start the server and listen on a port which is what I'm going to do right now we're going to call the listen method and that takes in a port number usually I'll use 5,000 for backend stuff however that's being used on this machine so I'm going to use 8,000 and then there's an optional function call back you can pass in actually we don't even need curly braces and we're just going to do a console log to just say that the server is running
+
+
+00:10:32
+so we'll say server is running on Port 8,000 and those three lines will actually allow you to run a server so if I come down here and I run node and then the name of the file either server.js or just server there we go so now it's running it's not doing anything there's no routes so there's there's not really any requests we can send for it to do anything but it is running so I'm going to stop that now with roller command C and the next thing we'll do is just add a very very simple route and we can
+
+
+00:11:06
+do that with the app object and then depending on what type of method you want to handle if it's a get request or post request you use that method in this case uh we'll use a get method so this is going to say respond to a get request to slash just the root URL or endpoint and then that takes in a second argument of a function and that function takes in a request and response object and those objects just have a ton of stuff on them so whatever you want to get from the headers the body or query strings from
+
+
+00:11:42
+the URL that's all in the request object the response object has a bunch of methods we can use so let's use the send method and we'll just send some text so we'll say hello world and then let's run the server and we'll go ahead and go to the browser go go to Local Host 8000 and we'll see Hello World and what's nice about this is we don't have to Define like the the content type we don't have to say HTML or text slpl text or text/html if I put an H1 in here like
+
+
+00:12:20
+this and we do have to restart the server I'll show you how we can fix that but for now we do have to restart it you'll see now it's uh it's parsing the HTML we could even send Json data so I could do let's say message hello world and we can it's just a JavaScript object but it'll actually stringify it on its own we don't have to do it manually like we would have to with uh you know with the with nodejs and just the HTTP module like we did in the node.js course also this is only
+
+
+00:12:55
+pertaining to the root route if I go to slash about then that's not going to work if I make a post request to the root route it's not going to work it has to be a get request because that's what we defined so we don't have to manually check for that stuff like we would without using Express now having to restart the server every time we make a change is pretty annoying so there's a few things you can do what I've done up until recently is used a a thirdparty package called nodemon which is really
+
+
+00:13:24
+easy to set up you just install it with npm but with recent versions of nodejs you can can actually use the watch Flags you don't have to use a third- party uh package so I'm going to show you how to do that in in the node.js crash course we did use nodemon so you can check that out if you want to you know if you do want to know how to do that but let's go ahead and stop this and uh I'm going to go into the package.json here and what we want to do is create a couple scripts and to create
+
+
+00:13:55
+npm scripts we just go into this object I'm going to create two going to create one called start which is just going to start at normally just like we just did with the node and then the name of the file but then I'm going to also create a Dev script which watches it so that we don't have to keep restarting so we can just simply do node-- watch and then server or whatever you call the file so now if I save that and come down here and we run npm run Dev you'll see that now it's running on
+
+
+00:14:31
+Port 8000 and it does say watch mode is an experimental feature and might change it any time but I'm pretty sure that it's not going to change so you should be able to to use that um but let's go ahead and try it out so I'm going to change this back to just a string of hello world and save and I didn't restart it myself it did it on its own and if I come back and reload now we just get the string okay so now we don't have to worry about restarting it now the next thing I want
+
+
+00:15:04
+to do well let's just create another row just so you can see so we'll create one at slab and we'll just return say about okay so now if I come back here and I go to slash about get request then we see about in the browser now most of what we're going to be doing is dealing with Jason data but I do want to show you how you can serve HTML pages and there's a few ways to do that this first way I'm going to show you really isn't what you're going to do and that would be create a separate route for
+
+
+00:15:39
+every single page you can you can do this in a much easier way by just creating a static server but I do want to show you this way just so you so you know how it works so this res uh this res object has a method called send file so I want to send an HTML file when we hit a route so I'm going to create a folder called public public and let's say this is where we want to have our HTML files so I'll create index.html we'll just go ahead and create a boiler plate here I'll just say
+
+
+00:16:10
+welcome say welcome to the homepage and then I'm also going to create an about. HTML and we'll say welcome to the about page okay so we have these two HTML files now I'm going to go into this this uh root route and let's do a res. send file and this will take in an absolute path to whatever you want to load and there's a few ways we can do this I'm going to go ahead and bring in the path module so we'll say path I'm going to require and this is just a uh it's kind
+
+
+00:16:56
+of like a utility to just help with file paths so so in this send file we can use this double uncore durame and that will basically give us the path to the current file that we're in or the current location that we're in I should say the directory and then from there we want to go to the public folder and then the index HTML that's the page that I want to load so we can actually wrap this in path. jooin which just allows you to join together folders and files so we'll say from the durame then we
+
+
+00:17:30
+want to go into public then we want to go to index.html so that'll give us the absolute path to that to the index HTML file so I'm going to save that and actually you know what let's just copy this and we'll do the same with the about change this to about HTML and now if I reload the homepage here we get welcome to the homepage if I go to slab we get welcome to the about about page so that's one way to do it if you just want to load HTML files but you can imagine if you have a lot of files
+
+
+00:18:06
+you're going to have to create a bunch of routes just to load a single page and that's kind of silly so what you can do is use the the express static middleware so to do that we're going to come right here and we just need to add a line so let's say setup we'll say setup static folder and basically we're going to declare one of our folders to be static meaning you can just go to the URL and it will just work and we're going to set public to be our static folder so to do
+
+
+00:18:35
+that we can say app. use because this is middleware middleware is just a function that runs between the incoming request and the outgoing response and we want to pass in here express. static just like that now this takes in the location of what you where you want your static folder which in our case is public so we can again use path. jooin and same thing we'll just do double uncore durame and then uh we want to go to public okay so if I do that and then I just get rid of these two routes completely and we come back to the
+
+
+00:19:19
+homepage and reload it still works now if I go to slab even though I have that about. HTML it's not going to work because I actually have to specify the HTML if I do that it does work so now anytime I wanted to create an HTML like let's say I want contact uh. HTML all I have to do is create it in this folder and it will automatically work I don't have to create a separate route for it so that's how you create a static server with no. JS now I want to move on to working with Json data because the chances are that's
+
+
+00:19:54
+what you're Learning Express for and and again I'll get into template engines as well which allows you to load HTML pages but also use Dynamic data you can pass data into the route and into the page but uh let's go ahead and um we'll just leave this the static here well no let's comment it out for now because we're going to use it later because I do want to show you how we can interact with our Json data with uh through these HTML files but for now we'll just comment
+
+
+00:20:23
+that out and let's create a new row we'll say app.get and let's say I want this to be SL API that's a common uh convention is just to to have if it's adjacent API prefix all your endpoints with API so we'll say API slash and let's do post and then we have our request response our function and usually you're going to be dealing with a database but let's let's just go ahead and hardcode some posts here so we'll say cons post actually I'm going to use
+
+
+00:21:00
+let and you'll see why later but we're going to use let and let's set an array and all I'm going to have is an ID and a title I'm not going to get crazy here so we'll say id1 title oops we don't want quotes around that title we'll say post one what I got two colons there so post one and then we'll just copy that down a couple times post two three change this up 2 three all right so let's just pretend that this this isn't a database so we want to serve
+
+
+00:21:42
+these posts through this endpoint so let's do res. now we can do res. send and like I showed you before you can pass Jason in there or you can pass a JavaScript object and it will get pared as or stringified as Json but there's also o a specific Json method and that's what I prefer to use so we're going to do res. Json and then simply pass post which is just a JavaScript array of objects but if we go to back to Chrome now and we go back to let's go to SL API slost now we get our Json post okay and
+
+
+00:22:22
+you could you could hit this endpoint from your react application or view or your mobile app whatever it is you're using you could hit that endpoint and get this data dealing with adjacent API the browser isn't the best tool to use because you want to you want to be able to test post and put and deletes so there's a ton of tools that you can use to do that Postman is what I prefer and there's a desktop version there's also a vs code extension which I have installed so that's what I'm going to use if you
+
+
+00:22:52
+want to use that as well just search for Postman under extensions so this right here you can install it you do have to create an account but it's free so you can just install it and then you'll have this little icon here and then you can simply open up the new HTTP request and then you can choose whatever method you want let's say get request to this right here Local Host 8000 API posts send it and you can see we get our Json data in the body here we can also see the headers here so we have like X
+
+
+00:23:26
+powered by Express we have the content type which is automatically application Json content length Etc all right so this is what I'm going to use from now on and we don't I don't even have to leave vs code to to make my requests now before we move on to to other routes and all that I just want to talk about environment variables so basically you have variables on your system that you can use uh called environment variables and you can also create them in a file called EnV now prior to uh I think it was I don't know
+
+
+00:24:05
+a couple versions of node.js a couple versions ago you had to use a third-party package called EnV but now you can actually use envir an EnV file without using that package so I'm going to show you how to do that real quick so let's create a file called EnV and usually if you have like if you have like a Google API key or something like that you'll put that in this file so you don't want to push this to to GitHub or anywhere else so that's why usually you want to put this in your G
+
+
+00:24:35
+ignore file now I don't have any API keys or anything so all we're going to put in here is the port number and I'm going to put that to just for now I'll put it to 8080 just so we can we don't need a semicolon just so we can make sure that this this is being used and then in server.js what I'm going to do is come up here I usually like to put this at the top and we'll create a VAR aable called port and I'm going to set that to process. EnV Dot and then Port because
+
+
+00:25:07
+that's the name of the environment variable okay now you should also have a fallback just in case that doesn't exist so we'll say or 8,000 and then down here where we're connecting to 8,000 here and here I'm going to change that to well here we need to use a we need to use this syntax because it's a variable okay so now we're using that Port variable so this is going to look in the EnV now it's not going to work by default in fact if I restart the server you'll see it's not using 8080 as we
+
+
+00:25:42
+have in the EnV it's using 8,000 it's using the fallback the reason for that is because you have to actually you have to explicitly describe the EnV file in your package.json so right here where we're running the dev script we're going to add- dv- file equals Dov like that okay so now I'll save and let's now restart the server and now you'll see it's running on 880 okay so that's how you can use a EnV file without having to use the EnV package now I'm going to change that
+
+
+00:26:23
+this to 8,000 I just wanted to show you that it was working so I'm going to change that restart and now it's back to 8,000 now what if we want to get a single post let's create a route for that actually I'm going to put a comment here so this is to get all post and then what we'll do is just grab that and I'm going to show you later on how we can create a separate file for routes but for now we'll just put it in here so this will get a single post and we want to be able to put API slost
+
+
+00:26:57
+slash and then when whenever the ID if it's post with an ID of one then we want to be able to get it by passing in a one so since this is dynamic this param here we have to prefix it with a colon and then whatever we want to call the param in this case we want to call it ID you might have like a if it's a a blog post you might have maybe a slug or something like that but we're just going to stick with an ID now how do we get whatever is passed here in our function here well we do that let's console log we do that
+
+
+00:27:31
+with the request object and on that there's a pams object let's just go ahead and console log that so I'll make the request to API post SL1 and when I send it you'll see that now we have an object with an ID of one and notice that it is a string by default okay so that's how we can get it we can do request. prams and then doid or if this was slug we could do prams do slug plug so let's make it so we get that particular post so what I'll do is first of all just create a variable call
+
+
+00:28:07
+ID and I want a parse int so I want this to go from a string to a number so we're going to pass that into parse int request. perams doid okay so now we have the the the ID now let's filter the post so we're going to respond with Jason and then we can use filter and I'm assuming that you guys know filter that you know all this this JavaScript stuff if not then you might want to just pause Learning Express and kind of get into just JavaScript a little more but filter will take in a
+
+
+00:28:43
+function basically we're going to Loop through and for each post we want to say if that post the current iteration if that post ID is equal to the ID that's passed in right here here which is this variable now then that's what we want to show that's what we want to respond with so let's go ahead and save that let's come back here and send and now you can see we get just the I the post with the ID of one if I do two we get the post with the ID of two now if I do let's say 200 which we
+
+
+00:29:19
+know doesn't exist right now it just gives me an empty array because it's filtering through and it doesn't doesn't find a post with that ID in reality you should probably have this return a 404 not found with an error message and we'll get to that we'll get to error handling but before we do that I want to talk about getting query strings so for instance if we were to go to API slost and then do question mark limit equals two maybe you want to limit the the amount of post that come back how do we
+
+
+00:29:50
+get this value well we can still use the the request object right just like we did here but instead of request pams it would be request. query so this is the route we're looking at where we want to be able to get it so let's just do a console log of request. query okay and then we'll make that request again and now in the console you can see we have an object limit to and it is a string by default and if I were to add onto this an Amper and then maybe we want like sort equals DEC now you'll see that that is also
+
+
+00:30:29
+added to that object so let's make the limit work we won't do the sort now but let's let's actually make that limit works so we'll come back in here now one thing you have to realize when you're dealing with with backend development is anytime a user can change the data right like in this case you have to just be aware of that and be aware of what you're doing with that data because it's possible someone could put like a a an SQL query in here and really screw things up that's called SQL injection um
+
+
+00:31:04
+in this case obviously we're not even using a database but you just have to you just have to be aware of that okay and the type of data that you expect should be the only type of data that that can be accepted so in this case we want a number right in particular we want a number that is positive because it's a limit so let's first of all let's um let's say put this in a variable I do want to parse it as a number so let's say parse int and we can get it with request. query. limit okay so that'll give us the
+
+
+00:31:42
+actual number and there's a ton of different ways you could handle this what I'm going to do is just check and I'm going to say if not Nan or is Nan is n n right which stands for not a number so is Nan is a a function that will return true if it's a number and false if it's not so we want to say if it's not is a number limit and then we also want to make sure that it's positive so we'll say and if that limit is greater than zero okay so if that if those conditions are true
+
+
+00:32:21
+then we want to respond with Jason um except we want to only return the whatever the limit is so we'll say post so we have our post array and then I'm going to use the slice method and say I want to go from zero to whatever the limit is and then we can do an else and then move this into here because if there's no limit then we just want to return all the pose all right so let's let's try that out we'll save it and let's try it without any kind of limit so we still get all three
+
+
+00:33:01
+but then let's do question mark limit equals 2 we get two if we do equals one we get one all right if we do 10 of it's just going to give us all of them all right cool so that's how you can deal with query strings now status codes are really important you should have a basic understanding of the the main status codes the the ranges like 200 means success um 300 you have redirects 400 you have client error 500 you have server errors so let's um let's be specific about the the
+
+
+00:33:42
+actual statuses we're sending back when you just do res. Json it's it's going to default to 200 however I like to still specify 200 explicitly even though I don't have to I think it just makes it more readable so what we can do is do a res. status and you can pass in the status you want to send back so in this case I'm going to say 200 and then you can actually chain on the Json so we can do it like that and same thing here we'll say res. status and you can just send the status
+
+
+00:34:18
+without any content uh without the Json but we do want to send the post back so we'll say 200 and then Json all right same thing down here so res. status 200 now let's make it so that when that post doesn't exist we get a 404 and a message so I'm actually going to just get rid of that whole thing there and we want to put the post in a variable because we want to be able to check for it and we can use find here so post. find and let's pass in here so for each post and we want where the post. ID is
+
+
+00:35:04
+equal to ID and then we can check for that post or we'll say if not post so if the post doesn't exist then let's say res. status and this time we'll send a 404 and then you don't have to but I also would like to send a message so we'll say MSG and we'll actually let's use back ticks here and we'll say uh we'll say a post with the ID of ID was not found okay and then we'll say else so if it is then we'll say res. status and we want to send a 200 and
+
+
+00:35:51
+then as far as the data we send back that's going to be the post all right make sure this is singular post not posts so let's try that out so if we go to API slost SL1 we get post one go to slash two we get post two if I go to post sl200 then you see over here I get a a 404 not found for the status and we get this message a post with the ID of 200 was not found all right so that's how you can send different statuses um and you always want to make sure that you have a proper response if what you're looking
+
+
+00:36:36
+for is not there now just to kind of clean this up a little I don't really like to have the else's here so typically what I'll do we'll start with this where we're checking to we're making sure that the limit um seeing if the limits there since we have two res. statuses we can do this and just have an if else but what I'll usually do is not have the else so we'll go like that but if we do it this way then the first one here we want to return so that should work the
+
+
+00:37:14
+same way so let's try it out if we go to SL poost okay so that still works and then here instead of using the else so we'll get rid of this but this first first one even though it's within an if we still want to have a return like that I think I just think that cleans it up a little bit all right so now we know how to create routes we know how to get route pams we know how to get query pams we know how to send different statuses now let's move the routes to a separate file because you can only imagine if you have
+
+
+00:37:50
+a bunch of resources like post users categories and then you have a bunch of routes for each resource this file can get filled up pretty quickly so you're usually going to have a separate file for your different resource routes so let's create a folder in the root and we'll call it routes and let's create a file called posts. uh post.jpg we're going to be using the express router so first off let's bring in Express and then let's we're going to be using the router so we can do that by defining
+
+
+00:38:39
+a router variable and then setting that to Express dot and then capital r router like that all right so the way that this works we can actually just copy or not copy but cut the two routes that we have here okay so I'm just going to cut them out of that file we're going to bring the post into the routes file as well but let's paste those in and let's also cut this okay so we'll cut that so we're really cleaning up the server JS and we'll put that here all right now instead of using app because obviously
+
+
+00:39:21
+we don't have access to app anymore that's being defined in the server JS we're now going to use the router so here let's replace that with router and replace this one with router so now anytime we create new routes we're going to be using the router instead and then very important you have to export that at the bottom here so we want to export as default router now we need to bring that in that router routes file into the server JS so up at the top here let's say const post
+
+
+00:39:59
+and set that to require and we want to go into let's see do slash routes slost and then we're going to come down here let's say routes and what we do is we use app.use because this is in fact middleware so in the app.use we can pass in the endpoint that we want to use for that file which is going to be SL API SL poost and then as a second argument we pass in post now since we're defining API or SL API slost here in the actual route file we don't need to have API SL poost here
+
+
+00:40:49
+again so instead we're going to get rid of this we still want the ID for this particular route so this would just be slon ID and then this would just be slash okay because if you were to leave this and that then it's going to be slash API poost twice obviously we don't want that so let's save and let's make sure that everything well looks like we're getting unexpected token export um oh we're still using commonjs modules which I should probably change up so with commonjs we would say module
+
+
+00:41:28
+exports router okay so now let's try it out so API post that works API post one that works all right now I do want to switch it up to es modules I prefer that over the the commonjs require syntax so you don't have to do this if you if you want to stick with this with the you know the standard node.js module syntax you can but I like to to have the same syntax on the front and back end so I'm going to go into package.json and I'm going to set type to module instead of commonjs now we need to switch up let's
+
+
+00:42:11
+go to server JS first we can replace this with import Express Express from Express and then for path I know we're not using path right now but we will so import path from path and let's see for we're going to import posts from do slash uh what is it yeah dot slash routes slash now when you're using this synta the es modules with no. JS you do have to do the JS if it's a file all right so we'll save that and then where else do we need to put this in the actual route file we're going to replace
+
+
+00:43:08
+this okay and I think that's it let's see what's going on here ah the export so in this the post route file now we can change this module. exports to export default posts uh I'm sorry router all right so now everything should work let's try it out okay we can get that good so now we're using ES modules the next thing I want to do is show you how we can get data from the request body so let's let's make it so we can make an actual post request and submit a new post and I know we're not using a
+
+
+00:44:01
+database but we'll just add it to to memory so I'm going to open up a new uh Postman tab so we'll say new request and I'm just going to move this over here okay and I want this to be a post request and it's going to be the same endpoint API poost but I want to be able to go to the body here and either send Rod Jason or use this www form URL encoded where we can just put like you know title I think title is the only field that we have for posts but this kind of replicates a form a web
+
+
+00:44:40
+form so in order to get the the body data we actually need to add a couple lines of middleware we don't have to install anything you used to actually have to install a separate body parer package but now it's just included with Express so let's go right here and let's say body parser middleware and we're going to say app.use and pass in here express. Json like that so this line this will take care of being able to submit raw Json but again I also want to be able to use URL encoded data so we
+
+
+00:45:21
+need to add one more line app.use and in here we're going to say Express . URL encoded and that just takes in an object and we're going to set extended to false so that will allow us to send the form data now let's create a new route so obviously that's going to be in our routes post JS file so we'll go right here let's say create new post and we're using the router now since this is going to be a post request instead of router. get we use router. poost and again the the end point is
+
+
+00:46:04
+still going to be API SL poost so here we just need to put a slash because remember we already have this defined right here so now create a new post and we'll have our function with recres okay and then to get the the body data let's just do a console log here I'm going to do request. body and if you if you took the node.js course crash course you remember we did do this but it's it was a lot more difficult you actually got a buffer and then had to turn it into a string um it's it's much more complicated Express
+
+
+00:46:48
+makes it really easy and then for the response we'll just say res. status now a 201 means successful and it means something was created and then let's also add post I know we're not actually creating a new post yet but that's the the response we're going to want so if we go to make a post request to API poost right if I just send it as is then we're getting all the posts and we just have an empty object but let's go to this form URL encoded and let's add title we'll say my title is the
+
+
+00:47:26
+value and send and now you can see we get this object of we have title and my title so we can access this value right here with rec. body. tile so let's go back into here and if you want to pause the video and and try this yourself basically you're just pushing it onto an array there's no omm or anything with with a database um if you want to pause it and try it you can but I'm going to go ahead and just create a variable called new post and there's so many ways to do the same
+
+
+00:48:01
+thing that's like I said earlier about Express it's very unopinionated so you can do things how you want so I'm going to create an object and let's say ID and I'm going to just keep it very simple and take the length of the post and then just add one to it for the ID okay so we're keeping it simple in reality you'd be adding it to a database and most of the time the database is going to give you the ID um automatically and then for the title this is where we can access request.
+
+
+00:48:34
+body remember it's that object which will have the title on it all right and then let's say if there's not if that new post doesn't have a title then let's return a 400 because that means it's a client error so it's something the the person making the request did did something wrong so we're going to say return res. status 400 and then we'll add on uh message so here we'll say message and we'll say please include a title okay um else so basically if there
+
+
+00:49:26
+is a title title then we just want to add it to the array so let's say post. push and pass in here our new post and we're still sending this back so let's go back to postman and I'm just going to change my title to uh yeah I guess we'll just say Brad's post and I'm going to send and what I get back is my post and you can see that there's a new one here with an ID of four with the title of Brad's post now obviously that's not going to persist if I restart the server it's going to just
+
+
+00:50:06
+go away because it's not being put in a database but it gives you an idea of how this would work also in reality you'd have your your form whether it's just regular HTML CSS JavaScript or if you're using react view spelt something like that now I think it's it it's only natural that we finish this as a a crud API and do a put which is an update and also a delete request so let's go under where we did the post and Let's do let's say update yeah we'll do update post and
+
+
+00:50:45
+we'll take our router and put is normally what we use for updating you can also use patch I prefer a put though and when we update a post obviously we need to know which one we're updating so it's going to be API slost slash and then whatever the ID is and then we'll have our function with our request response and we want the ID so remember we can get that I'm going to par it I'm going to parse int and we can get that with request. prams doid so that'll give us the ID then
+
+
+00:51:24
+let's get the post so we'll get that with find so we'll take the post array and find and then for each post we want to uh we want to get where the post ID is equal to the ID in the URL then we'll check for the post so we'll say if not post then let's return re and we're going to do a status of 404 not found and we'll just P put a message in here and actually let's use back ticks and we'll say no what do we what do we do up here um yeah we can just copy this all right and then to do the update
+
+
+00:52:25
+I'm just going to Simply take the title so post title and I'm going to set it to request. body. booty request. body. tile and then we'll do a res status of 200 and we'll send back the post and that will include the updated post so let's try that out so let's say we want to update slash we'll do two and I want the title we'll say updated post and then we send that and what we get back well we're getting a 404 oh that's because I'm making a post request this
+
+
+00:53:09
+should be put so now you can see id2 the post with the id2 has a title of updated post so that takes care of the put request now let's do the delete so under that we'll say delete post so router actually you know what we could just copy what we just did delete post and this is going to be a delete request same thing it's going to we need the ID so we're going to keep that we're going to um par it as an INT and then we're going to find the post we're going to check for
+
+
+00:53:54
+it and then uh let's see all we're going to do get rid of that all I'm going to do is basically overwrite the post that's why I used let when I Define the array so we'll say post then equals post. filter and let's pass in our function for each post and uh we want to say where the post ID is not equal to ID so that'll return all the posts except for the one with that ID and then say that we can leave this because we want to just send back all the posts with the one that's deleted should be
+
+
+00:54:40
+gone so let's I guess we could just use this so let's do delete and we'll do Post slash1 send and now you can see the ID with one is gone so we now have a full fraud API create read update and delete now again obviously in the real world instead of doing this kind of stuff you would be working with a database and you'd use some kind of om for instance if you're using mongodb as your database there's an OM called Mongoose and it has methods like find um delete things like that and you would be
+
+
+00:55:21
+finding and deleting from the database rather than from just a hard-coded array like we're doing here here in fact the code would you have less code because we have to write more JavaScript to deal with this hardcoded array than we would to just uh to use a few methods with and if you're using a SQL database SQ eyes is a really popular orm for node.js so that takes care of creating an API now what I want to do is talk a little bit about middleware so middleware functions are functions that have access
+
+
+00:55:55
+to this request and response object and they can do anything I mean you can use it for logging you can use it for authentication you can add to the request object here for example a lot of the authentication middlewares will allow you to add like a rec. user and then in your row you have access to the currently logged in user now I'm just going to do something simple we're going to create some logger middleware that will show the method and the end point in the console whenever a request is
+
+
+00:56:30
+made and you can have middle Weare run on either the route level so in any one of these routes or at the app level where it runs no matter what route is hit so let's start off by just creating uh a function uh we're not going to keep this here but I'm just going to put it here for now so we'll make this an arrow function now middleware functions take three things in the request and response remember I said they have access to those and then also next which is a a function that you're going to run at the
+
+
+00:57:02
+end of your your middleware function because what that does is it calls the next piece of middleware in the stack so in this logger function let's do a console log and like I said we have access to everything that's on this request object including the method the protocol the just everything cookies if you have any so what I want to do is just log let's put some back ticks in and then I want to use a variable so I'm using the money sign the template literal syntax and let's get the method
+
+
+00:57:37
+we'll put that first and then outside of that curly brace let's put the protocol so request. protocol which would be HTTP then we'll put colon SL slash and then we can get the host name with doget and then just pass in host okay and then after that curly brace let's put the the original URL property so request. original URL and then finally we need to call next which again we'll just call the next piece of middleware in the stack so as I said we can implement this on a route level or the
+
+
+00:58:22
+app level so let's start with the route level let's say I want this logger to run only on this get all post route so for middleware to run we just have to add it as a second argument so I can simply pass in logger like that and now when I hit API slost you can see it's logging it's a get request Local Host 8000 API post if I go to API post SL1 then it doesn't run because it's only being passed into this one route now you might have middleware you want it to run on all routes on the app level so in
+
+
+00:58:59
+that case we're not going to do this so we can get rid of that and we don't want this function in this file because we want to use it in our server JS so commonly what you'll do let's cut this commonly what you'll do is have a folder for your middleware and we'll create a new uh we'll create a new file here called um logger.log or you could call it like logger middleware and we'll paste that in and then we just want to export that as default okay then we'll bring it into
+
+
+00:59:38
+our server JS so let's import logger that's going to be SL middleware SL logger JS and then all we have to do is is wrap it in app. use that's how we use middleware so I'll say logger middleware app.use and we're just going to pass in logger so now let's make a request so this is API post one and you can see now it's logging that if I do just API post still logging it if I go to the delete so any request I make now it's going to log it down in the console so that's how you can create and
+
+
+01:00:23
+Implement middleware so now I want to look at error hand Ling now Express comes with a default error Handler if you make a request to something that doesn't exist like let's say we go API SL test you'll see this is the default error Handler it gives us a 404 but it actually gives us an HTML page and if you're building an API obviously that's not what you want so I want to show you how we can create a custom error Handler that will give us a Jason response along with the status code that we want
+
+
+01:00:57
+so let's go to our routes and we'll start with the single post so basically wherever we're sending these 404s I want to instead of doing that here I want that to happen in the error Handler so let's actually uh I'm going to just all I'm going to do is copy this right here the message itself and then I'm going to get rid of this return that's inside here and I want to be able to go like this oh or yeah we want to be able to do new error this is what fires off the error Handler by saying new error and
+
+
+01:01:33
+we're going to pass in a message like that okay now we do have to call the next function and next can get passed in as a third parameter up here so we're going to pass next into the actual route Handler and then underneath where we just said new error we're going to return next but we want to pass the error in there as well so let's do this error like that okay so in order for for this to work we have to create an error Handler which is going to be a piece of middleware so in middleware let's create
+
+
+01:02:16
+a new file called error. JS and we're going to say const error Handler now just just like any other middleware this is going to take in request response and next however the very first thing it's going to take in is error and just by doing that just by passing this first error in it's going to run when we do this now as far as what I want to put in here for now let's just do a res. status and we'll just do 404 and then Json and for now I'll just do a hardcoded message so we'll say
+
+
+01:03:02
+MSG and I'll just say error and we just want to make sure we export as [Music] default now to use this just like any other middleware we need to wrap it in app.use so let's bring it into our server JS so import error Handler and we're going to do you put the app. below the routes here otherwise we could have some conflicts so say error Handler app. okay now it should work if we if we get that error right so if we if there's no post with the ID that we pass in then it this should run this should run so let's try
+
+
+01:03:57
+it let's go to API slost sl100 and there we go so we get a 404 not found we get message error now obviously we want this to be more specific right so we're passing the message in right here so we can access that through this object so right here let's say for the message instead of just uh Str ring of error let's say error do message so now we'll try that again and now we get the correct error message now at the moment it's it's always going to be a 404 right and I don't want that what I
+
+
+01:04:45
+want to do is check to see if we if we set a status in the route if we didn't then I want it to be a 500 by default which is a server error so what I'm going to do is say if let's say if the error. status then we'll say res. status set it to whatever that error status is and then Json and in there we're going to do message and set it to error. message okay else if there is no if there is no status defined then let's make it a 500 so I'll change this to a 500 all right so now let's try it again
+
+
+01:05:43
+we'll try to get Post 100 now we can see we're getting the correct message but it's a 500 that's the default so all we have to do is when we Define this error here right before we return next we can just do error. status set that to 404 now hit send now it's a 404 okay so if it doesn't if it doesn't have an explicit uh status code then it's going to just be 500 now let's just use the error Handler in these the other routes where for instance uh where else did we use this like right
+
+
+01:06:25
+here here so instead of returning the the res status Jason instead of doing it here we'll let the handler do it so I'm just going to copy these three lines and let's go let's see is there anything up here that we need no so create new post so where we check for the title let's replace this this with this except I want it to be a 400 and let's say please include a title so let's see if that works if we go and we try to make a post request to API post and we don't include
+
+
+01:07:18
+a title oh next is not defined so in in your route we just want to make sure that we add next and just add it to all of them so here that's better practice anyways just to make sure we have that even if you're not going to use it there we go all right so we'll try that again send with no title and there we go so we get a 400 bad request and please include a title so now let's find where else we can use the error Handler so right here so a post with the ID so basically we can do the same thing so this right
+
+
+01:08:12
+here and then same thing right here yeah I think that's it so we're just letting it go through the Handler rather than than doing it here all right now I want to have a a catch all for like I said if we go to like API test which doesn't exist it's not a post that doesn't exist it's an it's a URL it's an endpoint that doesn't exist it's still giving us that HTML page so to have kind of like a catchall we'll go underneath let's see we're going to go
+
+
+01:08:58
+under these routes we can do it so let's say app.use and let's pass in so we're just creating another middleware function so we got wreck res next and let's say const error equals new error so same thing we did in the routes let's say not found and the status so we'll say error. status set it to 404 and then call next and pass in the error all right so if we do that now if I try to go to API test which is an uh an actual endpoint or Route 404 not found and we get message not found and
+
+
+01:09:53
+we could clean this up a little instead of having it in here we could just create another file and we'll call it not found. JS and then we'll just take the function here cut that we say cons not found equals so we'll do that then we'll bring it in up here yeah we'll just do that and we can just move that down here I think that makes sense so now that should do the same thing if we go to API test good so the next thing that I want to do is show you an example of using uh another package and we're going to use a
+
+
+01:10:55
+small Library called colors that allows us to basically just add colors to the console and we'll make our little logs here pop a little more by adding color to it so you can either stop the server for a minute or you can open up another terminal I'm just going to open up another one and I'm going to run npm install colors and if you go to package.json you should have colors as a dependency so we're going to be using this in the logger file let's just close up some of this stuff that we don't need
+
+
+01:11:30
+and we're going to go to middleware logger JS and we want to bring in colors so import colors from colors and the way that we can use this I believe we can just I haven't used this in quite a while but I believe we can just go like this add an array and and then put like red I think that's me let's see just try that yeah see so now it's red and it doesn't it right now it doesn't matter which requests we make or anything like that it's just all going to be red but what I'd like to do is
+
+
+01:12:18
+make it so if it's a if it's a get request will make it green if it's a post request will make it blue and so on and there's a lot of ways we could do that we could have a bunch of if else but I think to Define an object and Define a mapping of HTTP methods two colors would be the cleanest way to do this so let's go above the the console log and let's say const method colors and set that to an object and we'll say forget let's make that green for post blue for put we'll do
+
+
+01:12:59
+yellow and then for delete we'll do red all right and then all we have to do is let's create a variable called color set that to our method colors and then the request. method because remember we have access to that or it'll just be white and then we can just replace this in this uh array here replace red with the color variable so now let's make a get request you can see that it's green if I make a post request blue put request I mean these are not found because it's API test but it doesn't
+
+
+01:13:49
+matter it's still it's making the request so it's still going to log and then delete is red so it's just it it you can see how much Freedom you have with Express it's it's very minimalistic and you can use all types of libraries to to do what you want and and create any kind of middleware that you want you have total control over the whole request response cycle now the next thing I'd like to do is move all the functionality from the routes file I want to have controller
+
+
+01:14:25
+methods I think that that's a cleaner way to do this rather than just having all the the logic inside the route file I just want the route file to to point the correct whatever that endpoint and Method point to a controller method rather than putting everything in here so this would go in its own function in the controller file so let's create a new folder called controllers and then inside controllers we'll have a file called post controller.js and then in here we're going to define a bunch of different
+
+
+01:15:02
+functions I'm going to use Arrow functions so for instance we'll have get posts and we'll set that actually you know what we could do is just go to our uh routes post file and just grab this entire function right here and cut it so we'll cut that and then we'll set get post equal to that and what I'll usually do and if you've ever taken my node.js courses or mstat courses in my controller methods I like to have a description and a comment just saying what it does so this will
+
+
+01:15:43
+get all post and then I also like to put the route so we'll say a route uh in this case would be a get request to SL API SL post and then I I would also put access but uh we don't have authentication so there's no reason to do that so next we'll have let's do description get single post and then route this would be slash API SL poost slash and then the ID space that out a little more all right and then we'll have get post and set that equal to and we'll grab this cut
+
+
+01:16:41
+that paste that in all right I'm just going to copy this so the next one would be to create a post or create new post post and oh I forgot the method yeah so we want to do that and then post create post set that to this okay and I'm just going to copy this again so we get two more we get the update and the delete all right so const all right so let's grab this so that's the update and then we got the delete oops okay so these these methods have to be exported you could either do it at the
+
+
+01:18:38
+bottom or you can just simply put export before each one which is I guess what I'm going to do okay so looks ort those now we want to import them into the routes file oh this to obviously we need access to the posts in the controller so that will go at the very top okay and then from here let's import from and then we're going to go let's see up one level into controllers and then post [Music] controller.js and then I'll we have to do is replace what we just cut out with the
+
+
+01:19:30
+the name so get post this will be get post so you can see how much we're cleaning this up and let's see get poses oh I didn't bring them in so right here we need to bring in get all right so everything should still work the same so if I try to get post two okay that works if I try to get all posts if I try to get a post that doesn't exist okay error Handler is working good so I think that this is cleaner to have these these named functions here and then to have our routes that just point
+
+
+01:20:37
+to those named functions and I just realized that I have create post here this should be delete post all right now what I want to do next is give you an example of how we can interact with our backend from the front end and we already have a public folder with some HTML files and I'm not going to this is going to be very like very simple I'm not going to create a UI with styled CSS or anything we'll just make it so we can have a button we click and it fetches data we'll also just have
+
+
+01:21:12
+a simple form where we can add a add a new post add a title all right and we're going to do that that's why I kept this commented out because we're going to use this um this Express static middleware because I want to be able to use those HTML files now we're going to have an issue here and you'll see if I save this I get an error and if we look at this it says double undor dur name is not defined in es module scope the reason this isn't working this right here this this usually will you know get the C the
+
+
+01:21:46
+current directory that you're in it doesn't work when you when you're using ES modules it's in the scope of the commonjs modules however there is a workaround so we're going to just uh just add a couple lines here to make this work so first thing I'm going to do up here I'm actually going to import a function from the URL from the URL package or the URL module which is is part of node.js so we're going to import from URL and the name of the function is file URL to
+
+
+01:22:21
+path and then basically what we're going to do is create this our s because it's not available to us because well I mean if you're using commonjs it is available to you but if you're using this import syntax it's not so I'm going to go right here let's say get the directory get the directory name so first off we're going to create double uncore file name that doesn't exist either anymore but we can create it oursel by using the file URL to path and then passing in import. met. url and
+
+
+01:22:59
+what this gives you is your file URL to the the current file we're in it'll give us like file it'll look like this right and then path to whatever file we're in um I don't want the file URL I want the just the path and that's what this does is it gets you just the path and we can do a console log here of file name and even though we have the error it should still show us above that um right here so see this users Brad traversy desktop so that's that's my path and this is the
+
+
+01:23:41
+file or server JS um to get the path name or the D the directory name let's say cons Dore durame all we have to do is then use the path module and there's a durame method that we can use and then we can just pass in that double uncore file name so now everything works right we're not getting any more errors so now that that works we have our static folder and if I were to go to Local Host 8000 we should see the homepage right because I have that index HTML I also have that about page so if I
+
+
+01:24:22
+go to slab HTM ml shows me the about page now this this index HTML this is where I want to have some frontend JavaScript to fetch the data from my back end and you'd probably be using something like react some kind of front-end framework or Library um we're not doing that we're just using vanilla JavaScript but the way that you would fetch data and stuff is going to be the same you're going to use the fetch API or something like axios so let's go to the public folder and then index
+
+
+01:24:56
+HTML and I'm just going to change a couple things up here we'll say post again this isn't going to be like a nice looking UI or anything so H1 we'll say post I'm going to have a button and given an ID of get- post- BTN say get post and then let's have an out output ID and then we need a front-end JavaScript file so we'll have a script tag with a source let's say [Music] sljs main.js that'll be our front-end JavaScript so in public let's create a folder called
+
+
+01:25:44
+JS and then create a file called main.js all right and then let's go ahead and I'm sure that you guys don't really need me to explain much here it's just frontend JavaScript we're going to use document. Query selector and I want to get that output ID element and let's also get the button so get- post- BTN and we'll call this uh button all right and then I'm going to have a function we'll make this an async cuz I'm going to be using a sync of weight so we'll make an a async function called
+
+
+01:26:35
+show posts and let's just say get and show post all right so we'll say const res set that to await Fetch and we want to fetch from our API so HTTP and Local Host Port 8000 SL API slost same endpoint that we've been using in Postman and then we'll say if um so if not res. okay so something goes wrong and we can't fetch then let's just do throw new uh throw new error say failed to fetch failed to fetch posts okay then underneath that let's say cons post set that to await the res.
+
+
+01:27:39
+Json and we're going to take the output dot enter HTML I'm going to set that to an empty string to begin with okay then we're going to Loop through the posts so we'll say post dot for each I mean there's a million ways to do this this is just a very quick way so let's say for each post then we're going to let's say post element uh we'll set that to document dot so I'm going to create an element for each post and that element will be a div okay then we'll take our post
+
+
+01:28:23
+element d and let's add some text content and set that to the post. tile and then we're going to take the output and append child and we want to append that post element okay we should probably put this in a try catch so let's do that just take this okay and in the catch just do a console log and we'll say error fetching posts all right now we just need an event listener so let's say event listeners we'll have the button and let's listen for a click event and when we click that we're going
+
+
+01:29:31
+to call show post all right so let's go to our homepage and now if I click get post there we go post one two and three right if I were to add a new post by making a a post request of a title let's say new post send okay and then I go back here there we go see our new post so now let's make it so we actually have a form here an input that we can add a new post so let's go back to the HTML and I mean I know that a lot of you guys probably already know this stuff but it's just for those of you that
+
+
+01:30:18
+aren't really familiar with full stack development how we can interact with our API with our back end from the front end so I'm going to add just a very simple form so we'll put this let's see we'll just put this under the H1 say form no action but I am going to give it an ID of add post form and we'll give it a label let's say for title and I'm just going to put a line break I'm not using any CSS at all so we'll put an input let's let's give it an ID of title type is going to
+
+
+01:31:05
+be text we'll give it a name of title and we'll put a line break here as well and then let's do a button give it a type of submit okay so we should now have a very ugly looking form and when we submit this obviously we want to make a post request and add some data add a post so let's go back to our main JS our frontend JavaScript and let's create a function so this will be also async function we'll call it add post and I'm going to pass in our event param we want to prevent the default
+
+
+01:32:04
+Behavior so e. prevent default then for the form data I'm going to set that equal to new a new form data object and pass in this and then we can get the title with form data doget and title all right so that'll give us the title then for the request I'm going to put that in a try catch and let's say conr set that to a wait Fetch and we're going to make a request to http Local Host 8000 API poost now we want this to be a a a post request so we're going to pass in an options object as a second
+
+
+01:32:58
+argument with a method of post and we're going to set headers and we want to set the content type I want to set that to application SL Json and the body so the data we're going to send we're going to wrap this in json.stringify and pass in an object with the title all right and then after that let's check to see if it's not okay so we'll say if not res. okay then throw we say Throw new error and fail to add post okay then here let's say const new post set that to await res.
+
+
+01:34:05
+Json then I'm going to create post element document dot uh create element that's going to be a div okay then we're going to take that post element and we're going to add t text content which is going to be the new post. tile and then we just want to append that to the output so output pen child post element and then in the catch here let's just do a we'll do a console. error all right and then we just need another event listener that's going to be on the form which did I bring in I didn't bring
+
+
+01:35:04
+that in so up here add post form form it's going to be a submit and it's going to call add post all right and actually we want to let's show the post after too so right at the end here we can just call show post this is just very very quick JavaScript that I just created um so this should work though so let's reload it let's go ahead and say Brad's post add post and there we go and I can you know keep adding them cool so just an example of frontend JavaScript working with our backend
+
+
+01:36:08
+API so where we at now I think I think that I've covered everything I wanted to as far as you know building an API I I do want to get a little bit into template engines because you might want a build just a a server side app similar to like what you would do with PHP um and there's a bunch of template engines you can use ejs embedded JavaScript is my favorite um I think it's it's very similar to how PHP works as far as the tags go and all that and I I don't want to use it in this
+
+
+01:36:46
+project so I think what I'll do is just create a whole new folder and and go from there so I'm going to stop this server and I'm going to close that up and then create something else so let's do this isn't going to be very long I'm not going to get too deep into it so let's create uh I'll make a directory call this Express 2 CD into Express 2 and open up vs code all right let's put this in here my little square okay so we're going to basically just start from scratch here but I'm
+
+
+01:37:32
+going to go kind of quick so npm and nit and then we're going to create I'm going to call it app.js this time and let's install Express npm install Express now we're also using ejs so let's install that as well so Express and ejs those should get added as dependencies and then I'm just going to add a script start script here so this will be node not server node app and then let's do a Dev and this will be node d-at app and let's use es modules you don't have to but that's I just prefer it so we'll
+
+
+01:38:30
+say not module type and module all right so we'll just create a basic server so we want to initialize Express and we want to listen I'm not going to bother with environment variables or anything like that just say server started all right [Music] so the way that we configure ejs is actually very simple so let's say config ejs so basically we just got to set the the view engine so we do that with app. set and we want to set view engine and then we also want to pass in ejs as a string then we also want to set the the
+
+
+01:39:41
+folder that we want as our views folder so let's say app. set I think it's views by default so you might not need to add this but I do anyway so I want to set the view view folder to a folder called views all right and then let's see we'll create a route let's say app.get so app.get slash and request request response now since we we're using a template engine we have access to res. render so if I say res. render and I pass in here index it's going to look for an index page in
+
+
+01:40:29
+My Views folder so let's create that let's say new folder views and inside that we're going to create index Dot and it's going to be ejs is the extension that we want to use and in here let's just create like a basic HTML I'll just say welcome H1 welcome all right now I'm going to run the server so npm runev so server started now let's go to the browser let's go to Local Host 8000 and we get welcome okay so it's using v um VJs it's using ejs now what's really cool about these
+
+
+01:41:18
+template engines is not just that we can render HTML pages I showed you that in the very beginning but we can pass in Dynamic data right so if you have if you if you have like if you fetch data from a database you can pass it into the view now I'm not using a database but just to show you how to pass data we can just add an object as a second argument here and let's say we want to pass in title so we'll say title welcome and then let's say message and we'll say hello from ejs all right so I'm passing
+
+
+01:41:56
+these these variables in title and message and then I can go into my my page that I'm rendering let's say for the title instead of welcome I want to show that variable and the Syntax for this is going to be an angle bracket and then percent sign and then equals and then whatever the variable and then close it with percent brackets so very similar to PHP and then let's say we're I have this H1 that's where I want to put the message so again I'll use my percent equals and then message and then
+
+
+01:42:31
+percent angle bracket okay so now we'll check that out if I reload we get welcome in the in the tab here and that's coming from this right if I say my website so now my website in the title we got hello from ejs which is the message so you can pass this Dynamic data in you can also pass in arrays so let's say we want to pass in we'll say people make that an array John uh Jane and Jack all right so now I got these people and ultimately these would most likely come from a database and
+
+
+01:43:18
+then let's say I want to put them in a UL so I'll use my ejs syntax and we can take that people variable which is an array and then do four each and say person and open curly brace and then we can close off this line and then down here we'll open up another one and that's where we'll have our closing curly brace in parentheses and then in the middle here we could put An Li and then we could output each person okay so let's try that reload and there we go so this is good if you have something if you have a
+
+
+01:44:09
+a project where you don't really need uh a very Dynamic UI and you just want to fetch data show it stuff like that I mean ejs something like ejs could be a really good option you can also have partials so for instance if we want to have if we're going to have multiple pages and we want a header on every page obviously we don't want to put it you know put the header code the header HTML in every single view so we can create uh let's do a folder here called partials inside the views folder and
+
+
+01:44:42
+we'll create header. ejs and let's just put a header with an H1 okay and then if I want to include that in my index file I can use an include so I'll go right here and the Syntax for this it's changed from from back in the day now you're going to do uh a hyphen like that and then you can do include and then the location which is going to be partial slash the location is going to be from from within the um the views folder there so ejs and then close that off so now you can see now we have the header
+
+
+01:45:33
+showing all right and you can also have layouts obviously so you don't have to repeat yourself with all with this stuff but I'm not going to get too too much into this I just wanted to show you it is possible you don't always have to build apis um with Express but hopefully you guys learned a little something from this I know a lot of you probably already knew a lot of the stuff but even if you did hopefully you could pick one or two things up and for those of you that are new to express if you're
+
+
+01:46:01
+overwhelmed don't worry about it things will will start to click as the more you work with it um but that's it guys thanks so much for watching and I'll see you next time
+
